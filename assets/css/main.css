@@ -4690,12 +4690,12 @@ input, select, textarea {
 
 /* Avatar */ 
 	.avatar {
-		position: center;
-		width: 300px;
-		height: 350px;
+		width: 400px;
+		height: 450px;
 		border-radius: 50%;
 		overflow: hidden;
-	}	
+		margin: auto;
+	}
 
 	.avatar img {
 		width: 100%;
