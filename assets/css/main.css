@@ -4729,8 +4729,8 @@ input, select, textarea {
 
 /* Projects */
 	.projects {
-		font-weight: 500;
-		font-size: 30px;
+		font-weight: 700;
+		font-size: 50px;
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
 		text-align: center;
 		text-transform: uppercase;
