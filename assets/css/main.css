@@ -3812,7 +3812,7 @@ input, select, textarea {
 
 			#main > .post.featured {
 				text-align: center;
-				height: 700px;
+				height: 725px;
 			}
 
 			@media screen and (max-width: 1280px) {
@@ -4726,10 +4726,11 @@ input, select, textarea {
 /* Divider */ 
 	.divider {
 		height: 2px;
-		color: gray;
-		width: 60%;
-		position: relative;
-		align-self: center;
+		background-color: gray;
+		width: 80%;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%); 
 	}
 
 /* Projects */
@@ -4739,4 +4740,5 @@ input, select, textarea {
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
 		text-align: center;
 		text-transform: uppercase;
+		height: 200px;
 	}
