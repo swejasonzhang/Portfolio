@@ -4726,11 +4726,12 @@ input, select, textarea {
 /* Divider */ 
 	.divider {
 		height: 2px;
-		background-color: gray;
-		width: 80%;
+		color: gray;
+		width: 90%;
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%); 
+		top: 200px;
 	}
 
 /* Projects */
@@ -4741,4 +4742,6 @@ input, select, textarea {
 		text-align: center;
 		text-transform: uppercase;
 		height: 200px;
+		position: relative;
+		top: 200px;
 	}
