@@ -3706,40 +3706,41 @@ input, select, textarea {
 			text-transform: uppercase;
 		}
 
-			#nav ul.links li {
-				display: block;
-				padding-left: 0;
-				position: relative;
-				margin: auto;
+		#nav ul.links li {
+			display: block;
+			padding-left: 0;
+			position: relative;
+			margin: auto 20px; 
+		}
+
+
+		#nav ul.links li a {
+			-moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+			-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+			-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+			transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+			display: block;
+			font-size: 0.8rem;
+			outline: none;
+			padding: 0 2rem;
+		}
+
+			#nav ul.links li a:hover {
+				color: inherit !important;
+				background-color: rgba(255, 255, 255, 0.1);
 			}
 
-				#nav ul.links li a {
-					-moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-					-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-					-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-					transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-					display: block;
-					font-size: 0.8rem;
-					outline: none;
-					padding: 0 2rem;
+		#nav ul.links li.active {
+			background-color: #ffffff;
+		}
+
+			#nav ul.links li.active a {
+				color: #1e252d;
+			}
+
+				#nav ul.links li.active a:hover {
+					color: #18bfef !important;
 				}
-
-					#nav ul.links li a:hover {
-						color: inherit !important;
-						background-color: rgba(255, 255, 255, 0.1);
-					}
-
-				#nav ul.links li.active {
-					background-color: #ffffff;
-				}
-
-					#nav ul.links li.active a {
-						color: #1e252d;
-					}
-
-						#nav ul.links li.active a:hover {
-							color: #18bfef !important;
-						}
 
 		#nav ul.icons {
 			-moz-flex-grow: 0;
