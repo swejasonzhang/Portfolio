@@ -4728,20 +4728,18 @@ input, select, textarea {
 		height: 2px;
 		color: gray;
 		width: 90%;
-		position: relative;
-		top: 30px;
+		position: absolute;
 		left: 50%;
 		transform: translateX(-50%); 
 	}
 
 	.lastdivider {
-		position: relative;
+		position: absolute;
 		height: 2px;
 		color: gray;
 		width: 90%;
 		left: 50%;
 		transform: translateX(-50%); 
-		bottom: 30px;
 	}
 
 /* Projects */
