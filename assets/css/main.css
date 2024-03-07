@@ -3005,15 +3005,15 @@ input, select, textarea {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
 	}
 	
 	.article {
 		display: block; 
 		margin-bottom: 2rem;
-		display: flex;
-		align-self: center;
-		text-align: left;
+		text-align: left; 
 	}
+	
 	
 
 /* Table */
