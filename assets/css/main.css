@@ -2947,7 +2947,7 @@ input, select, textarea {
 		header.major {
 			margin: 0 0 4rem 0;
 			text-align: center;
-			
+
 		}
 
 			header.major > :last-child {
@@ -2999,6 +2999,11 @@ input, select, textarea {
 
 	header.major .date:before, header.major .date:after {
 		border-top-color: #eeeeee;
+	}
+
+	.article:last-child {
+		margin-left: auto; 
+		margin-right: auto;
 	}
 
 /* Table */
@@ -3704,6 +3709,8 @@ input, select, textarea {
 			#nav ul.links li {
 				display: block;
 				padding-left: 0;
+				position: relative;
+				margin: auto;
 			}
 
 				#nav ul.links li a {
