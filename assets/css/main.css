@@ -4728,6 +4728,7 @@ input, select, textarea {
 		height: 2px;
 		color: gray;
 		width: 60%;
+		position: relative;
 		align-self: center;
 	}
 
