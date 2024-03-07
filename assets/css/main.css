@@ -3002,8 +3002,7 @@ input, select, textarea {
 	}
 
 	.article:last-child {
-		margin-left: auto; 
-		margin-right: auto;
+		margin: auto;
 	}
 
 /* Table */
@@ -3710,7 +3709,7 @@ input, select, textarea {
 			display: block;
 			padding-left: 0;
 			position: relative;
-			margin-left: 700px; 
+			margin-left: 675px; 
 		}
 
 
@@ -4251,6 +4250,7 @@ input, select, textarea {
 					-ms-align-items: center;
 					align-items: center;
 					padding: 3.15rem 4rem;
+					margin: auto;
 				}
 
 					#footer > section.split.contact > section > * {
