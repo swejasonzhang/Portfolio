@@ -3009,11 +3009,9 @@ input, select, textarea {
 	
 	.article {
 		position: relative;
-		margin-left: 500px;
+		align-self: center;
 		margin-bottom: 2rem;
-		left: 200px;
 	}
-
 /* Table */
 
 	.table-wrapper {
