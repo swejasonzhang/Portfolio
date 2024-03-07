@@ -2885,10 +2885,6 @@ input, select, textarea {
 			margin-left: 2rem;
 		}
 
-	ul.divided li {
-		border-top-color: #eeeeee;
-	}
-
 	ul.icons li a.icon:hover:before {
 		color: #18bfef;
 	}
@@ -3008,7 +3004,7 @@ input, select, textarea {
 		align-items: center;
 		margin-left: 500px;
 		left: 400px;
-		right: 400px;
+		border: none;
 	}
 	
 	.article {
