@@ -4733,6 +4733,11 @@ input, select, textarea {
 		transform: translateX(-50%); 
 	}
 
+	.divider.first {
+		position: relative;
+		margin-top: 50px;
+	}
+
 /* Projects */
 	.projects {
 		font-weight: 700;
