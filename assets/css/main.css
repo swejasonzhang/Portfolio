@@ -3001,8 +3001,14 @@ input, select, textarea {
 		border-top-color: #eeeeee;
 	}
 
-	.article:last-child {
-		margin: auto;
+	section.posts {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.article {
+		display: block; 
+		margin-bottom: 2rem;
 	}
 
 /* Table */
