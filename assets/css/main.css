@@ -3007,8 +3007,8 @@ input, select, textarea {
 		flex-direction: column;
 		align-items: center;
 		margin-left: 500px;
-		left: 500px;
-		right: 500px;
+		left: 400px;
+		right: 400px;
 	}
 	
 	.article {
