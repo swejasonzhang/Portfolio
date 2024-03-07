@@ -4728,7 +4728,8 @@ input, select, textarea {
 		height: 2px;
 		color: gray;
 		width: 90%;
-		position: absolute;
+		position: relative;
+		top: 30px;
 		left: 50%;
 		transform: translateX(-50%); 
 	}
@@ -4740,6 +4741,7 @@ input, select, textarea {
 		width: 90%;
 		left: 50%;
 		transform: translateX(-50%); 
+		bottom: 30px;
 	}
 
 /* Projects */
@@ -4751,6 +4753,5 @@ input, select, textarea {
 		text-transform: uppercase;
 		height: 200px;
 		position: relative;
-		margin-top: 150px;
-		top: 100px;
+		top: 200px;
 	}
