@@ -2902,12 +2902,18 @@ input, select, textarea {
 	}
 
 /* Section/Article */
-	.article {
+	#main {
 		display: flex;
 		flex-direction: column;
-		align-self: center;
-		margin: 0 auto; 
+		align-items: center; 
 	}
+
+	.article {
+		max-width: 600px;
+		width: 100%; 
+		margin-bottom: 2rem;
+	}
+
 /* Table */
 
 	.table-wrapper {
