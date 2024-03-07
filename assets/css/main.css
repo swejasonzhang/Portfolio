@@ -3008,11 +3008,10 @@ input, select, textarea {
 	}
 	
 	.article {
-		margin-left: 100px;
-		display: block; 
+		position: relative;
+		margin-left: 500px;
 		margin-bottom: 2rem;
-		text-align: left;
-		width: 80%;
+		width: 100%;
 	}
 
 /* Table */
