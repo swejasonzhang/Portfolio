@@ -3002,7 +3002,6 @@ input, select, textarea {
 		position: relative;
 		flex-direction: column;
 		align-items: center;
-		margin-left: 500px;
 		left: 400px;
 		border: none;
 	}
@@ -3011,6 +3010,7 @@ input, select, textarea {
 		position: relative;
 		margin-bottom: 2rem;
 		align-self: center;
+		border: none;
 	}
 	
 /* Table */
