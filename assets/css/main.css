@@ -4733,16 +4733,16 @@ input, select, textarea {
 		transform: translateX(-50%); 
 	}
 
-	.divider.first {
-		position: relative;
-		margin-top: 50px;
-		top: 50px;
-	}
-
 	.lastdivider {
 		position: relative;
 		margin-bottom: 50px;
 		bottom: 50px;
+		height: 2px;
+		color: gray;
+		width: 90%;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%); 
 	}
 
 /* Projects */
@@ -4755,5 +4755,5 @@ input, select, textarea {
 		height: 200px;
 		position: relative;
 		bottom: 100px;
-		margin-bottom: 100px;
+		margin-bottom: 50px;
 	}
