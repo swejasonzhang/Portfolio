@@ -3004,15 +3004,14 @@ input, select, textarea {
 	section.posts {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		align-self: center;
+		align-items: center; 
 	}
 	
 	.article {
 		display: block; 
 		margin-bottom: 2rem;
-		text-align: left; 
+		text-align: left;
+		width: 80%;
 	}
 
 /* Table */
