@@ -4736,6 +4736,13 @@ input, select, textarea {
 	.divider.first {
 		position: relative;
 		margin-top: 50px;
+		top: 50px;
+	}
+
+	.divider.last {
+		position: relative;
+		margin-bottom: 50px;
+		bottom: 50px;
 	}
 
 /* Projects */
