@@ -4735,11 +4735,11 @@ input, select, textarea {
 
 	.lastdivider {
 		position: relative;
-		margin-bottom: 50px;
-		bottom: 50px;
 		height: 2px;
 		color: gray;
 		width: 90%;
+		left: 50%;
+		transform: translateX(-50%); 
 	}
 
 /* Projects */
@@ -4751,5 +4751,5 @@ input, select, textarea {
 		text-transform: uppercase;
 		height: 200px;
 		position: relative;
-		margin-top: 100px;
+		margin-top: 150px;
 	}
