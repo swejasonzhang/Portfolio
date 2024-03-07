@@ -4731,7 +4731,6 @@ input, select, textarea {
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%); 
-		top: 200px;
 	}
 
 /* Projects */
@@ -4743,5 +4742,5 @@ input, select, textarea {
 		text-transform: uppercase;
 		height: 200px;
 		position: relative;
-		top: 200px;
+		top: 100px;
 	}
