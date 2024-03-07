@@ -4695,6 +4695,8 @@ input, select, textarea {
 		border-radius: 50%;
 		overflow: hidden;
 		margin: auto;
+		position: relative;
+		bottom: 50px;
 	}
 
 	.avatar img {
