@@ -273,6 +273,9 @@ input, select, textarea {
 
 		hr.major {
 			margin: 5rem 0;
+			font-size: 20px;
+			font-weight: 200;
+			font-style: italic;
 		}
 
 	.align-left {
@@ -3809,6 +3812,7 @@ input, select, textarea {
 
 			#main > .post.featured {
 				text-align: center;
+				height: 200px;
 			}
 
 			@media screen and (max-width: 1280px) {
@@ -4721,7 +4725,7 @@ input, select, textarea {
 
 /* Divider */ 
 	.divider {
-		height: 1px;
+		height: 2px;
 		color: gray;
 		width: 60%;
 		align-self: center;
