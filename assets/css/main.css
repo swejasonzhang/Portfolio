@@ -4721,10 +4721,9 @@ input, select, textarea {
 
 /* Divider */ 
 	.divider {
-		border: none;
-		height: 2px; 
+		height: 1px; 
 		background-color: gray; 
-		margin: 0;
+		width: 60%;
 	}
 
 /* Projects */
