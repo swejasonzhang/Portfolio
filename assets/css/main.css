@@ -4739,7 +4739,7 @@ input, select, textarea {
 		top: 50px;
 	}
 
-	.divider.last {
+	.lastdivider {
 		position: relative;
 		margin-bottom: 50px;
 		bottom: 50px;
@@ -4754,5 +4754,6 @@ input, select, textarea {
 		text-transform: uppercase;
 		height: 200px;
 		position: relative;
-		top: 100px;
+		bottom: 100px;
+		margin-bottom: 100px;
 	}
