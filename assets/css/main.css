@@ -3010,7 +3010,7 @@ input, select, textarea {
 		display: block; 
 		margin-bottom: 2rem;
 		display: flex;
-		margin: auto;
+		align-self: center;
 	}
 
 /* Table */
