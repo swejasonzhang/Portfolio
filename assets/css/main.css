@@ -2902,10 +2902,10 @@ input, select, textarea {
 	}
 
 /* Section/Article */
-	.posts.article {
+	.article {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-self: center;
 		margin: 0 auto; 
 	}
 /* Table */
