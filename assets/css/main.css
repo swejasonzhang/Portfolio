@@ -3009,6 +3009,8 @@ input, select, textarea {
 	.article {
 		display: block; 
 		margin-bottom: 2rem;
+		display: flex;
+		margin: auto;
 	}
 
 /* Table */
