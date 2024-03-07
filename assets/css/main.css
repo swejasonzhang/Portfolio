@@ -3011,7 +3011,7 @@ input, select, textarea {
 		position: relative;
 		margin-left: 500px;
 		margin-bottom: 2rem;
-		width: 100%;
+		right: 500px;
 	}
 
 /* Table */
