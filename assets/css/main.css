@@ -3002,18 +3002,15 @@ input, select, textarea {
 	}
 
 	section.posts {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+		text-align: center;
 	}
 	
 	.article {
-		display: block; 
-		margin-bottom: 2rem;
+		display: inline-block; 
+		margin: 0 auto; 
 		text-align: left; 
+		padding: 2rem; 
 	}
-	
 	
 
 /* Table */
