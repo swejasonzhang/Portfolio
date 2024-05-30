@@ -264,6 +264,9 @@
 		const observer = new IntersectionObserver((entries, observer) => {
 			entries.forEach(entry => {
 				if (entry.isIntersecting) {
+					if (entry.target.classList.contains('intro')) {
+						entry.target.classList.add('active');
+					}
 					if (entry.target.classList.contains('amazeonone')) {
 						entry.target.classList.add('active');
 					}
