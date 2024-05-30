@@ -4781,22 +4781,42 @@ input, select, textarea {
 	}
 
 	.intro {
-		animation: dropBounce 3s ease-out forwards;
+		opacity: 0;
 	}
 
 	.amazeonone {
-		animation: slideInFromLeft 3s ease-out forwards;
+		opacity: 0;
 	}
 
 	.amazeontwo {
-		animation: slideInFromRight 3s ease-out forwards;
+		opacity: 0;
 	}
 
 	.bonjourone {
-		animation: slideInFromLeft 3s ease-out forwards;
+		opacity: 0;
 	}
 
 	.bonjourtwo {
-		animation: slideInFromRight 5s ease-out forwards;
+		opacity: 0;
+	}
+
+	.intro.active {
+		animation: dropBounce 2s ease-out forwards;
+	}
+
+	.amazeonone.active {
+		animation: slideInFromLeft 2s ease-out forwards;
+	}
+
+	.amazeontwo.active {
+		animation: slideInFromRight 2s ease-out forwards;
+	}
+
+	.bonjourone.active {
+		animation: slideInFromLeft 2s ease-out forwards;
+	}
+
+	.bonjourtwo.active {
+		animation: slideInFromRight 2s ease-out forwards;
 	}
   
