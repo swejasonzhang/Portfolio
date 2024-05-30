@@ -254,5 +254,38 @@
 			});
 
 		}
+	// Animations.
+
+	document.addEventListener("DOMContentLoaded", function() {
+		const observerOptions = {
+			threshold: 0.1
+		};
+
+		const observer = new IntersectionObserver((entries, observer) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					if (entry.target.classList.contains('amazeonone')) {
+						entry.target.classList.add('active');
+					}
+					if (entry.target.classList.contains('amazeontwo')) {
+						entry.target.classList.add('active');
+					}
+					if (entry.target.classList.contains('bonjourone')) {
+						entry.target.classList.add('active');
+					}
+					if (entry.target.classList.contains('bonjourtwo')) {
+						entry.target.classList.add('active');
+					}
+				}
+			});
+		}, observerOptions);
+
+		const animatedElements = document.querySelectorAll('.amazeonone, .amazeontwo, .bonjourone, .bonjourtwo');
+
+		animatedElements.forEach(element => {
+			observer.observe(element);
+		});
+	});
+
 
 })(jQuery);
