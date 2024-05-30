@@ -4713,7 +4713,6 @@ input, select, textarea {
 
 	.intro {
 		position: relative;
-		top: 20px;
 		bottom: 300px;
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
