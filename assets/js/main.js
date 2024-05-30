@@ -283,7 +283,7 @@
 			});
 		}, observerOptions);
 
-		const animatedElements = document.querySelectorAll('.amazeonone, .amazeontwo, .bonjourone, .bonjourtwo');
+		const animatedElements = document.querySelectorAll('intro, .amazeonone, .amazeontwo, .bonjourone, .bonjourtwo');
 
 		animatedElements.forEach(element => {
 			observer.observe(element);
