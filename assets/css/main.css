@@ -4782,14 +4782,14 @@ input, select, textarea {
 	}
 
 	.intro {
-		animation: dropBounce 3s ease-out forwards;
+		animation: dropBounce 5s ease-out forwards;
 	}
 
 	.amazeon.one {
-		animation: slideInFromLeft 4s ease-out forwards;
+		animation: slideInFromLeft 7s ease-out forwards;
 	}
 
 	.amazeon.two {
-		animation: slideInFromRight 5s ease-out forwards;
+		animation: slideInFromRight 9s ease-out forwards;
 	}
   
