@@ -4812,27 +4812,32 @@ input, select, textarea {
 	}
 
 	.intro.active {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-weight: 500;
 		animation: dropBounce 1s ease-out forwards;
 	}
 
 	.amazeonone.active {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-weight: 500;
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.amazeontwo.active {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-weight: 500;
 		animation: slideInFromRight 1s ease-out forwards;
 	}
 
 	.bonjourone.active {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-weight: 500;
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.bonjourtwo.active {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-weight: 500;
 		animation: slideInFromRight 1s ease-out forwards;
 	}
   
