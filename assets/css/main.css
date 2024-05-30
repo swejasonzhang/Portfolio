@@ -4713,7 +4713,9 @@ input, select, textarea {
 
 	.intro {
 		position: relative;
-		bottom: 120px;
+		top: 20px;
+		bottom: 160px;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
 
 /* Divider */ 
@@ -4810,22 +4812,27 @@ input, select, textarea {
 	}
 
 	.intro.active {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		animation: dropBounce 1s ease-out forwards;
 	}
 
 	.amazeonone.active {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.amazeontwo.active {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		animation: slideInFromRight 1s ease-out forwards;
 	}
 
 	.bonjourone.active {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.bonjourtwo.active {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		animation: slideInFromRight 1s ease-out forwards;
 	}
   
