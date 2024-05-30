@@ -4700,13 +4700,20 @@ input, select, textarea {
 		overflow: hidden;
 		margin: auto;
 		position: relative;
-		bottom: 50px;
+		bottom: 85px;
 	}
 
 	.avatar img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover; 
+	}
+
+/* Intro */
+
+	.intro {
+		position: relative;
+		bottom: 85px;
 	}
 
 /* Divider */ 
