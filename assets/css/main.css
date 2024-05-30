@@ -4785,11 +4785,19 @@ input, select, textarea {
 		animation: dropBounce 5s ease-out forwards;
 	}
 
-	.amazeon.one {
+	.amazeonone {
 		animation: slideInFromLeft 7s ease-out forwards;
 	}
 
-	.amazeon.two {
+	.amazeontwo {
 		animation: slideInFromRight 9s ease-out forwards;
+	}
+
+	.bonjourone {
+		animation: slideInFromLeft 13s ease-out forwards;
+	}
+
+	.bonjourtwo {
+		animation: slideInFromRight 15s ease-out forwards;
 	}
   
