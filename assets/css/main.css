@@ -2625,6 +2625,7 @@ input, select, textarea {
 			display: block;
 			margin: 2.5rem 0;
 			width: 100%;
+			border: 1mm solid black;
 		}
 
 			.image.fit:first-child {
@@ -2664,20 +2665,6 @@ input, select, textarea {
 	a.image {
 		overflow: hidden;
 	}
-
-		a.image img {
-			-moz-transition: -moz-transform 0.2s ease-out;
-			-webkit-transition: -webkit-transform 0.2s ease-out;
-			-ms-transition: -ms-transform 0.2s ease-out;
-			transition: transform 0.2s ease-out;
-		}
-
-		a.image:hover img {
-			-moz-transform: scale(1.05);
-			-webkit-transform: scale(1.05);
-			-ms-transform: scale(1.05);
-			transform: scale(1.05);
-		}
 
 /* Actions */
 
