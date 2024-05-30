@@ -4762,13 +4762,34 @@ input, select, textarea {
 		  transform: translateX(0);
 		  opacity: 1;
 		}
-	  }
+	}
 
-	.amazeon.one {
+	@keyframes dropBounce {
+		0% {
+		  transform: translateY(-100%);
+		  opacity: 0;
+		}
+		60% {
+		  transform: translateY(30%);
+		  opacity: 1;
+		}
+		80% {
+		  transform: translateY(-10%);
+		}
+		100% {
+		  transform: translateY(0);
+		}
+	}
+
+	.intro {
+		animation: dropBounce 1s ease-out forwards;
+	}
+
+	.amazeonone {
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
-	.amazeon.two {
+	.amazeontwo {
 		animation: slideInFromRight 1s ease-out forwards;
 	}
   
