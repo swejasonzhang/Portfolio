@@ -4812,31 +4812,31 @@ input, select, textarea {
 
 	.intro.active {
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-weight: 500;
+		font-weight: 300;
 		animation: dropBounce 1s ease-out forwards;
 	}
 
 	.amazeonone.active {
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-weight: 500;
+		font-weight: 300;
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.amazeontwo.active {
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-weight: 500;
+		font-weight: 300;
 		animation: slideInFromRight 1s ease-out forwards;
 	}
 
 	.bonjourone.active {
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-weight: 500;
+		font-weight: 300;
 		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.bonjourtwo.active {
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-weight: 500;
+		font-weight: 300;
 		animation: slideInFromRight 1s ease-out forwards;
 	}
   
