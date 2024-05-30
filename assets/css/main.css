@@ -4766,11 +4766,9 @@ input, select, textarea {
 	@keyframes dropBounce {
 		0% {
 		  transform: translateY(-100%);
-		  opacity: 0;
 		}
 		60% {
 		  transform: translateY(30%);
-		  opacity: 1;
 		}
 		80% {
 		  transform: translateY(-10%);
@@ -4801,22 +4799,22 @@ input, select, textarea {
 	}
 
 	.intro.active {
-		animation: dropBounce 2s ease-out forwards;
+		animation: dropBounce 1s ease-out forwards;
 	}
 
 	.amazeonone.active {
-		animation: slideInFromLeft 2s ease-out forwards;
+		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.amazeontwo.active {
-		animation: slideInFromRight 2s ease-out forwards;
+		animation: slideInFromRight 1s ease-out forwards;
 	}
 
 	.bonjourone.active {
-		animation: slideInFromLeft 2s ease-out forwards;
+		animation: slideInFromLeft 1s ease-out forwards;
 	}
 
 	.bonjourtwo.active {
-		animation: slideInFromRight 2s ease-out forwards;
+		animation: slideInFromRight 1s ease-out forwards;
 	}
   
