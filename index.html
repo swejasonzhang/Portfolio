@@ -14,7 +14,6 @@
 		<link rel="icon" href="images/favicon.ico" sizes="34x34" type="image/png">
 	</head>
 	<body class="is-preload">
-
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -25,18 +24,18 @@
 						</div>
 						<div class="content">
 							<div class="inner">
-								<h1>Greetings</h1>
-								<p>My name is Jason Zhang and I'm a software engineer</p>
+								<h1 class="header-text">Greetings</h1>
+								<p class="greetingtext">My name is Jason Zhang and I'm a software engineer</p>
 							</div>
 						</div>
 						<nav>
 							<ul>
-								<li><a href="#intro">Intro</a></li>
-								<li><a href="#work">Work</a></li>
-								<li><a href="#about">About</a></li>
-								<li><a href="#contact">Contact</a></li>
+								<li><a href="#intro" class="fly-left">Intro</a></li>
+								<li><a href="#work" class="fly-left">Work</a></li>
+								<li><a href="#about" class="fly-right">About</a></li>
+								<li><a href="#contact" class="fly-right">Contact</a></li>
 							</ul>
-						</nav>
+						</nav>						
 					</header>
 
 				<!-- Main -->
@@ -66,29 +65,30 @@
 								<h2 class="major">About</h2>
 								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
 								<p>In addition to my professional development, I've been learning to cook and expanding my palate. I also enjoy going to the gym, focusing mainly on my arms and back. Watching the sunset is one of my favorite ways to unwind, as the setting is incredibly comfortable and relaxing. I used to be an avid gamer, playing a variety of games from FPS titles like Valorant to 5v5 matches in League of Legends and battle royales like Apex Legends. To top it all off, I play chess, as I love strategizing and solving complex problems.</p>
+								<p>I love the feeling of understanding and grasping a concept fully. The satisfaction of fixing a bug or successfully implementing a function keeps my passion for software engineering alive.</p>
 							</article>
 
 						<!-- Contact -->
 							<article id="contact">
 								<h2 class="major">Contact</h2>
-								<form action="mailto:swejasonzhang@example.com" method="POST" enctype="text/plain">
+								<form id="contactForm">
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
+											<input type="text" name="name" id="name" oninput="checkForm()" />
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<input type="text" name="email" id="email" oninput="checkForm()" />
 										</div>
 										<div class="field">
 											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
+											<textarea name="message" id="message" rows="4" oninput="checkForm()"></textarea>
 										</div>
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
+										<li><input type="button" value="Send Message" class="primary" onclick="sendEmail()" id="sendButton" disabled /></li>
+										<li><input type="reset" value="Reset" onclick="checkForm()" /></li>
 									</ul>
 								</form>
 								<ul class="icons">
@@ -336,14 +336,18 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 										</ul>
 									</form>
 								</section>
-
 							</article>
-
 					</div>
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p class="copyright">&copy; 2024 Jason Zhang</a>.</p>
+						<p class="copyright">&copy; 2024 Jason Zhang</a></p>
+						<br>
+						<ul class="icons">
+							<li><a href="https://www.linkedin.com/in/swejasonzhang" target="_blank" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/swejasonzhang" target="_blank" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="#" class="icon fa-solid fa-moon" id="theme-toggle"><span class="label"></span></a></li>							
+						</ul>
 					</footer>
 
 			</div>

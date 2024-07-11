@@ -399,3 +399,69 @@
 					});
 
 })(jQuery);
+
+/* Custom */
+
+function checkForm() {
+	var name = document.getElementById('name').value;
+	var email = document.getElementById('email').value;
+	var message = document.getElementById('message').value;
+	var sendButton = document.getElementById('sendButton');
+	var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	
+	if (name && email && emailPattern.test(email) && message) {
+		sendButton.disabled = false;
+	} else {
+		sendButton.disabled = true;
+	}
+}
+
+function sendEmail() {
+	var name = document.getElementById('name').value;
+	var email = document.getElementById('email').value;
+	var message = document.getElementById('message').value;
+	
+	var subject = "Contact Form Submission";
+	var body = `Hi, my name is ${name} and here is my email: ${email},\n\n${message}`;
+	
+	window.location.href = `mailto:swejasonzhang@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    function applyAnimation(element) {
+        let text = element.innerText;
+        element.innerHTML = '';
+
+        for (let i = 0; i < text.length; i++) {
+            let span = document.createElement('span');
+            span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
+            span.style.setProperty('--char-index', i);
+            span.classList.add('letter');
+            element.appendChild(span);
+        }
+        element.classList.add('fade-in');
+    }
+
+    let greetingText = document.querySelector('.greetingtext');
+    applyAnimation(greetingText);
+
+    let headerText = document.querySelector('.header-text');
+    let headerParagraph = document.querySelector('#header .content p');
+    let navLinks = document.querySelectorAll('#header nav ul li a');
+
+    applyAnimation(headerText);
+    applyAnimation(headerParagraph);
+
+    navLinks.forEach(link => {
+        applyAnimation(link);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleButton = document.getElementById("theme-toggle");
+
+    toggleButton.addEventListener("click", function() {
+		document.body.classList.toggle("dark-theme");
+        document.body.classList.toggle("light-theme");
+    });
+});
