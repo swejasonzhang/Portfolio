@@ -994,7 +994,6 @@ input[type="submit"], input[type="reset"], input[type="button"], button {
     -webkit-transform: scale(1.0);
     -ms-transform: scale(1.0);
     transform: scale(1.0);
-    -webkit-backface-visibility: hidden;
     position: fixed;
     top: 0;
     left: 0;
@@ -1530,7 +1529,7 @@ body.is-preload #footer {
 .header-text span {
     opacity: 0;
     display: inline-block;
-    animation: flyInAbove 3s forwards;
+    animation: flyInAbove 2s forwards;
 }
 
 @keyframes flyInBelow {
@@ -1541,7 +1540,11 @@ body.is-preload #footer {
 .greetingtext span {
     opacity: 0;
     display: inline-block;
-    animation: flyInBelow 3s forwards;
+    animation: flyInBelow 2s forwards;
+}
+
+#dynamic-text {
+    font-weight: bold;
 }
 
 ul {
@@ -1551,13 +1554,12 @@ ul {
 
 li {
     display: inline-block;
-    margin-right: 20px;
 }
 
 a {
     position: relative;
     display: inline-block;
-    animation-duration: 3s;
+    animation-duration: 2s;
     animation-fill-mode: forwards;
     color: white;
 }
@@ -1593,7 +1595,7 @@ a {
 }
 
 /* Light Theme */
-.light-theme body, .light-theme html {
+.light-theme body, .light-theme html, .light-theme {
     background-color: white;
     color: black;
 }
@@ -1604,7 +1606,7 @@ a {
 .light-theme textarea,
 .light-theme h1, 
 .light-theme h2, 
-.light-theme h3, 
+.light-theme h2, 
 .light-theme h4, 
 .light-theme h5, 
 .light-theme h6,
@@ -1633,9 +1635,13 @@ a {
     border-color: black;
 }
 
+.light-theme input[type="reset"] {
+    box-shadow: inset 0 0 0 1px black;
+    color: black !important;
+}
+
 .light-theme input[type="checkbox"] + label:before,
 .light-theme input[type="radio"] + label:before,
-.light-theme .icon,
 .light-theme ul.icons li a {
     box-shadow: inset 0 0 0 1px black;
 }
@@ -1646,6 +1652,34 @@ a {
 
 .light-theme code {
     background: rgba(0, 0, 0, 0.075);
+}
+
+.light-theme #header .logo {
+    border: 1px solid black;
+}
+
+.light-theme #header > *:before {
+    background-color: black;
+}
+
+.light-theme #header .content {
+    border-color: black;
+}
+
+.light-theme #header nav ul {
+    border-color: black;
+}
+
+.light-theme #header nav ul li {
+    border-left: solid 1px black;
+}
+
+.light-theme #header nav.use-middle:after {
+    background-color: black;
+}
+
+.light-theme #main article {
+    background-color: rgba(240, 240, 240, 0.8);
 }
 
 /* Dark Theme (Default) */
@@ -1701,3 +1735,4 @@ code {
 body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table, .box, .content .header-text, .content .greetingtext {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
+
