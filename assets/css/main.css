@@ -1736,3 +1736,16 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+p {
+    animation: fadeIn 3s ease-in;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
