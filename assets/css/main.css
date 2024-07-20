@@ -1781,14 +1781,7 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
 
 .worktextsecond {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    opacity: 0; 
-    transform: translateX(200%);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-}
-
-.worktextsecond.visible {
-    opacity: 1; 
-    transform: translateX(0);
+    animation: flyInFromRight 1s ease-out;
 }
 
 .image.main {
