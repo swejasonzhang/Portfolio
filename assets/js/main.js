@@ -467,7 +467,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    var words = document.getElementsByClassName('word');
+    var words = document.getElementsByClassName('');
     var wordArray = [];
     var currentWord = 0;
 
@@ -522,4 +522,3 @@ document.addEventListener('DOMContentLoaded', function() {
     changeWord();
     setInterval(changeWord, 4000);
 });
-
