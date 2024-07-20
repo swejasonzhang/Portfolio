@@ -522,3 +522,4 @@ document.addEventListener('DOMContentLoaded', function() {
     changeWord();
     setInterval(changeWord, 4000);
 });
+
