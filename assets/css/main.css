@@ -1784,6 +1784,10 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
     animation: flyInFromRight 1s ease-out;
 }
 
+.abouttext {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .image.main {
     position: relative;
     overflow: hidden;
@@ -1832,3 +1836,4 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
 .light-theme .image.main::before {
     color: black
 }
+
