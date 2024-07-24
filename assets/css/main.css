@@ -9,6 +9,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
+    cursor: none;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -276,6 +277,7 @@ hr {
 /* Form */
 form {
     margin: 0 0 2rem 0;
+    cursor: none;
 }
 
 form > :last-child {
@@ -373,6 +375,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     padding: 0 1rem;
     text-decoration: none;
     width: 100%;
+    cursor: none;
 }
 
 input[type="text"]:invalid, input[type="password"]:invalid, input[type="email"]:invalid, input[type="tel"]:invalid, select:invalid, textarea:invalid {
@@ -436,7 +439,6 @@ input[type="checkbox"] + label, input[type="radio"] + label {
     -ms-user-select: none;
     user-select: none;
     color: #ffffff;
-    cursor: pointer;
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 300;
@@ -716,7 +718,6 @@ ul.actions {
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
-    cursor: default;
     list-style: none;
     margin-left: -1rem;
     padding-left: 0;
@@ -823,7 +824,7 @@ ul.actions.fit.stacked {
 
 /* Icons */
 ul.icons {
-    cursor: default;
+    cursor: none;
     list-style: none;
     padding-left: 0;
 }
@@ -937,7 +938,6 @@ input[type="submit"], input[type="reset"], input[type="button"], button, .button
     border: 0;
     box-shadow: inset 0 0 0 1px #ffffff;
     color: #ffffff !important;
-    cursor: pointer;
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 300;
@@ -982,7 +982,6 @@ input[type="submit"].primary, input[type="reset"].primary, input[type="button"].
 
 input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"].disabled, input[type="reset"]:disabled, input[type="button"].disabled, input[type="button"]:disabled, button.disabled, button:disabled, .button.disabled, .button:disabled {
     pointer-events: none;
-    cursor: default;
     opacity: 0.25;
 }
 
@@ -1433,7 +1432,6 @@ body.is-preload #header .content .inner {
     right: 0;
     width: 4rem;
     height: 4rem;
-    cursor: pointer;
     text-indent: 4rem;
     overflow: hidden;
     white-space: nowrap;
@@ -1837,3 +1835,26 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
     color: black
 }
 
+.light-theme .custom-cursor {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    position: absolute;
+    pointer-events: none;
+    box-shadow: 0 0 10px 5px black;
+    transition: transform 0.1s ease-out, left 0.1s ease-out, top 0.1s ease-out;
+    z-index: 1000;
+}
+
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    position: absolute;
+    pointer-events: none;
+    box-shadow: 0 0 10px 5px white;
+    transition: transform 0.1s ease-out, left 0.1s ease-out, top 0.1s ease-out;
+    z-index: 1000;
+}

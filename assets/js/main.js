@@ -466,4 +466,19 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+const cursor = document.querySelector('.custom-cursor');
+let mouseX = 0, mouseY = 0;
 
+const updateCursor = () => {
+	cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+};
+
+document.addEventListener('mousemove', (e) => {
+	mouseX = e.clientX + window.scrollX;
+	mouseY = e.clientY + window.scrollY;
+	updateCursor();
+});
+
+document.addEventListener('scroll', () => {
+	updateCursor();
+});
