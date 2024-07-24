@@ -1771,6 +1771,15 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
         opacity: 1;
     }
 }
+
+@keyframes visible {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
   
 .worktextfirst {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -1784,6 +1793,10 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
 
 .abouttext {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.skills {
+    animation: visible 1.5s ease-in;
 }
 
 .image.main {
@@ -1857,4 +1870,17 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
     box-shadow: 0 0 10px 5px white;
     transition: transform 0.1s ease-out, left 0.1s ease-out, top 0.1s ease-out;
     z-index: 1000;
+}
+
+.techiconsdiv {
+    height: 7rem;
+}
+
+.techicons {
+    height: 50px;
+    width: 50px;
+}
+
+.fa-brands {
+    object-fit: fill;
 }
