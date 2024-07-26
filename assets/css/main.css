@@ -1874,13 +1874,26 @@ body, html, a, input, select, textarea, h1, h2, h3, h4, h5, h6, p, label, table,
 
 .techiconsdiv {
     height: 7rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
-.techicons {
+.techiconsdiv .fa-brands {
+    font-size: 50px;
     height: 50px;
     width: 50px;
 }
 
-.fa-brands {
-    object-fit: fill;
+.fa-brands fa-js {
+    color: yellow;
 }
+
+.languages {
+    color: white;
+    font-size: 50px;
+    height: 50px;
+    width: 50px;
+}
+
