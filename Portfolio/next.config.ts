@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export" // enable static export mode
+  output: "export", // enables static site export
 };
 
 export default nextConfig;
