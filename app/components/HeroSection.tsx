@@ -288,25 +288,27 @@ export default function HeroSection() {
           <div className="relative overflow-x-hidden">
             <motion.div
               drag="x"
-              dragConstraints={{ left: -maxDrag, right: maxDrag}}
-              dragElastic={0.2}
+              dragConstraints={{ left: -maxDrag, right: 0 }} // stay within bounds
+              dragElastic={0.2} // subtle resistance at edges
+              dragMomentum={true} // smooth continuation after release
               style={{ x }}
+              className="flex gap-6"
               onDragEnd={() => {
+                // Clamp x to prevent overscroll past edges
                 let clampedX = x.get();
                 if (clampedX > 0) clampedX = 0;
                 if (clampedX < -maxDrag) clampedX = -maxDrag;
                 animate(x, clampedX, {
                   type: "spring",
-                  stiffness: 300,
+                  stiffness: 250,
                   damping: 30,
                 });
               }}
-              className="flex gap-6 "
             >
               {experienceTimeline.map((item, idx) => (
                 <motion.div
                   key={idx}
-                  className="min-w-[280px] perspective flex-shrink-0 cursor-pointer overflow-y-hidden"
+                  className="min-w-[280px] perspective flex-shrink-0 cursor-pointer"
                   onClick={() => handleCardClick(idx)}
                 >
                   <motion.div
@@ -346,7 +348,7 @@ export default function HeroSection() {
                         <h4 className="text-lg md:text-xl font-semibold text-white mb-2">
                           Experience Details
                         </h4>
-                        <ul className="list-disc list-inside text-gray-400 text-sm md:text-base space-y-1 overflow-y-hidden max-h-[300px]">
+                        <ul className="list-disc list-inside text-gray-400 text-sm md:text-base space-y-1 overflow-y-auto max-h-[300px]">
                           {showBackText === idx &&
                             item.details.map((detail: string, i: number) => (
                               <li key={i}>{detail}</li>
