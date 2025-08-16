@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'Jason Zhang - Full-Stack Developer',
+	title: 'Jason Zhang',
 	description:
 		'Welcome to my portfolio! I am a passionate full-stack developer who bridges the gap between frontend and backend development. Specializing in creating complete web solutions, from beautiful user interfaces to robust server architectures.',
 	keywords: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 	authors: [{ name: 'Jason Zhang' }],
 	creator: 'Jason Zhang',
 	openGraph: {
-		title: 'Jason Zhang - Full-Stack Developer Portfolio',
+		title: 'Jason Zhang',
 		description:
 			'Passionate full-stack developer creating complete web solutions. Explore my projects and technical expertise across the entire development stack.',
 		url: 'https://your-domain.com',
