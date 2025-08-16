@@ -1,112 +1,134 @@
 "use client";
 
 import { motion, useMotionValue, animate } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+
+interface ExperienceItem {
+  year: string;
+  title: string;
+  company: string;
+  description: string;
+  details?: string[];
+}
+
+interface EducationItem {
+  year: string;
+  title: string;
+  company: string;
+  description: string;
+}
 
 export default function HeroSection() {
   const [selectedStack, setSelectedStack] = useState<
     "frontend" | "backend" | "devops" | null
   >(null);
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
+  const [showBackText, setShowBackText] = useState<number | null>(null);
 
-  const experienceTimeline = [
-    {
-      year: "Jul 2025 - Present",
-      title: "Software Engineer (Self-employed)",
-      company: "Currently Seeking New Opportunities",
-      description:
-        "Sharpening problem-solving and system design skills through hands-on projects.",
-      details: [
-        "Built small full-stack apps to practice integration",
-        "Focused on algorithm and data structure exercises",
-      ],
-    },
-    {
-      year: "Jul 2025 - Aug 2025",
-      title: "Software Engineer Intern",
-      company: "Leechy",
-      description:
-        "Developed backend APIs and ensured secure, cross-platform functionality.",
-      details: [
-        "Implemented JWT authentication and authorization",
-        "Ensured backend compatibility across iOS & Android",
-      ],
-    },
-    {
-      year: "Mar 2025 - Jul 2025",
-      title: "Software Engineer (Contract)",
-      company: "Move Tact Management",
-      description:
-        "Built MERN stack projects and integrated multiple APIs to automate workflows.",
-      details: [
-        "Integrated Slack, Twitch, Stripe, and Chartmetric APIs",
-        "Automated tasks using Python scripts",
-        "Deployed projects on Vercel",
-      ],
-    },
-    {
-      year: "Feb 2025 - Mar 2025",
-      title: "Software Engineer (Trial Period)",
-      company: "Ensemble Data",
-      description:
-        "Processed and automated data workflows using Python and Ensemble APIs.",
-      details: [
-        "Exported analytics to CSV and Google Sheets",
-        "Automated repetitive tasks to streamline workflow",
-      ],
-    },
-    {
-      year: "Nov 2024 - Feb 2025",
-      title: "Software Engineer Intern",
-      company: "Series",
-      description:
-        "Developed scalable APIs and improved CI/CD within Agile teams.",
-      details: [
-        "Built Node.js/Firebase APIs",
-        "Integrated OpenAI and Twilio for enhanced features",
-        "Improved CI/CD pipelines and workflow efficiency",
-      ],
-    },
-    {
-      year: "Jul 2024 - Oct 2024",
-      title: "Software Engineer Intern",
-      company: "Headstarter AI",
-      description:
-        "Built AI projects using modern full-stack tools and Pinecone for search.",
-      details: [
-        "Developed AI support agent using OpenAI + Pinecone",
-        "Built dynamic SaaS products for mental health support",
-      ],
-    },
-  ].sort(
-    (a, b) =>
-      new Date(b.year.split(" - ")[0]).getTime() -
-      new Date(a.year.split(" - ")[0]).getTime()
+  const experienceTimeline: ExperienceItem[] = useMemo(() => {
+    const raw: ExperienceItem[] = [
+      {
+        year: "Jul 2025 - Present",
+        title: "Software Engineer (Self-employed)",
+        company: "Currently Seeking New Opportunities",
+        description:
+          "Sharpening problem-solving, system design, and full-stack skills through hands-on projects, Coursera courses, LeetCode challenges, and hackathons.",
+        details: [
+          "Practicing algorithms, data structures, and system design problems on LeetCode.",
+          "Building small full-stack applications to integrate APIs and practice deployment.",
+          "Participating in hackathons to improve rapid prototyping and teamwork skills.",
+        ],
+      },
+      {
+        year: "Jul 2025 - Aug 2025",
+        title: "Software Engineer Intern",
+        company: "Leechy",
+        description:
+          "Focused on Kotlin and iOS integration with backend endpoints, ensuring secure communication and seamless mobile functionality.",
+        details: [
+          "Implemented JWT-based authentication and role-based authorization for iOS clients.",
+          "Integrated backend APIs with Kotlin-based mobile applications.",
+          "Ensured smooth communication between mobile and backend systems across platforms.",
+        ],
+      },
+      {
+        year: "Mar 2025 - Jul 2025",
+        title: "Software Engineer (Contract)",
+        company: "Move Tact Management",
+        description:
+          "Worked on automating workflows and integrating third-party APIs to improve internal processes.",
+        details: [
+          "Automated tasks using Python scripts for data processing and reporting.",
+          "Integrated Slack, Twitch, Stripe, and Chartmetric APIs for operational automation.",
+          "Deployed small projects on Vercel and tested integrations with existing systems.",
+        ],
+      },
+      {
+        year: "Feb 2025 - Mar 2025",
+        title: "Software Engineer (Trial Period)",
+        company: "Move Tact Management",
+        description:
+          "Assisted in building internal tools and automating repetitive workflows to improve team efficiency.",
+        details: [
+          "Created scripts to automate data exports and report generation.",
+          "Streamlined workflows to reduce manual effort and errors.",
+          "Collaborated with the team to ensure smooth integration with existing systems.",
+        ],
+      },
+      {
+        year: "Nov 2024 - Feb 2025",
+        title: "Software Engineer Intern",
+        company: "Series",
+        description:
+          "Developed scalable backend APIs and improved CI/CD processes to support agile development and efficient deployment.",
+        details: [
+          "Built Node.js and Firebase APIs for internal and client-facing services.",
+          "Integrated OpenAI and Twilio to enhance user interactions.",
+          "Optimized CI/CD pipelines to accelerate deployment and reduce downtime.",
+        ],
+      },
+      {
+        year: "Jul 2024 - Oct 2024",
+        title: "Software Engineer Intern",
+        company: "Headstarter AI",
+        description:
+          "Built AI-powered SaaS applications to support mental health and dynamic data-driven products.",
+        details: [
+          "Developed AI support agents using OpenAI + Pinecone for semantic search and responses.",
+          "Built dynamic SaaS products using full-stack React and Node.js architecture.",
+          "Collaborated in Agile teams to deliver robust, production-ready solutions.",
+        ],
+      },
+    ];
+
+    return raw.sort(
+      (a, b) =>
+        new Date(b.year.split(" - ")[0]).getTime() -
+        new Date(a.year.split(" - ")[0]).getTime()
+    );
+  }, []);
+
+  const educationTimeline: EducationItem[] = useMemo(
+    () => [
+      {
+        year: "Aug 2023 - Dec 2023",
+        title: "Software Development Certification",
+        company: "App Academy",
+        description:
+          "Completed 1,000+ hours of full-stack development training in Ruby on Rails, React, and JavaScript. Strengthened teamwork through pair programming.",
+      },
+      {
+        year: "May 2020 - Jun 2022",
+        title: "Associate’s Degree, Computer Science",
+        company: "CUNY College of Staten Island",
+        description:
+          "Studied Discrete Math, OOP, Data Structures, and Algorithms. Gained proficiency in C++ and DSA.",
+      },
+    ],
+    []
   );
 
-  const educationTimeline = [
-    {
-      year: "Aug 2023 - Dec 2023",
-      title: "Software Development Certification",
-      company: "App Academy",
-      description:
-        "Completed 1,000+ hours of full-stack development training in Ruby on Rails, React, and JavaScript. Strengthened teamwork through pair programming.",
-    },
-    {
-      year: "May 2020 - Jun 2022",
-      title: "Associate’s Degree, Computer Science",
-      company: "CUNY College of Staten Island",
-      description:
-        "Studied Discrete Math, OOP, Data Structures, and Algorithms. Gained proficiency in C++ and DSA.",
-    },
-  ];
-
-  const stacks: {
-    stack: "frontend" | "backend" | "devops";
-    title: string;
-    color: string;
-    skills: string[];
-  }[] = [
+  const stacks = [
     {
       stack: "frontend",
       title: "Frontend Development",
@@ -137,9 +159,8 @@ export default function HeroSection() {
         "Scalable Architecture",
       ],
     },
-  ];
+  ] as const;
 
-  // Motion
   const x = useMotionValue(0);
   const cardWidth = 280;
   const gap = 24;
@@ -166,15 +187,24 @@ export default function HeroSection() {
     visible: { opacity: 1, y: 0 },
   };
 
+  // Card flip handler
+  const handleCardClick = (idx: number) => {
+    if (flippedCard === idx) {
+      setFlippedCard(null);
+      setShowBackText(null);
+    } else {
+      setFlippedCard(idx);
+      setTimeout(() => setShowBackText(idx), 300);
+    }
+  };
+
   return (
     <section className="min-h-screen relative overflow-hidden py-24 md:py-32">
-      {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center px-4 md:px-8">
-        {/* Intro */}
         <motion.div
           variants={fadeInSection}
           initial="hidden"
@@ -244,85 +274,92 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Experience Carousel */}
-<motion.div
-  variants={fadeInSection}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, amount: 0.3 }}
-  transition={{ delay: 0.3, duration: 0.6 }}
-  className="w-full max-w-5xl mx-auto px-4 mb-16"
->
-  <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
-    Experience
-  </h3>
-  <div className="relative overflow-x-hidden">
-    <motion.div
-      drag="x"
-      dragConstraints={{ left: -maxDrag, right: 0 }}
-      dragElastic={0.2}
-      style={{ x }}
-      onDragEnd={() => {
-        let clampedX = x.get();
-        if (clampedX > 0) clampedX = 0;
-        if (clampedX < -maxDrag) clampedX = -maxDrag;
-
-        animate(x, clampedX, {
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-        });
-      }}
-      className="flex gap-6"
-    >
-      {experienceTimeline.map((item, idx) => (
         <motion.div
-          key={idx}
-          onClick={() => setFlippedCard(flippedCard === idx ? null : idx)}
-          className="min-w-[280px] perspective cursor-pointer flex-shrink-0"
+          variants={fadeInSection}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="w-full max-w-5xl mx-auto px-4 mb-16 overflow-y-hidden"
         >
-          <motion.div
-            animate={{ rotateY: flippedCard === idx ? 180 : 0 }}
-            transition={{ duration: 0.6 }}
-            className="relative bg-gray-900/50 border border-gray-800 rounded-lg shadow-lg transform-style-preserve-3d p-4"
-          >
-            {/* Front */}
-            <div
-              className="absolute w-full top-0 left-0 p-4 flex flex-col justify-between min-h-[220px]"
-              style={{ backfaceVisibility: "hidden" }}
+          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
+            Experience
+          </h3>
+          <div className="relative overflow-x-hidden">
+            <motion.div
+              drag="x"
+              dragConstraints={{ left: -maxDrag, right: maxDrag}}
+              dragElastic={0.2}
+              style={{ x }}
+              onDragEnd={() => {
+                let clampedX = x.get();
+                if (clampedX > 0) clampedX = 0;
+                if (clampedX < -maxDrag) clampedX = -maxDrag;
+                animate(x, clampedX, {
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30,
+                });
+              }}
+              className="flex gap-6 "
             >
-              <div>
-                <h4 className="text-lg md:text-xl font-semibold text-white">
-                  {item.title}{" "}
-                  <span className="text-blue-400">— {item.company}</span>
-                </h4>
-                <p className="text-sm text-gray-500">{item.year}</p>
-              </div>
-              <p className="mt-2 text-sm md:text-base text-gray-400">
-                {item.description}
-              </p>
-            </div>
+              {experienceTimeline.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  className="min-w-[280px] perspective flex-shrink-0 cursor-pointer overflow-y-hidden"
+                  onClick={() => handleCardClick(idx)}
+                >
+                  <motion.div
+                    className="relative h-[300px] w-[280px] rounded-lg shadow-lg"
+                    animate={{ rotateY: flippedCard === idx ? 180 : 0 }}
+                    transition={{ duration: 0.6 }}
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    {/* Front */}
+                    <div
+                      className="absolute inset-0 bg-gray-900/50 border border-gray-800 rounded-lg flex flex-col justify-between p-4"
+                      style={{ backfaceVisibility: "hidden" }}
+                    >
+                      <div>
+                        <h4 className="text-lg md:text-xl font-semibold text-white">
+                          {item.title}{" "}
+                          <span className="text-blue-400">
+                            — {item.company}
+                          </span>
+                        </h4>
+                        <p className="text-sm text-gray-500">{item.year}</p>
+                      </div>
+                      <p className="mt-2 text-sm md:text-base text-gray-400">
+                        {item.description}
+                      </p>
+                    </div>
 
-            {/* Back */}
-            <div
-              className="absolute w-full top-0 left-0 p-4 flex flex-col justify-start rotate-y-180 min-h-[220px] overflow-auto"
-              style={{ backfaceVisibility: "hidden" }}
-            >
-              <h4 className="text-lg md:text-xl font-semibold text-white mb-2">
-                Experience Details
-              </h4>
-              <ul className="list-disc list-inside text-gray-400 text-sm md:text-base space-y-1">
-                {item.details.map((detail, i) => (
-                  <li key={i}>{detail}</li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
+                    {/* Back */}
+                    {item.details && (
+                      <div
+                        className="absolute inset-0 bg-gray-800/70 border border-teal-500/50 rounded-lg flex flex-col justify-start p-4"
+                        style={{
+                          transform: "rotateY(180deg)",
+                          backfaceVisibility: "hidden",
+                        }}
+                      >
+                        <h4 className="text-lg md:text-xl font-semibold text-white mb-2">
+                          Experience Details
+                        </h4>
+                        <ul className="list-disc list-inside text-gray-400 text-sm md:text-base space-y-1 overflow-y-hidden max-h-[300px]">
+                          {showBackText === idx &&
+                            item.details.map((detail: string, i: number) => (
+                              <li key={i}>{detail}</li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </motion.div>
-      ))}
-    </motion.div>
-  </div>
-</motion.div>
-
 
         {/* Education */}
         <motion.div
