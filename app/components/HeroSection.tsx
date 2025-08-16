@@ -21,6 +21,11 @@ interface EducationItem {
 export default function HeroSection() {
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const [showBackText, setShowBackText] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const experienceTimeline: ExperienceItem[] = useMemo(() => {
     const raw: ExperienceItem[] = [
@@ -194,6 +199,8 @@ export default function HeroSection() {
     }
   };
 
+  if (!mounted) return <div style={{ visibility: "hidden" }} />;
+
   return (
     <section className="min-h-screen relative overflow-hidden py-24 md:py-32">
       <div className="absolute inset-0">
@@ -201,6 +208,7 @@ export default function HeroSection() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center px-4 md:px-8">
+        {/* Hero Header */}
         <motion.div
           variants={fadeInSection}
           initial="hidden"
@@ -281,28 +289,42 @@ export default function HeroSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="w-full max-w-5xl mx-auto px-4 mb-16 overflow-y-hidden"
+          className="w-full max-w-5xl mx-auto px-4 mb-16 overflow-y-hidden space-y-6"
         >
           <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
             Experience
           </h3>
+          <p className="text-base md:text-lg text-gray-400 text-center">
+            Please click on each individual card to learn more!
+          </p>
           <div className="relative overflow-x-hidden">
             <motion.div
               drag="x"
-              dragConstraints={{ left: -maxDrag, right: 0 }} // stay within bounds
-              dragElastic={0.4} // subtle resistance at edges
+              dragConstraints={{ left: -maxDrag, right: 0 }}
+              dragElastic={0.4}
               dragMomentum={true}
               style={{ x }}
               className="flex gap-6"
               onDragEnd={() => {
-                let clampedX = x.get();
-                if (clampedX > 0) clampedX = 0;
-                if (clampedX < -maxDrag) clampedX = -maxDrag;
-                animate(x, clampedX, {
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                });
+                const currentX = x.get();
+                const cardWithGap = cardWidth + gap;
+
+                if (window.innerWidth < 640) {
+                  // Mobile: snap to nearest card
+                  let closestIndex = Math.round(-currentX / cardWithGap);
+                  if (closestIndex < 0) closestIndex = 0;
+                  if (closestIndex > experienceTimeline.length - 1)
+                    closestIndex = experienceTimeline.length - 1;
+
+                  const targetX = -closestIndex * cardWithGap;
+                  animate(x, targetX, { type: "spring", stiffness: 120, damping: 18 });
+                } else {
+                  // Desktop: regular drag
+                  let clampedX = currentX;
+                  if (clampedX > 0) clampedX = 0;
+                  if (clampedX < -maxDrag) clampedX = -maxDrag;
+                  animate(x, clampedX, { type: "spring", stiffness: 100, damping: 15 });
+                }
               }}
             >
               {experienceTimeline.map((item, idx) => (
@@ -323,13 +345,13 @@ export default function HeroSection() {
                       style={{ backfaceVisibility: "hidden" }}
                     >
                       <div>
-                        <h4 className="text-lg md:text-xl font-semibold text-white">
+                        <h4 className="text-lg md:text-xl font-semibold text-white text-center md:text-left">
                           {item.title}{" "}
-                          <span className="text-blue-400">
-                            — {item.company}
-                          </span>
+                          <span className="text-blue-400">— {item.company}</span>
                         </h4>
-                        <p className="text-sm text-gray-500">{item.year}</p>
+                        <p className="text-sm text-gray-500 text-center md:text-left">
+                          {item.year}
+                        </p>
                       </div>
                       <p className="mt-2 text-sm md:text-base text-gray-400">
                         {item.description}
