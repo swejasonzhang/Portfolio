@@ -26,7 +26,7 @@ export default function ProjectsSection() {
           >
             <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold">Amazeon</h3>
+                <h3 className="text-2xl font-bold text-center lg:text-left">Amazeon</h3>
                 <p className="text-gray-400">
                   Amazeon is an e-commerce platform that replicates the Amazon shopping experience, offering users the convenience to purchase a wide range of products.
                 </p>
@@ -60,7 +60,7 @@ export default function ProjectsSection() {
           >
             <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold">Bonjour World</h3>
+                <h3 className="text-2xl font-bold text-center lg:text-left">Bonjour World</h3>
                 <p className="text-gray-400">
                   Bonjour World is a dynamic web platform for language exchange, connecting learners and teachers worldwide.
                 </p>
@@ -94,7 +94,7 @@ export default function ProjectsSection() {
           >
             <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold">Calmify</h3>
+                <h3 className="text-2xl font-bold text-center lg:text-left">Calmify</h3>
                 <p className="text-gray-400">
                   Calmify is a meditation and mental wellness platform providing guided exercises, personalized routines, and stress tracking features.
                 </p>
@@ -128,7 +128,7 @@ export default function ProjectsSection() {
           >
             <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold">ProfScore</h3>
+                <h3 className="text-2xl font-bold text-center lg:text-left">ProfScore</h3>
                 <p className="text-gray-400">
                   ProfScore aggregates student reviews and ratings for professors to help students make informed decisions.
                 </p>

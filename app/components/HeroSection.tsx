@@ -19,9 +19,6 @@ interface EducationItem {
 }
 
 export default function HeroSection() {
-  const [selectedStack, setSelectedStack] = useState<
-    "frontend" | "backend" | "devops" | null
-  >(null);
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const [showBackText, setShowBackText] = useState<number | null>(null);
 
@@ -187,7 +184,6 @@ export default function HeroSection() {
     visible: { opacity: 1, y: 0 },
   };
 
-  // Card flip handler
   const handleCardClick = (idx: number) => {
     if (flippedCard === idx) {
       setFlippedCard(null);
@@ -242,34 +238,39 @@ export default function HeroSection() {
           className="w-full max-w-5xl mx-auto mb-16 bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-800 p-4 md:p-8"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-            {stacks.map((s, i) => (
-              <div
-                key={i}
-                className={`p-4 md:p-6 rounded-lg transition-colors border-2 ${
-                  selectedStack === s.stack
-                    ? `bg-${s.color}-500/20 border-${s.color}-500/50`
-                    : "bg-gray-800/50 hover:bg-gray-800/80 border-transparent"
-                }`}
-                onMouseEnter={() => setSelectedStack(s.stack)}
-                onMouseLeave={() => setSelectedStack(null)}
-              >
-                <h3
-                  className={`text-lg md:text-xl font-semibold mb-4 text-${s.color}-400`}
-                >
-                  {s.title}
-                </h3>
-                <ul className="space-y-2 text-xs md:text-sm text-gray-400">
-                  {s.skills.map((skill, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <div
-                        className={`w-1.5 h-1.5 bg-${s.color}-500 rounded-full`}
-                      />
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {stacks.map((s) => {
+              const base =
+                "p-4 md:p-6 rounded-lg transition-colors border-2 flex flex-col items-center text-center bg-gray-800/50 hover:bg-gray-800/80 border-transparent";
+              const hoverClasses: Record<string, string> = {
+                blue: "hover:border-blue-500",
+                purple: "hover:border-purple-500",
+                teal: "hover:border-teal-500",
+              };
+              const classes = `${base} ${hoverClasses[s.color]}`;
+
+              return (
+                <div key={s.stack} className={classes}>
+                  <h3
+                    className={`text-lg md:text-xl font-semibold mb-4 text-${s.color}-400`}
+                  >
+                    {s.title}
+                  </h3>
+                  <ul className="space-y-2 text-xs md:text-sm text-gray-400">
+                    {s.skills.map((skill, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-center gap-2 justify-center"
+                      >
+                        <div
+                          className={`w-1.5 h-1.5 bg-${s.color}-500 rounded-full`}
+                        />
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -289,19 +290,18 @@ export default function HeroSection() {
             <motion.div
               drag="x"
               dragConstraints={{ left: -maxDrag, right: 0 }} // stay within bounds
-              dragElastic={0.2} // subtle resistance at edges
-              dragMomentum={true} // smooth continuation after release
+              dragElastic={0.4} // subtle resistance at edges
+              dragMomentum={true}
               style={{ x }}
               className="flex gap-6"
               onDragEnd={() => {
-                // Clamp x to prevent overscroll past edges
                 let clampedX = x.get();
                 if (clampedX > 0) clampedX = 0;
                 if (clampedX < -maxDrag) clampedX = -maxDrag;
                 animate(x, clampedX, {
                   type: "spring",
-                  stiffness: 250,
-                  damping: 30,
+                  stiffness: 100,
+                  damping: 15,
                 });
               }}
             >
