@@ -31,14 +31,13 @@ export default function HeroSection() {
     const raw: ExperienceItem[] = [
       {
         year: "Jul 2025 - Present",
-        title: "Software Engineer (Self-employed)",
-        company: "Currently Seeking New Opportunities",
+        title: "Full Stack Developer",
+        company: "Personal Projects",
         description:
-          "Sharpening problem-solving, system design, and full-stack skills through hands-on projects, Coursera courses, LeetCode challenges, and hackathons.",
+          "Actively building and refining full-stack applications, enhancing system design, and exploring AI integrations to deliver practical and scalable solutions.",
         details: [
-          "Practicing algorithms, data structures, and system design problems on LeetCode.",
-          "Building small full-stack applications to integrate APIs and practice deployment.",
-          "Participating in hackathons to improve rapid prototyping and teamwork skills.",
+          "Developing and deploying full-stack MERN projects, including personal and portfolio projects.",
+          "Learning new technologies through hands-on projects, Coursera courses, and hackathons.",
         ],
       },
       {
@@ -224,15 +223,33 @@ export default function HeroSection() {
             Full Stack Developer
           </h2>
           <p className="text-base md:text-lg text-gray-400">
-            I have 2 years of experience building scalable MERN stack
-            applications and have contributed to multiple team projects during
-            internships, gaining hands-on experience in full-stack development
-            and collaborative workflows.
+            I am a full-stack developer with 2+ years of experience building
+            scalable MERN stack applications. I’ve contributed to multiple team
+            projects during internships, gaining hands-on experience in
+            full-stack development, system design, and collaborative workflows.
           </p>
           <p className="text-sm md:text-base text-gray-500">
-            Actively building and improving full-stack projects, I am passionate
-            about learning and creating impactful solutions both independently
-            and in teams.
+            Currently, I am working on{" "}
+            <span className="relative inline-block">
+              {Array.from("ForTheLoveOfTattoos").map((char, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ color: "rgba(255,255,255,0)" }}
+                  animate={{ color: "#ffffff" }}
+                  transition={{ delay: 1.5 + i * 0.05, duration: 0.5 }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </span>
+            , a MERN stack platform for tattoo enthusiasts to explore artwork,
+            share stories, and connect with artists worldwide.
+          </p>
+
+          <p className="text-sm md:text-base text-gray-500">
+            Actively building and improving projects, I am passionate about
+            learning, creating impactful solutions, and combining my technical
+            skills with my personal interests.
           </p>
         </motion.div>
 
@@ -317,13 +334,21 @@ export default function HeroSection() {
                     closestIndex = experienceTimeline.length - 1;
 
                   const targetX = -closestIndex * cardWithGap;
-                  animate(x, targetX, { type: "spring", stiffness: 120, damping: 18 });
+                  animate(x, targetX, {
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 18,
+                  });
                 } else {
                   // Desktop: regular drag
                   let clampedX = currentX;
                   if (clampedX > 0) clampedX = 0;
                   if (clampedX < -maxDrag) clampedX = -maxDrag;
-                  animate(x, clampedX, { type: "spring", stiffness: 100, damping: 15 });
+                  animate(x, clampedX, {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                  });
                 }
               }}
             >
@@ -347,7 +372,9 @@ export default function HeroSection() {
                       <div>
                         <h4 className="text-lg md:text-xl font-semibold text-white text-center md:text-left">
                           {item.title}{" "}
-                          <span className="text-blue-400">— {item.company}</span>
+                          <span className="text-blue-400">
+                            — {item.company}
+                          </span>
                         </h4>
                         <p className="text-sm text-gray-500 text-center md:text-left">
                           {item.year}
@@ -361,13 +388,13 @@ export default function HeroSection() {
                     {/* Back */}
                     {item.details && (
                       <div
-                        className="absolute inset-0 bg-gray-800/70 border border-teal-500/50 rounded-lg flex flex-col justify-start p-4"
+                        className="absolute inset-0 bg-gray-800/70 border border-teal-500/50 rounded-lg flex flex-col justify-start p-4 "
                         style={{
                           transform: "rotateY(180deg)",
                           backfaceVisibility: "hidden",
                         }}
                       >
-                        <h4 className="text-lg md:text-xl font-semibold text-white mb-2">
+                        <h4 className="text-lg md:text-xl font-semibold text-white mb-2 ">
                           Experience Details
                         </h4>
                         <ul className="list-disc list-inside text-gray-400 text-sm md:text-base space-y-1 overflow-y-auto max-h-[300px]">

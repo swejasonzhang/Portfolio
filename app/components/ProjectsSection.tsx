@@ -12,9 +12,73 @@ export default function ProjectsSection() {
   }, []);
 
   if (!mounted) return null;
+
+  const projects = [
+    {
+      title: "For The Love Of Tattoos",
+      description:
+        "A modern web application connecting tattoo clients and artists, helping them communicate, find local artists, and explore tattoo designs.",
+      details: [
+        "Built with MongoDB, Express.js, React, Node.js (MERN stack) and modern frontend tools like Tailwind CSS, Framer Motion, and React Toastify",
+        "Features waitlist sign-up, responsive interactive UI, notifications, and planned AI enhancements like chatbot guidance and tattoo placement visualization",
+      ],
+      live: "https://fortheloveoftattoos.vercel.app/",
+      github: "https://github.com/swejasonzhang/ForTheLoveOfTattoos",
+      image: "/assets/ForTheLoveOfTattoos.jpg",
+    },
+    {
+      title: "Amazeon",
+      description:
+        "Amazeon is an e-commerce platform that replicates the Amazon shopping experience, offering users the convenience to purchase a wide range of products.",
+      details: [
+        "Built with Ruby on Rails (backend), React/Redux (frontend), and AWS for cloud infrastructure",
+        "Features rotating product images, smooth UI, and optimized server performance",
+      ],
+      live: "https://amazeon.onrender.com",
+      github: "https://github.com/swejasonzhang/FullStack",
+      image: "/assets/Amazeon.jpg",
+    },
+    {
+      title: "Bonjour World",
+      description:
+        "Bonjour World is a dynamic web platform for language exchange, connecting learners and teachers worldwide.",
+      details: [
+        "Built on MERN stack with React/Redux frontend and Node.js backend",
+        "Integrated Google Maps and Translate APIs for location and real-time translations",
+      ],
+      live: "https://bonjourworld.onrender.com/",
+      github: "https://github.com/yuris1234/Bonjour-World",
+      image: "/assets/BonjourWorld.jpg",
+    },
+    {
+      title: "Calmify",
+      description:
+        "Calmify is a meditation and mental wellness platform providing guided exercises, personalized routines, and stress tracking features.",
+      details: [
+        "Developed with React frontend, Node.js/Express backend, MongoDB database",
+        "Integrates third-party APIs for guided meditation audio and real-time stress analytics",
+      ],
+      live: "https://calmify-ten.vercel.app/",
+      github: "https://github.com/pc9350/Calmify",
+      image: "/assets/Calmify.jpg",
+    },
+    {
+      title: "ProfScore",
+      description:
+        "ProfScore aggregates student reviews and ratings for professors to help students make informed decisions.",
+      details: [
+        "Built with React/Next.js frontend, Node.js backend, MongoDB database",
+        "Features AI-powered comment analysis, ranking algorithms, and interactive dashboards for visualization",
+      ],
+      live: "https://profscore-beta.vercel.app/",
+      github: "https://github.com/pc9350/Rate-my-professor",
+      image: "/assets/ProfScore.jpg",
+    },
+  ];
+
   return (
     <section className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -25,203 +89,47 @@ export default function ProjectsSection() {
         </motion.h2>
 
         <div className="space-y-16">
-          {/* Amazeon */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800"
-          >
-            <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-center lg:text-left">
-                  Amazeon
-                </h3>
-                <p className="text-gray-400">
-                  Amazeon is an e-commerce platform that replicates the Amazon
-                  shopping experience, offering users the convenience to
-                  purchase a wide range of products.
-                </p>
-                <p className="text-gray-400">
-                  Built with Ruby on Rails (backend), React/Redux (frontend),
-                  and AWS for cloud infrastructure. Features rotating product
-                  images, smooth UI, and optimized server performance.
-                </p>
-                <div className="flex gap-4 justify-center lg:justify-start">
-                  <a
-                    href="https://amazeon.onrender.com"
-                    className="text-blue-400 underline"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    href="https://github.com/swejasonzhang/FullStack"
-                    className="text-purple-400 underline"
-                  >
-                    GitHub
-                  </a>
+          {projects.map((proj, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800"
+            >
+              <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold text-center lg:text-left">
+                    {proj.title}
+                  </h3>
+                  <p className="text-gray-400">{proj.description}</p>
+                  <ul className="text-gray-400 list-disc list-inside space-y-1">
+                    {proj.details.map((d, i) => (
+                      <li key={i}>{d}</li>
+                    ))}
+                  </ul>
+                  <div className="flex gap-4 justify-center lg:justify-start">
+                    <a href={proj.live} className="text-blue-400 underline">
+                      Live Demo
+                    </a>
+                    <a href={proj.github} className="text-purple-400 underline">
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+                <div className="bg-black/30 rounded-xl p-6 flex items-center justify-center">
+                  <Image
+                    src={proj.image}
+                    alt={proj.title}
+                    className="rounded-lg"
+                    width={800}
+                    height={600}
+                    priority
+                  />
                 </div>
               </div>
-              <div className="bg-black/30 rounded-xl p-6">
-                <Image
-                  src="/assets/Amazeon.jpg"
-                  alt="Amazeon"
-                  className="rounded-lg"
-                  width={800}
-                  height={600}
-                  priority
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Bonjour World */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800"
-          >
-            <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-center lg:text-left">
-                  Bonjour World
-                </h3>
-                <p className="text-gray-400">
-                  Bonjour World is a dynamic web platform for language exchange,
-                  connecting learners and teachers worldwide.
-                </p>
-                <p className="text-gray-400">
-                  Built on MERN stack with React/Redux frontend and Node.js
-                  backend. Integrated Google Maps and Translate APIs for
-                  location and real-time translations.
-                </p>
-                <div className="flex gap-4 justify-center lg:justify-start">
-                  <a
-                    href="https://bonjourworld.onrender.com/"
-                    className="text-blue-400 underline"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    href="https://github.com/yuris1234/Bonjour-World"
-                    className="text-purple-400 underline"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-              <div className="bg-black/30 rounded-xl p-6">
-                <Image
-                  src="/assets/BonjourWorld.jpg"
-                  alt="Bonjour World"
-                  className="rounded-lg"
-                  width={800}
-                  height={600}
-                  priority
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Calmify */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800"
-          >
-            <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-center lg:text-left">
-                  Calmify
-                </h3>
-                <p className="text-gray-400">
-                  Calmify is a meditation and mental wellness platform providing
-                  guided exercises, personalized routines, and stress tracking
-                  features.
-                </p>
-                <p className="text-gray-400">
-                  Developed with React frontend, Node.js/Express backend,
-                  MongoDB database. Integrates third-party APIs for guided
-                  meditation audio and real-time stress analytics.
-                </p>
-                <div className="flex gap-4 justify-center lg:justify-start">
-                  <a
-                    href="https://calmify-ten.vercel.app/"
-                    className="text-blue-400 underline"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    href="https://github.com/pc9350/Calmify"
-                    className="text-purple-400 underline"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-              <div className="bg-black/30 rounded-xl p-6">
-                <Image
-                  src="/assets/Calmify.jpg"
-                  alt="Calmify"
-                  className="rounded-lg"
-                  width={800}
-                  height={600}
-                  priority
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* ProfScore */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800"
-          >
-            <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-center lg:text-left">
-                  ProfScore
-                </h3>
-                <p className="text-gray-400">
-                  ProfScore aggregates student reviews and ratings for
-                  professors to help students make informed decisions.
-                </p>
-                <p className="text-gray-400">
-                  Built with React/Next.js frontend, Node.js backend, MongoDB
-                  database. Features AI-powered comment analysis, ranking
-                  algorithms, and interactive dashboards for visualization.
-                </p>
-                <div className="flex gap-4 justify-center lg:justify-start">
-                  <a
-                    href="https://profscore-beta.vercel.app/"
-                    className="text-blue-400 underline"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    href="https://github.com/pc9350/Rate-my-professor"
-                    className="text-purple-400 underline"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-              <div className="bg-black/30 rounded-xl p-6">
-                <Image
-                  src="/assets/ProfScore.jpg"
-                  alt="ProfScore"
-                  className="rounded-lg"
-                  width={800}
-                  height={600}
-                  priority
-                />
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
