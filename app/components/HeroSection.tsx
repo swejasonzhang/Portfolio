@@ -230,20 +230,28 @@ export default function HeroSection() {
           </p>
           <p className="text-sm md:text-base text-gray-500">
             Currently, I am working on{" "}
-            <span className="relative inline-block">
+            <a
+              href="https://fortheloveoftattoos.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline-block"
+            >
               {Array.from("ForTheLoveOfTattoos").map((char, i) => (
                 <motion.span
                   key={i}
                   initial={{ color: "rgba(255,255,255,0)" }}
                   animate={{ color: "#ffffff" }}
                   transition={{ delay: 1.5 + i * 0.05, duration: 0.5 }}
+                  className="hover:text-yellow-400 transition-colors"
                 >
                   {char}
                 </motion.span>
               ))}
-            </span>
-            , a MERN stack platform for tattoo enthusiasts to explore artwork,
-            share stories, and connect with artists worldwide.
+            </a>
+            , a platform designed to make finding the right tattoo artist
+            easier, helping users discover artists that match their style,
+            preferences, and budget while connecting with a community that
+            appreciates great tattoo art.
           </p>
 
           <p className="text-sm md:text-base text-gray-500">
