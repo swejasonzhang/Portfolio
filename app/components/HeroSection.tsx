@@ -120,7 +120,7 @@ export default function HeroSection() {
       },
       {
         year: "May 2020 - Jun 2022",
-        title: "Associate’s Degree, Computer Science",
+        title: "Computer Science",
         company: "CUNY College of Staten Island",
         description:
           "Studied Discrete Math, OOP, Data Structures, and Algorithms. Gained proficiency in C++ and DSA.",

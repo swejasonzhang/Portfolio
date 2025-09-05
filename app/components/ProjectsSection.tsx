@@ -17,7 +17,7 @@ export default function ProjectsSection() {
     {
       title: "For The Love Of Tattoos",
       description:
-        "A modern web application connecting tattoo clients and artists, helping them communicate, find local artists, and explore tattoo designs.",
+        "A modern web application connecting tattoo clients and artists, designed to simplify the process of finding the right artist based on your preferences. It provides a space for clients to explore designs, discover local talent, and engage with a community that appreciates and celebrates tattoo art.",
       details: [
         "Built with MongoDB, Express.js, React, Node.js (MERN stack) and modern frontend tools like Tailwind CSS, Framer Motion, and React Toastify",
         "Features waitlist sign-up, responsive interactive UI, notifications, and planned AI enhancements like chatbot guidance and tattoo placement visualization",
