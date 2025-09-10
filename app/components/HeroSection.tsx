@@ -231,7 +231,7 @@ export default function HeroSection() {
           <p className="text-sm md:text-base text-gray-500">
             Currently, I am working on{" "}
             <a
-              href="https://inkmity.vercel.app/"
+              href="https://inkmity.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="relative inline-block"

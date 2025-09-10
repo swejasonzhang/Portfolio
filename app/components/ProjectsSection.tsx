@@ -22,7 +22,7 @@ export default function ProjectsSection() {
         "Built with MongoDB, Express.js, React, Node.js (MERN stack) and modern frontend tools like Tailwind CSS, Framer Motion, and React Toastify",
         "Features waitlist sign-up, responsive interactive UI, notifications, and planned AI enhancements like chatbot guidance and tattoo placement visualization",
       ],
-      live: "https://inkmity.vercel.app/",
+      live: "https://inkmity.com/",
       github: "https://github.com/swejasonzhang/Inkmity",
       image: "/assets/Inkmity.jpg",
     },
