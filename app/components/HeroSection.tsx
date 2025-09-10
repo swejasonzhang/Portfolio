@@ -231,12 +231,12 @@ export default function HeroSection() {
           <p className="text-sm md:text-base text-gray-500">
             Currently, I am working on{" "}
             <a
-              href="https://fortheloveoftattoos.vercel.app/"
+              href="https://inkmity.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="relative inline-block"
             >
-              {Array.from("ForTheLoveOfTattoos").map((char, i) => (
+              {Array.from("Inkmity").map((char, i) => (
                 <motion.span
                   key={i}
                   initial={{ color: "rgba(255,255,255,0)" }}
@@ -335,7 +335,6 @@ export default function HeroSection() {
                 const cardWithGap = cardWidth + gap;
 
                 if (window.innerWidth < 640) {
-                  // Mobile: snap to nearest card
                   let closestIndex = Math.round(-currentX / cardWithGap);
                   if (closestIndex < 0) closestIndex = 0;
                   if (closestIndex > experienceTimeline.length - 1)
@@ -348,7 +347,6 @@ export default function HeroSection() {
                     damping: 18,
                   });
                 } else {
-                  // Desktop: regular drag
                   let clampedX = currentX;
                   if (clampedX > 0) clampedX = 0;
                   if (clampedX < -maxDrag) clampedX = -maxDrag;
