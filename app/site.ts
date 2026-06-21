@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "Jason Zhang — Full Stack Developer",
   description:
     "Full-stack developer building scalable MERN applications. Explore my projects, experience, and technical work across the entire development stack.",
-  url: "https://swejasonzhang.com",
+  url: "https://swejasonzhang.netlify.app",
   email: "swejasonzhang@gmail.com",
   locationLocality: "New York City",
   locationRegion: "NY",
