@@ -6,20 +6,20 @@ import YinYang from "./YinYang";
 
 export default function Preloader() {
   const reduce = useReducedMotion();
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
+  const [instant, setInstant] = useState(false);
 
   useEffect(() => {
-    if (reduce) return;
-    if (sessionStorage.getItem("introSeen")) return;
+    if (reduce || sessionStorage.getItem("introSeen")) {
+      setInstant(true);
+      setShow(false);
+      return;
+    }
 
-    setShow(true);
+    sessionStorage.setItem("introSeen", "1");
     document.body.style.overflow = "hidden";
 
-    const timer = setTimeout(() => {
-      sessionStorage.setItem("introSeen", "1");
-      setShow(false);
-    }, 1700);
-
+    const timer = setTimeout(() => setShow(false), 1700);
     return () => clearTimeout(timer);
   }, [reduce]);
 
@@ -34,7 +34,10 @@ export default function Preloader() {
           key="preloader"
           className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]"
           initial={{ opacity: 1 }}
-          exit={{ y: "-100%", transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] } }}
+          exit={{
+            y: "-100%",
+            transition: { duration: instant ? 0 : 0.7, ease: [0.76, 0, 0.24, 1] },
+          }}
         >
           <motion.div
             initial={{ scale: 0.5, rotate: -120, opacity: 0 }}
