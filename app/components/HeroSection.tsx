@@ -1,7 +1,10 @@
 "use client";
 
-import { motion, useMotionValue, animate } from "framer-motion";
+import { motion, useMotionValue, animate, type Variants } from "framer-motion";
 import { useState, useEffect, useMemo } from "react";
+import TiltCard from "./TiltCard";
+import MagneticButton from "./MagneticButton";
+import TechMarquee from "./TechMarquee";
 
 interface ExperienceItem {
   year: string;
@@ -18,14 +21,29 @@ interface EducationItem {
   description: string;
 }
 
+const accents = {
+  light: {
+    title: "text-white",
+    dot: "bg-white",
+    hoverBorder: "hover:border-white/50",
+  },
+  mid: {
+    title: "text-gray-200",
+    dot: "bg-gray-300",
+    hoverBorder: "hover:border-white/30",
+  },
+  dim: {
+    title: "text-gray-400",
+    dot: "bg-gray-500",
+    hoverBorder: "hover:border-white/20",
+  },
+} as const;
+
+type Accent = keyof typeof accents;
+
 export default function HeroSection() {
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const [showBackText, setShowBackText] = useState<number | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const experienceTimeline: ExperienceItem[] = useMemo(() => {
     const raw: ExperienceItem[] = [
@@ -129,11 +147,16 @@ export default function HeroSection() {
     []
   );
 
-  const stacks = [
+  const stacks: {
+    stack: string;
+    title: string;
+    color: Accent;
+    skills: string[];
+  }[] = [
     {
       stack: "frontend",
       title: "Frontend Development",
-      color: "blue",
+      color: "light",
       skills: [
         "Modern React Architectures",
         "Performance Optimization",
@@ -143,7 +166,7 @@ export default function HeroSection() {
     {
       stack: "backend",
       title: "Backend Development",
-      color: "purple",
+      color: "mid",
       skills: [
         "API Design & Development",
         "Database Architecture",
@@ -153,14 +176,14 @@ export default function HeroSection() {
     {
       stack: "devops",
       title: "DevOps & Cloud",
-      color: "teal",
+      color: "dim",
       skills: [
         "AWS Infrastructure",
         "CI/CD Pipelines",
         "Scalable Architecture",
       ],
     },
-  ] as const;
+  ];
 
   const x = useMotionValue(0);
   const cardWidth = 280;
@@ -183,9 +206,19 @@ export default function HeroSection() {
     experienceTimeline.length * (cardWidth + gap) - gap;
   const maxDrag = totalCarouselWidth - carouselVisibleWidth;
 
-  const fadeInSection = {
+  const fadeInSection: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
+  };
+
+  const container: Variants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.08 } },
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   const handleCardClick = (idx: number) => {
@@ -198,51 +231,62 @@ export default function HeroSection() {
     }
   };
 
-  if (!mounted) return <div style={{ visibility: "hidden" }} />;
-
   return (
-    <section className="min-h-screen relative overflow-hidden py-24 md:py-32">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-      </div>
-
+    <div className="relative overflow-hidden py-28 md:py-36">
       <div className="relative z-10 flex flex-col items-center justify-center px-4 md:px-8">
-        {/* Hero Header */}
+
         <motion.div
           variants={fadeInSection}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          animate="visible"
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-16 space-y-4 md:space-y-6 max-w-3xl"
+          className="mb-12 max-w-3xl space-y-4 text-center md:mb-16 md:space-y-6"
         >
-          <h1 className="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-gray-300 backdrop-blur-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+            </span>
+            Available for new opportunities
+          </motion.span>
+
+          <motion.h1
+            initial={{ clipPath: "inset(0 100% 0 0)" }}
+            animate={{ clipPath: "inset(0 0% 0 0)" }}
+            transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="gradient-text text-4xl font-bold md:text-7xl"
+          >
             Jason Zhang
-          </h1>
-          <h2 className="text-2xl md:text-4xl font-bold text-white">
+          </motion.h1>
+          <h2 className="text-2xl font-bold text-white md:text-4xl">
             Full Stack Developer
           </h2>
-          <p className="text-base md:text-lg text-gray-400">
+          <p className="text-base text-gray-400 md:text-lg">
             I am a full-stack developer with 2+ years of experience building
-            scalable MERN stack applications. I’ve contributed to multiple team
-            projects during internships, gaining hands-on experience in
+            scalable MERN stack applications. I&rsquo;ve contributed to multiple
+            team projects during internships, gaining hands-on experience in
             full-stack development, system design, and collaborative workflows.
           </p>
-          <p className="text-sm md:text-base text-gray-500">
+          <p className="text-sm text-gray-500 md:text-base">
             Currently, I am working on{" "}
             <a
               href="https://inkmity.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative inline-block"
+              className="relative inline-block font-medium"
             >
               {Array.from("Inkmity").map((char, i) => (
                 <motion.span
                   key={i}
                   initial={{ color: "rgba(255,255,255,0)" }}
                   animate={{ color: "#ffffff" }}
-                  transition={{ delay: 1.5 + i * 0.05, duration: 0.5 }}
-                  className="hover:text-yellow-400 transition-colors"
+                  transition={{ delay: 1.2 + i * 0.05, duration: 0.5 }}
+                  className="underline-offset-4 transition-all hover:text-gray-300 hover:underline"
                 >
                   {char}
                 </motion.span>
@@ -254,82 +298,102 @@ export default function HeroSection() {
             appreciates great tattoo art.
           </p>
 
-          <p className="text-sm md:text-base text-gray-500">
+          <p className="text-sm text-gray-500 md:text-base">
             Actively building and improving projects, I am passionate about
             learning, creating impactful solutions, and combining my technical
             skills with my personal interests.
           </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <MagneticButton
+              href="#projects"
+              className="inline-block rounded-lg bg-white px-6 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-gray-200"
+            >
+              View My Work
+            </MagneticButton>
+            <MagneticButton
+              href="#contact"
+              className="inline-block rounded-lg border border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-gray-200 backdrop-blur-sm transition-colors hover:bg-white/10"
+            >
+              Get in Touch
+            </MagneticButton>
+          </div>
         </motion.div>
 
-        {/* Tech Skills */}
         <motion.div
-          variants={fadeInSection}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mb-16 w-full"
+        >
+          <TechMarquee />
+        </motion.div>
+
+        <motion.div
+          variants={container}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="w-full max-w-5xl mx-auto mb-16 bg-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-800 p-4 md:p-8"
+          className="mx-auto mb-16 w-full max-w-4xl rounded-2xl border border-white/10 bg-gray-900/40 p-6 backdrop-blur-sm md:p-8"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+          <h3 className="mb-8 text-center text-2xl font-bold text-white md:text-3xl">
+            What I Do
+          </h3>
+          <div className="mx-auto grid grid-cols-1 place-items-center gap-5 sm:max-w-md md:max-w-none md:grid-cols-3 md:gap-6">
             {stacks.map((s) => {
-              const base =
-                "p-4 md:p-6 rounded-lg transition-colors border-2 flex flex-col items-center text-center bg-gray-800/50 hover:bg-gray-800/80 border-transparent";
-              const hoverClasses: Record<string, string> = {
-                blue: "hover:border-blue-500",
-                purple: "hover:border-purple-500",
-                teal: "hover:border-teal-500",
-              };
-              const classes = `${base} ${hoverClasses[s.color]}`;
-
+              const accent = accents[s.color];
               return (
-                <div key={s.stack} className={classes}>
-                  <h3
-                    className={`text-lg md:text-xl font-semibold mb-4 text-${s.color}-400`}
+                <motion.div key={s.stack} variants={item} className="w-full">
+                  <TiltCard
+                    className={`glow-border flex h-full w-full flex-col items-center rounded-xl border-2 border-transparent bg-gray-800/40 p-5 text-center transition-colors hover:bg-gray-800/70 md:p-6 ${accent.hoverBorder}`}
                   >
-                    {s.title}
-                  </h3>
-                  <ul className="space-y-2 text-xs md:text-sm text-gray-400">
-                    {s.skills.map((skill, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-center gap-2 justify-center"
-                      >
-                        <div
-                          className={`w-1.5 h-1.5 bg-${s.color}-500 rounded-full`}
-                        />
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                    <h3
+                      className={`mb-4 text-lg font-semibold md:text-xl ${accent.title}`}
+                    >
+                      {s.title}
+                    </h3>
+                    <ul className="space-y-2 text-xs text-gray-400 md:text-sm">
+                      {s.skills.map((skill, idx) => (
+                        <li
+                          key={idx}
+                          className="flex items-center justify-center gap-2"
+                        >
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${accent.dot}`}
+                          />
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  </TiltCard>
+                </motion.div>
               );
             })}
           </div>
         </motion.div>
 
-        {/* Experience Carousel */}
         <motion.div
           variants={fadeInSection}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="w-full max-w-5xl mx-auto px-4 mb-16 overflow-y-hidden space-y-6"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto mb-16 w-full max-w-5xl space-y-6 overflow-hidden px-4"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
+          <h3 className="text-center text-2xl font-bold text-white md:text-3xl">
             Experience
           </h3>
-          <p className="text-base md:text-lg text-gray-400 text-center">
-            Please click on each individual card to learn more!
+          <p className="text-center text-sm text-gray-400 md:text-base">
+            Drag to explore — click any card to flip it for details.
           </p>
-          <div className="relative overflow-x-hidden">
+          <div className="relative overflow-hidden">
             <motion.div
               drag="x"
               dragConstraints={{ left: -maxDrag, right: 0 }}
               dragElastic={0.4}
               dragMomentum={true}
               style={{ x }}
-              className="flex gap-6"
+              className="flex cursor-grab gap-6 active:cursor-grabbing"
               onDragEnd={() => {
                 const currentX = x.get();
                 const cardWithGap = cardWidth + gap;
@@ -361,49 +425,57 @@ export default function HeroSection() {
               {experienceTimeline.map((item, idx) => (
                 <motion.div
                   key={idx}
-                  className="min-w-[280px] perspective flex-shrink-0 cursor-pointer"
+                  className="perspective min-w-[280px] flex-shrink-0 cursor-pointer"
                   onClick={() => handleCardClick(idx)}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05, duration: 0.4 }}
                 >
                   <motion.div
-                    className="relative h-[300px] w-[280px] rounded-lg shadow-lg"
+                    className="relative h-[300px] w-[280px] rounded-xl shadow-lg"
                     animate={{ rotateY: flippedCard === idx ? 180 : 0 }}
                     transition={{ duration: 0.6 }}
                     style={{ transformStyle: "preserve-3d" }}
                   >
-                    {/* Front */}
+
                     <div
-                      className="absolute inset-0 bg-gray-900/50 border border-gray-800 rounded-lg flex flex-col justify-between p-4"
+                      className="absolute inset-0 flex flex-col justify-between rounded-xl border border-white/10 bg-gray-900/50 p-5 backdrop-blur-sm"
                       style={{ backfaceVisibility: "hidden" }}
                     >
                       <div>
-                        <h4 className="text-lg md:text-xl font-semibold text-white text-center md:text-left">
-                          {item.title}{" "}
-                          <span className="text-blue-400">
-                            — {item.company}
-                          </span>
-                        </h4>
-                        <p className="text-sm text-gray-500 text-center md:text-left">
+                        <p className="mb-2 text-xs font-medium text-gray-500">
                           {item.year}
                         </p>
+                        <h4 className="text-lg font-semibold text-white md:text-xl">
+                          {item.title}
+                        </h4>
+                        <p className="text-sm font-medium text-gray-300">
+                          {item.company}
+                        </p>
                       </div>
-                      <p className="mt-2 text-sm md:text-base text-gray-400">
+                      <p className="mt-2 text-sm text-gray-400">
                         {item.description}
                       </p>
+                      {item.details && (
+                        <span className="mt-3 text-xs text-gray-600">
+                          Click to flip →
+                        </span>
+                      )}
                     </div>
 
-                    {/* Back */}
                     {item.details && (
                       <div
-                        className="absolute inset-0 bg-gray-800/70 border border-teal-500/50 rounded-lg flex flex-col justify-start p-4 "
+                        className="absolute inset-0 flex flex-col justify-start rounded-xl border border-white/30 bg-gray-800/70 p-5 backdrop-blur-sm"
                         style={{
                           transform: "rotateY(180deg)",
                           backfaceVisibility: "hidden",
                         }}
                       >
-                        <h4 className="text-lg md:text-xl font-semibold text-white mb-2 ">
-                          Experience Details
+                        <h4 className="mb-2 text-lg font-semibold text-white md:text-xl">
+                          Highlights
                         </h4>
-                        <ul className="list-disc list-inside text-gray-400 text-sm md:text-base space-y-1 overflow-y-auto max-h-[300px]">
+                        <ul className="list-inside list-disc space-y-1 overflow-hidden text-sm text-gray-400">
                           {showBackText === idx &&
                             item.details.map((detail: string, i: number) => (
                               <li key={i}>{detail}</li>
@@ -418,37 +490,39 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Education */}
         <motion.div
-          variants={fadeInSection}
+          variants={container}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="w-full max-w-5xl mx-auto px-4"
+          className="mx-auto w-full max-w-5xl px-4"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
+          <h3 className="mb-6 text-center text-2xl font-bold text-white md:text-3xl">
             Education
           </h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            {educationTimeline.map((item, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-lg bg-gray-900/50 border border-gray-800"
-              >
-                <h4 className="text-lg md:text-xl font-semibold text-white">
-                  {item.title}{" "}
-                  <span className="text-teal-400">— {item.company}</span>
-                </h4>
-                <p className="text-sm text-gray-500">{item.year}</p>
-                <p className="mt-2 text-sm md:text-base text-gray-400">
-                  {item.description}
-                </p>
-              </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {educationTimeline.map((edu, idx) => (
+              <motion.div key={idx} variants={item}>
+                <TiltCard
+                  max={5}
+                  className="glow-border h-full rounded-xl border border-white/10 bg-gray-900/50 p-5 backdrop-blur-sm"
+                >
+                  <p className="text-xs font-medium text-gray-500">{edu.year}</p>
+                  <h4 className="mt-1 text-lg font-semibold text-white md:text-xl">
+                    {edu.title}
+                  </h4>
+                  <p className="text-sm font-medium text-gray-300">
+                    {edu.company}
+                  </p>
+                  <p className="mt-2 text-sm text-gray-400 md:text-base">
+                    {edu.description}
+                  </p>
+                </TiltCard>
+              </motion.div>
             ))}
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 }

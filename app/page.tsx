@@ -1,15 +1,21 @@
-'use client';
-
+import AnimatedBackground from './components/AnimatedBackground';
 import HeroSection from './components/HeroSection';
 import ProjectsSection from './components/ProjectsSection';
 import ContactSection from './components/ContactSection';
 
 export default function FullStackPortfolio() {
 	return (
-		<main className="min-h-screen bg-gradient-to-b from-gray-950 to-black text-white">
-			<HeroSection />
-			<ProjectsSection />
-			<ContactSection />
+		<main className="relative min-h-screen text-white">
+			<AnimatedBackground />
+			<section id="home">
+				<HeroSection />
+			</section>
+			<section id="projects">
+				<ProjectsSection />
+			</section>
+			<section id="contact">
+				<ContactSection />
+			</section>
 		</main>
 	);
 }
