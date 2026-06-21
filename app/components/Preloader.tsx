@@ -10,13 +10,12 @@ export default function Preloader() {
   const [instant, setInstant] = useState(false);
 
   useEffect(() => {
-    if (reduce || sessionStorage.getItem("introSeen")) {
+    if (reduce) {
       setInstant(true);
       setShow(false);
       return;
     }
 
-    sessionStorage.setItem("introSeen", "1");
     document.body.style.overflow = "hidden";
 
     const timer = setTimeout(() => setShow(false), 1700);
