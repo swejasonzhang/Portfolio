@@ -132,7 +132,7 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
     >
       <TiltCard
         max={4}
-        className="glow-border overflow-hidden rounded-2xl border border-white/10 bg-gray-900/40 backdrop-blur-sm transition-colors hover:bg-gray-900/60"
+        className="glow-border overflow-hidden rounded-2xl border border-white/10 bg-gray-900/60 transition-colors hover:bg-gray-900/75"
       >
         <div className="grid grid-cols-1 gap-8 p-6 md:p-8 lg:grid-cols-2">
           <div
@@ -195,7 +195,7 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
               style={reduce ? undefined : { y }}
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 250, damping: 20 }}
-              className="w-full overflow-hidden rounded-lg"
+              className="w-full overflow-hidden rounded-lg will-change-transform"
             >
               <Image
                 src={proj.image}

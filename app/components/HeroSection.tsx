@@ -246,7 +246,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1, duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-gray-300 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-xs font-medium text-gray-300"
           >
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
@@ -313,7 +313,7 @@ export default function HeroSection() {
             </MagneticButton>
             <MagneticButton
               href="#contact"
-              className="inline-block rounded-lg border border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-gray-200 backdrop-blur-sm transition-colors hover:bg-white/10"
+              className="inline-block rounded-lg border border-white/20 bg-white/10 px-6 py-2.5 text-sm font-medium text-gray-200 transition-colors hover:bg-white/10"
             >
               Get in Touch
             </MagneticButton>
@@ -334,7 +334,7 @@ export default function HeroSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="mx-auto mb-16 w-full max-w-4xl rounded-2xl border border-white/10 bg-gray-900/40 p-6 backdrop-blur-sm md:p-8"
+          className="mx-auto mb-16 w-full max-w-4xl rounded-2xl border border-white/10 bg-gray-900/60 p-6 md:p-8"
         >
           <h3 className="mb-8 text-center text-2xl font-bold text-white md:text-3xl">
             What I Do
@@ -440,7 +440,7 @@ export default function HeroSection() {
                   >
 
                     <div
-                      className="absolute inset-0 flex flex-col justify-between rounded-xl border border-white/10 bg-gray-900/50 p-5 backdrop-blur-sm"
+                      className="absolute inset-0 flex flex-col justify-between rounded-xl border border-white/10 bg-gray-900/70 p-5"
                       style={{ backfaceVisibility: "hidden" }}
                     >
                       <div>
@@ -466,7 +466,7 @@ export default function HeroSection() {
 
                     {item.details && (
                       <div
-                        className="absolute inset-0 flex flex-col justify-start rounded-xl border border-white/30 bg-gray-800/70 p-5 backdrop-blur-sm"
+                        className="absolute inset-0 flex flex-col justify-start rounded-xl border border-white/30 bg-gray-800/85 p-5"
                         style={{
                           transform: "rotateY(180deg)",
                           backfaceVisibility: "hidden",
@@ -505,7 +505,7 @@ export default function HeroSection() {
               <motion.div key={idx} variants={item}>
                 <TiltCard
                   max={5}
-                  className="glow-border h-full rounded-xl border border-white/10 bg-gray-900/50 p-5 backdrop-blur-sm"
+                  className="glow-border h-full rounded-xl border border-white/10 bg-gray-900/70 p-5"
                 >
                   <p className="text-xs font-medium text-gray-500">{edu.year}</p>
                   <h4 className="mt-1 text-lg font-semibold text-white md:text-xl">
