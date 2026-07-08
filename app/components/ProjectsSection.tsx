@@ -24,6 +24,19 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "Second Brain",
+    description:
+      "Second Brain is an AI-powered knowledge base that lets you capture notes, search them by meaning instead of keywords, and chat with your own knowledge — answers are streamed and grounded in your notes with cited sources.",
+    details: [
+      "Full-stack Next.js 16 (App Router, React Server Components, Server Actions) with a streaming Retrieval-Augmented Generation (RAG) chat endpoint",
+      "Semantic search over Postgres + pgvector (HNSW index) with Gemini embeddings, Clerk auth for per-user data isolation, and a Vitest test suite",
+    ],
+    tech: ["Next.js", "TypeScript", "pgvector", "Drizzle", "Gemini", "Clerk"],
+    live: "https://second-brain-ai-knowledge-base.vercel.app",
+    github: "https://github.com/swejasonzhang/SecondBrain",
+    image: "/assets/SecondBrain.jpg",
+  },
+  {
     title: "Inkmity",
     description:
       "Inkmity is a modern web application connecting tattoo clients and artists, designed to simplify the process of finding the right artist based on your preferences. It provides a space for clients to explore designs, discover local talent, and engage with a community that appreciates and celebrates tattoo art.",
@@ -35,6 +48,19 @@ const projects: Project[] = [
     live: "https://inkmity.com/",
     github: "https://github.com/swejasonzhang/Inkmity",
     image: "/assets/Inkmity.jpg",
+  },
+  {
+    title: "Battlefield: Tanks",
+    description:
+      "Battlefield: Tanks is a turn-based artillery duel inspired by Pocket Tanks, built entirely from scratch with vanilla JavaScript and the HTML5 Canvas API — no framework and no build step. Two players lob shells across scrolling, destructible terrain, minding angle, power, and gravity.",
+    details: [
+      "Custom pseudo-3D voxel renderer draws every tank from cuboids with orthographic projection and flat-face shading — no 3D library",
+      "Procedurally generated destructible terrain with splash damage, a live trajectory aiming arc, per-turn stamina and timers, and a localStorage leaderboard",
+    ],
+    tech: ["JavaScript", "HTML5 Canvas", "ES Modules", "Pixel Art"],
+    live: "https://swejasonzhang.github.io/Battlefield-Tanks/",
+    github: "https://github.com/swejasonzhang/Battlefield-Tanks",
+    image: "/assets/BattlefieldTanks.jpg",
   },
   {
     title: "Amazeon",
@@ -236,7 +262,7 @@ export default function ProjectsSection() {
             transition={{ duration: 0.7 }}
             className="text-3xl font-bold md:text-4xl"
           >
-            Full Stack Projects
+            Featured Projects
           </motion.h2>
         </motion.div>
 
