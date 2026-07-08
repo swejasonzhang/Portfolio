@@ -7,6 +7,7 @@ import YinYang from "./YinYang";
 const links = [
   { id: "home", label: "Home" },
   { id: "projects", label: "Projects" },
+  { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -58,18 +59,23 @@ export default function Navbar() {
       <nav
         className={`mx-auto flex max-w-5xl items-center justify-between px-5 py-3 transition-all duration-300 md:px-6 ${
           scrolled
-            ? "mt-3 rounded-full border border-white/10 bg-gray-950/70 shadow-lg shadow-black/40 backdrop-blur-md md:mx-auto md:max-w-3xl"
+            ? "mt-3 rounded-full border border-white/10 bg-black shadow-lg shadow-black/40 md:mx-auto md:max-w-3xl"
             : "mt-0 border border-transparent bg-transparent"
         }`}
       >
         <a
           href="#home"
-          className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white"
+          className="flex items-center gap-2 text-white"
         >
-          <motion.span style={{ rotate: markRotation }} className="inline-flex">
+          <motion.span
+            style={{ rotate: markRotation }}
+            className="inline-flex text-white"
+          >
             <YinYang className="h-5 w-5" />
           </motion.span>
-          <span className="hidden xs:inline">Jason Zhang</span>
+          <span className="hidden font-display text-lg tracking-wide xs:inline">
+            Jason Zhang
+          </span>
         </a>
 
         <ul className="flex items-center gap-1 sm:gap-2">
@@ -83,7 +89,11 @@ export default function Navbar() {
                   <motion.span
                     layoutId="nav-pill"
                     className="absolute inset-0 rounded-full bg-white/10"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
                   />
                 )}
                 <span

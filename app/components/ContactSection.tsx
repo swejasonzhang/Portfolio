@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import MagneticButton from "./MagneticButton";
+import { Divider } from "./ink/Motifs";
 
 const socials = [
   {
@@ -46,24 +47,25 @@ export default function ContactSection() {
         variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         className="mx-auto max-w-4xl space-y-8 text-center"
       >
-        <motion.p
-          variants={fadeUp}
-          className="text-sm font-medium uppercase tracking-[0.2em] text-gray-400"
-        >
-          Get in touch
-        </motion.p>
+        <motion.div variants={fadeUp}>
+          <Divider className="mx-auto mb-4 h-5 w-64 text-white/60" />
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-gray-400">
+            Get in touch
+          </p>
+        </motion.div>
         <motion.h2
           variants={blurUp}
-          className="text-3xl font-bold md:text-4xl"
+          className="font-display text-4xl text-white md:text-6xl"
         >
-          Let&apos;s Build Something Amazing
+          Let&apos;s build something worth building
         </motion.h2>
         <motion.p
           variants={fadeUp}
           className="mx-auto max-w-2xl text-gray-400"
         >
-          Looking for a full-stack developer who can architect and implement
-          complete solutions? Let&apos;s discuss your project.
+          Got a role, a project, or just an idea worth chasing? My inbox is
+          always open &mdash; I&apos;d genuinely love to hear what you&apos;re
+          working on and figure out how I can help.
         </motion.p>
 
         <motion.div
@@ -98,7 +100,7 @@ export default function ContactSection() {
         >
           <MagneticButton
             href="mailto:swejasonzhang@gmail.com"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-8 py-3 font-semibold text-black transition-colors hover:bg-gray-200"
+            className="inline-flex items-center justify-center gap-2 rounded-sm bg-white px-8 py-3 font-mono text-xs font-semibold uppercase tracking-widest text-black transition-colors hover:bg-gray-200"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
@@ -111,7 +113,7 @@ export default function ContactSection() {
             href="/assets/swejasonzhang.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-8 py-3 font-medium text-gray-200 transition-colors hover:bg-white/10"
+            className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/20 px-8 py-3 font-mono text-xs font-medium uppercase tracking-widest text-gray-200 transition-colors hover:bg-white/10"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
               <path

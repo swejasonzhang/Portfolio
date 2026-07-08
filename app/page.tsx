@@ -1,6 +1,7 @@
 import AnimatedBackground from './components/AnimatedBackground';
 import HeroSection from './components/HeroSection';
 import ProjectsSection from './components/ProjectsSection';
+import OtherHalfSection from './components/OtherHalfSection';
 import ContactSection from './components/ContactSection';
 
 export default function FullStackPortfolio() {
@@ -12,6 +13,9 @@ export default function FullStackPortfolio() {
 			</section>
 			<section id="projects">
 				<ProjectsSection />
+			</section>
+			<section id="about">
+				<OtherHalfSection />
 			</section>
 			<section id="contact">
 				<ContactSection />

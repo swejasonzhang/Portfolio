@@ -29,14 +29,14 @@ export default function OpengraphImage() {
         <div style={{ display: "flex", fontSize: 76, fontWeight: 700 }}>
           {siteConfig.name}
         </div>
-        <div style={{ display: "flex", fontSize: 34, color: "#cbd5e1" }}>
+        <div style={{ display: "flex", fontSize: 34, color: "#d1d5db" }}>
           Full Stack Developer
         </div>
         <div
           style={{
             display: "flex",
             fontSize: 24,
-            color: "#94a3b8",
+            color: "#9ca3af",
             marginTop: 8,
           }}
         >

@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import TiltCard from "./TiltCard";
 import MagneticButton from "./MagneticButton";
+import { Divider } from "./ink/Motifs";
 
 interface Project {
   title: string;
@@ -158,7 +159,7 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
     >
       <TiltCard
         max={4}
-        className="glow-border overflow-hidden rounded-2xl border border-white/10 bg-gray-900/60 transition-colors hover:bg-gray-900/75"
+        className="flash-frame overflow-hidden rounded-sm bg-[#050505]"
       >
         <div className="grid grid-cols-1 gap-8 p-6 md:p-8 lg:grid-cols-2">
           <div
@@ -167,22 +168,29 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="font-mono text-sm text-gray-600">
-                {String(index + 1).padStart(2, "0")}
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-gray-500">
+                Nº {String(index + 1).padStart(2, "0")}
               </span>
-              <h3 className="text-2xl font-bold text-white">{proj.title}</h3>
+              <span className="h-px flex-1 bg-white/15" />
+              <span className="h-1.5 w-1.5 rotate-45 bg-white/50" />
             </div>
+            <h3 className="font-display text-3xl text-white md:text-4xl">
+              {proj.title}
+            </h3>
             <p className="text-gray-400">{proj.description}</p>
-            <ul className="list-inside list-disc space-y-1 text-sm text-gray-400">
+            <ul className="space-y-1.5 text-sm text-gray-400">
               {proj.details.map((d, i) => (
-                <li key={i}>{d}</li>
+                <li key={i} className="flex gap-2">
+                  <span className="mt-1.5 h-1 w-1 flex-shrink-0 rotate-45 bg-white" />
+                  <span>{d}</span>
+                </li>
               ))}
             </ul>
             <div className="flex flex-wrap gap-2">
               {proj.tech.map((t) => (
                 <span
                   key={t}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-gray-300"
+                  className="rounded-sm border border-white/15 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-gray-300"
                 >
                   {t}
                 </span>
@@ -194,7 +202,7 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 strength={0.2}
-                className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-gray-200"
+                className="inline-flex items-center gap-2 rounded-sm bg-white px-4 py-2 font-mono text-xs font-semibold uppercase tracking-widest text-black transition-colors hover:bg-gray-200"
               >
                 Live Demo
                 {arrowIcon}
@@ -204,7 +212,7 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 strength={0.2}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-white/10"
+                className="inline-flex items-center gap-2 rounded-sm border border-white/20 px-4 py-2 font-mono text-xs font-medium uppercase tracking-widest text-gray-200 transition-colors hover:bg-white/10"
               >
                 {githubIcon}
                 GitHub
@@ -213,6 +221,7 @@ function ProjectCard({ proj, index }: { proj: Project; index: number }) {
           </div>
 
           <div
+            data-cursor="view"
             className={`flex items-center justify-center overflow-hidden rounded-xl bg-black/30 p-4 ${
               reversed ? "lg:order-1" : "lg:order-2"
             }`}
@@ -252,7 +261,8 @@ export default function ProjectsSection() {
           transition={{ duration: 0.5 }}
           className="mb-16 text-center"
         >
-          <p className="mb-2 text-sm font-medium uppercase tracking-[0.2em] text-gray-400">
+          <Divider className="mx-auto mb-4 h-5 w-64 text-white/60" />
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-gray-400">
             Selected work
           </p>
           <motion.h2
@@ -260,7 +270,7 @@ export default function ProjectsSection() {
             whileInView={{ filter: "blur(0px)", opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="text-3xl font-bold md:text-4xl"
+            className="font-display text-4xl text-white md:text-6xl"
           >
             Featured Projects
           </motion.h2>
