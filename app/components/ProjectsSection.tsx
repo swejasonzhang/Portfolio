@@ -11,6 +11,7 @@ import { useRef } from "react";
 import MagneticButton from "./MagneticButton";
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
+import Backdrop from "./Backdrop";
 import { reveal, revealFrom, stagger, VIEWPORT } from "../lib/motion";
 
 interface Project {
@@ -387,8 +388,9 @@ export default function ProjectsSection() {
     <section
       id="projects"
       aria-labelledby="projects-title"
-      className="py-24 md:py-32"
+      className="relative isolate py-24 md:py-32"
     >
+      <Backdrop variant="rings" />
       <div className="container-ink">
         <SectionHeading
           id="projects-title"

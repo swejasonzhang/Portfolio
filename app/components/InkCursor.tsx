@@ -9,11 +9,12 @@ import {
   useVelocity,
 } from "framer-motion";
 
-type Mode = "idle" | "link" | "hi" | "drag" | "view";
+type Mode = "idle" | "link" | "hi" | "drag" | "view" | "flip";
 
 const LABELS: Partial<Record<Mode, string>> = {
   drag: "drag",
   view: "view",
+  flip: "flip",
   hi: "hello",
 };
 
@@ -23,6 +24,7 @@ const SCALES: Record<Mode, number> = {
   hi: 3.5,
   drag: 3.5,
   view: 3.5,
+  flip: 3.5,
 };
 
 /**

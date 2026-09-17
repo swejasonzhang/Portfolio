@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
 import YinYang from "./YinYang";
+import Backdrop from "./Backdrop";
 import { revealFrom, stagger, VIEWPORT } from "../lib/motion";
 
 const craft = [
@@ -28,7 +29,8 @@ const logic = [
  */
 export default function TwoSides() {
   return (
-    <section id="skills" aria-labelledby="skills-title" className="py-24 md:py-32">
+    <section id="skills" aria-labelledby="skills-title" className="relative isolate py-24 md:py-32">
+      <Backdrop variant="seam" />
       <div className="container-ink">
         <SectionHeading
           id="skills-title"

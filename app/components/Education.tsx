@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
 import YinYang from "./YinYang";
+import Backdrop from "./Backdrop";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
 
 const PAST = [
@@ -29,7 +30,8 @@ const META =
 
 export default function Education() {
   return (
-    <section id="education" aria-labelledby="education-title" className="py-24 md:py-32">
+    <section id="education" aria-labelledby="education-title" className="relative isolate py-24 md:py-32">
+      <Backdrop variant="graph" />
       <div className="container-ink">
         <SectionHeading id="education-title" no="03" kicker="Where it started" title="Education" />
 

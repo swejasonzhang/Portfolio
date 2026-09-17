@@ -38,7 +38,12 @@ export default function Preloader() {
 
     const controls = animate(p, 100, { duration: 0.9, ease: EASE_OUT });
     controls.then(() => setShow(false));
-    return () => controls.stop();
+    // Safety net: whatever happens to the exit animation, unlock the page.
+    const fallback = window.setTimeout(release, 3000);
+    return () => {
+      controls.stop();
+      window.clearTimeout(fallback);
+    };
   }, [reduce, p]);
 
   const release = () => {

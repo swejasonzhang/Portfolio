@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import TiltCard from "./TiltCard";
 import SectionHeading from "./SectionHeading";
+import Backdrop from "./Backdrop";
 import { Rose, Moth } from "./ink/Motifs";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
 
@@ -90,8 +91,9 @@ export default function OtherHalfSection() {
     <section
       id="about"
       aria-labelledby="about-title"
-      className="paper relative bg-paper py-24 text-black md:py-32"
+      className="paper relative isolate bg-paper py-24 text-black md:py-32"
     >
+      <Backdrop variant="ruled" />
       <span
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-1 border-y border-black/70"

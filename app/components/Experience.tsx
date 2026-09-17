@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useRef, useState } from "react";
 import SectionHeading from "./SectionHeading";
+import Backdrop from "./Backdrop";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
 
 type Role = {
@@ -116,7 +117,8 @@ function RoleCard({
       aria-expanded={flipped}
       aria-controls={id}
       onClick={onFlip}
-      className="relative block h-[320px] w-full text-left [perspective:1200px]"
+      data-cursor="flip"
+      className="relative block h-[320px] w-full cursor-pointer text-left [perspective:1200px]"
     >
       <div
         className={`preserve-3d relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] ${
@@ -179,37 +181,33 @@ export default function Experience() {
   const trackRef = useRef<HTMLUListElement>(null);
   const [flipped, setFlipped] = useState<number | null>(null);
 
-  // Mouse drag-to-scroll state
-  const dragRef = useRef<{ startX: number; scrollLeft: number; pointerId: number } | null>(null);
+  // Mouse drag-to-scroll. No pointer capture: capturing on the list would
+  // redirect the click to the list and the card buttons would never flip.
   const draggedRef = useRef(false);
 
   function onPointerDown(e: React.PointerEvent<HTMLUListElement>) {
     if (e.pointerType !== "mouse" || e.button !== 0) return;
     const el = trackRef.current;
     if (!el) return;
-    dragRef.current = { startX: e.clientX, scrollLeft: el.scrollLeft, pointerId: e.pointerId };
+    const startX = e.clientX;
+    const startLeft = el.scrollLeft;
     draggedRef.current = false;
-    el.setPointerCapture(e.pointerId);
-  }
 
-  function onPointerMove(e: React.PointerEvent<HTMLUListElement>) {
-    const drag = dragRef.current;
-    const el = trackRef.current;
-    if (!drag || !el || e.pointerType !== "mouse") return;
-    const dx = e.clientX - drag.startX;
-    if (Math.abs(dx) > 6) draggedRef.current = true;
-    el.scrollLeft = drag.scrollLeft - dx;
-  }
-
-  function endDrag(e: React.PointerEvent<HTMLUListElement>) {
-    const drag = dragRef.current;
-    const el = trackRef.current;
-    if (!drag || !el) return;
-    if (el.hasPointerCapture(drag.pointerId)) el.releasePointerCapture(drag.pointerId);
-    dragRef.current = null;
-    // Ignore the click that follows a drag; clear the flag on the next tick.
-    if (draggedRef.current) setTimeout(() => (draggedRef.current = false), 0);
-    void e;
+    const move = (ev: PointerEvent) => {
+      const dx = ev.clientX - startX;
+      if (Math.abs(dx) > 6) draggedRef.current = true;
+      el.scrollLeft = startLeft - dx;
+    };
+    const end = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", end);
+      window.removeEventListener("pointercancel", end);
+      // The click fires right after pointerup; clear the flag on the next tick.
+      if (draggedRef.current) setTimeout(() => (draggedRef.current = false), 0);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end);
+    window.addEventListener("pointercancel", end);
   }
 
   function handleFlip(i: number) {
@@ -226,14 +224,15 @@ export default function Experience() {
   }
 
   return (
-    <section id="experience" aria-labelledby="experience-title" className="py-24 md:py-32">
+    <section id="experience" aria-labelledby="experience-title" className="relative isolate py-24 md:py-32">
+      <Backdrop variant="hatch" />
       <div className="container-ink">
         <SectionHeading
           id="experience-title"
           no="02"
           kicker="Where I've worked"
           title="Experience"
-          hint="Scroll or drag — open a card for highlights"
+          hint="Scroll or drag — click a card to flip it"
         />
       </div>
 
@@ -249,10 +248,7 @@ export default function Experience() {
           whileInView="visible"
           viewport={VIEWPORT}
           onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
-          className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 pt-2 cursor-grab active:cursor-grabbing"
+          className="hide-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 pt-2 select-none cursor-grab active:cursor-grabbing"
           style={{
             paddingLeft: COLUMN_PAD,
             paddingRight: "2rem",

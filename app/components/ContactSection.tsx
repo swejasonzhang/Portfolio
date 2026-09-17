@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import MagneticButton from "./MagneticButton";
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
+import Backdrop from "./Backdrop";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
 import { siteConfig } from "../site";
 
@@ -21,7 +22,8 @@ export default function ContactSection() {
   const mailto = `mailto:${siteConfig.email}`;
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="py-24 md:py-32">
+    <section id="contact" aria-labelledby="contact-title" className="relative isolate py-24 md:py-32">
+      <Backdrop variant="floor" />
       <div className="container-ink">
         <TiltCard max={2} className="flash-frame p-7 sm:p-10 md:p-14 lg:p-16">
           <motion.div
