@@ -1,10 +1,13 @@
 export const siteConfig = {
   name: "Jason Zhang",
-  title: "Jason Zhang — Full Stack Developer",
+  role: "Full-Stack Developer",
+  title: "Jason Zhang — Full-Stack Developer",
   description:
-    "Full-stack developer building scalable MERN applications. Explore my projects, experience, and technical work across the entire development stack.",
+    "Full-stack developer in New York. React, Next.js, Node and Postgres — from a streaming RAG knowledge base to a from-scratch canvas game engine.",
   url: "https://swejasonzhang.netlify.app",
   email: "swejasonzhang@gmail.com",
+  resume: "/assets/swejasonzhang.pdf",
+  location: "New York, NY",
   locationLocality: "New York City",
   locationRegion: "NY",
   locationCountry: "US",

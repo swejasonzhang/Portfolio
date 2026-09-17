@@ -1,5 +1,3 @@
-"use client";
-
 const stack = [
   "React",
   "Next.js",
@@ -19,19 +17,35 @@ const stack = [
   "Docker",
 ];
 
+function Row({ hidden = false }: { hidden?: boolean }) {
+  return (
+    <div className="flex shrink-0" aria-hidden={hidden || undefined}>
+      {stack.map((tech) => (
+        <span
+          key={tech}
+          className="mr-8 flex items-center gap-4 whitespace-nowrap font-mono text-2xs uppercase tracking-label text-gray-400"
+        >
+          <span aria-hidden="true" className="h-1 w-1 rotate-45 bg-white/60" />
+          {tech}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Full-bleed hairline band that closes the hero: the stack, set in mono,
+ * looping seamlessly. Two identical rows; the track slides -50%.
+ */
 export default function TechMarquee() {
   return (
-    <div className="relative mx-auto w-full max-w-2xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-      <div className="flex w-max animate-marquee gap-3 hover:[animation-play-state:paused]">
-        {[...stack, ...stack].map((tech, i) => (
-          <span
-            key={i}
-            className="flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-white/60" />
-            {tech}
-          </span>
-        ))}
+    <div
+      aria-label="Technologies"
+      className="bleed mask-fade-x overflow-hidden border-y border-line py-3"
+    >
+      <div className="flex w-max animate-marquee">
+        <Row />
+        <Row hidden />
       </div>
     </div>
   );

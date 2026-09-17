@@ -1,95 +1,158 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import TiltCard from "./TiltCard";
-import YinYang from "./YinYang";
+import SectionHeading from "./SectionHeading";
 import { Rose, Moth } from "./ink/Motifs";
+import { reveal, stagger, VIEWPORT } from "../lib/motion";
 
-interface Passion {
-  motif: ReactNode;
+interface Half {
+  key: string;
+  word: string;
+  no: string;
   title: string;
-  body: string;
+  mark: ReactNode;
+  watermark: ReactNode;
+  body: ReactNode;
+  offset: string;
 }
 
-const passions: Passion[] = [
+const linkClass = "ink-underline font-medium text-black";
+
+const halves: Half[] = [
   {
-    motif: <Rose className="h-10 w-10" strokeWidth={1.6} />,
+    key: "ink",
+    word: "Ink",
+    no: "01",
     title: "Art & Ink",
-    body: "I’m drawn to people who make things by hand. Tattoo artists turn a blank arm into a story — the yin-yang I keep coming back to is proof of how much a single clean design can mean. That respect for craft is exactly why I built Inkmity, and it’s the same instinct that makes me sweat the details of an interface.",
+    mark: (
+      <Rose
+        className="absolute right-6 top-6 h-14 w-14 text-black"
+        strokeWidth={2.4}
+      />
+    ),
+    watermark: (
+      <Rose
+        className="pointer-events-none absolute -bottom-12 -right-12 h-64 w-64 text-black/[0.06]"
+        strokeWidth={1}
+      />
+    ),
+    body: (
+      <>
+        I&rsquo;m drawn to people who make things by hand. A tattoo artist turns
+        a blank arm into a story, and the yin-yang I keep coming back to shows
+        how much one clean design can carry. That respect for craft is why I
+        built{" "}
+        <a href="#project-inkmity" className={linkClass}>
+          Inkmity
+        </a>{" "}
+        &mdash; and why I sweat every pixel of an interface.
+      </>
+    ),
+    offset: "md:mb-16",
   },
   {
-    motif: <Moth className="h-10 w-10" strokeWidth={1.6} />,
+    key: "play",
+    word: "Play",
+    no: "02",
     title: "Games & Play",
-    body: "I grew up taking games apart to see how they ticked, so at some point I built my own — a tank-duel engine with destructible terrain, written from scratch on a bare canvas. Play is how I learn best: give me a system and I’ll want to know every rule holding it together.",
+    mark: (
+      <Moth
+        className="absolute right-6 top-6 h-14 w-14 text-black"
+        strokeWidth={2.4}
+      />
+    ),
+    watermark: (
+      <Moth
+        className="pointer-events-none absolute -bottom-12 -right-12 h-64 w-64 text-black/[0.06]"
+        strokeWidth={1}
+      />
+    ),
+    body: (
+      <>
+        I grew up taking games apart to see how they ticked, so eventually I
+        built my own:{" "}
+        <a href="#project-battlefield-tanks" className={linkClass}>
+          Battlefield: Tanks
+        </a>
+        , a tank duel with destructible terrain, written from scratch on a bare
+        canvas. Play is how I learn &mdash; hand me a system and I&rsquo;ll want
+        every rule holding it together.
+      </>
+    ),
+    offset: "md:mt-16",
   },
 ];
 
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
 export default function OtherHalfSection() {
   return (
-    <div className="relative px-4 py-24">
-      <div className="mx-auto max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-14 text-center"
-        >
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-gray-400">
-            Beyond the code
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <span className="h-px w-10 bg-gradient-to-r from-transparent to-white/30" />
-            <YinYang className="h-8 w-8 animate-spin-slow" />
-            <span className="h-px w-10 bg-gradient-to-l from-transparent to-white/30" />
-          </div>
-          <h2 className="mt-4 font-display text-4xl text-white md:text-6xl">
-            The Other Half
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-gray-400">
-            The code is only one side of me. The other side is where the code
-            gets its taste.
-          </p>
-        </motion.div>
+    <section
+      id="about"
+      aria-labelledby="about-title"
+      className="paper relative bg-paper py-24 text-black md:py-32"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-1 border-y border-black/70"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-1 border-y border-black/70"
+      />
+
+      <div className="container-ink">
+        <SectionHeading
+          id="about-title"
+          no="05"
+          kicker="Beyond the code"
+          title="The Other Half"
+          lead="Code is one half of the picture. This is the other."
+          tone="paper"
+        />
 
         <motion.div
-          variants={container}
+          variants={stagger(0.12)}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="grid gap-6 md:grid-cols-2"
+          viewport={VIEWPORT}
+          className="grid gap-6 md:grid-cols-2 md:gap-8"
         >
-          {passions.map((p) => (
-            <motion.div key={p.title} variants={item}>
+          {halves.map((h) => (
+            <motion.div key={h.key} variants={reveal} className={h.offset}>
               <TiltCard
-                max={5}
-                className="flash-frame flex h-full flex-col rounded-sm bg-[#050505] p-7 md:p-8"
+                max={4}
+                spot="dark"
+                className="flash-frame flash-frame-paper h-full overflow-hidden p-7 pt-14 md:p-8 md:pt-16"
               >
-                <div className="mb-4 text-white/80" aria-hidden>
-                  {p.motif}
-                </div>
-                <h3 className="mb-3 font-display text-2xl text-white md:text-3xl">
-                  {p.title}
+                {h.mark}
+                {h.watermark}
+
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-2 left-5 select-none font-display text-8xl leading-none text-transparent [-webkit-text-stroke:1px_rgba(5,5,5,0.14)]"
+                >
+                  {h.word}
+                </span>
+
+                <p className="relative font-mono text-2xs uppercase tracking-label tabular-nums text-black/60">
+                  Nº {h.no} <span className="text-black/40">/ 02</span>
+                </p>
+
+                <h3 className="relative mt-3 font-display text-display-lg text-black">
+                  {h.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-gray-400 md:text-base">
-                  {p.body}
+
+                <span aria-hidden="true" className="my-4 block h-0.5 w-10 bg-black" />
+
+                <p className="relative text-[15px] leading-relaxed text-black/75 md:text-base">
+                  {h.body}
                 </p>
               </TiltCard>
             </motion.div>
           ))}
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

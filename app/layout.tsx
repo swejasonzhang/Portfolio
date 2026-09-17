@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Pirata_One } from 'next/font/google';
 import './globals.css';
+import MotionProvider from './components/MotionProvider';
+import Preloader from './components/Preloader';
+import InkCursor from './components/InkCursor';
+import AnimatedBackground from './components/AnimatedBackground';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Preloader from './components/Preloader';
 import BackToTop from './components/BackToTop';
-import InkCursor from './components/InkCursor';
 import { siteConfig } from './site';
 
 const geistSans = Geist({
@@ -33,21 +35,15 @@ export const metadata: Metadata = {
 	description: siteConfig.description,
 	applicationName: siteConfig.name,
 	keywords: [
+		'Jason Zhang',
+		'swejasonzhang',
 		'Full-Stack Developer',
 		'Software Engineer',
-		'Frontend Development',
-		'Backend Development',
 		'React',
 		'Next.js',
 		'Node.js',
 		'TypeScript',
-		'MongoDB',
-		'API Development',
-		'Cloud Solutions',
-		'DevOps',
-		'System Architecture',
-		'Web Development',
-		'Jason Zhang',
+		'New York',
 	],
 	authors: [{ name: siteConfig.name, url: siteConfig.url }],
 	creator: siteConfig.name,
@@ -91,6 +87,7 @@ export const viewport: Viewport = {
 	colorScheme: 'dark',
 	width: 'device-width',
 	initialScale: 1,
+	viewportFit: 'cover',
 };
 
 const personJsonLd = {
@@ -99,13 +96,19 @@ const personJsonLd = {
 	name: siteConfig.name,
 	url: siteConfig.url,
 	email: `mailto:${siteConfig.email}`,
-	jobTitle: 'Full Stack Developer',
+	jobTitle: siteConfig.role,
 	address: {
 		'@type': 'PostalAddress',
 		addressLocality: siteConfig.locationLocality,
 		addressRegion: siteConfig.locationRegion,
 		addressCountry: siteConfig.locationCountry,
 	},
+	alumniOf: [
+		{ '@type': 'CollegeOrUniversity', name: 'CUNY Queens College' },
+		{ '@type': 'CollegeOrUniversity', name: 'CUNY College of Staten Island' },
+		{ '@type': 'EducationalOrganization', name: 'App Academy' },
+	],
+	knowsAbout: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'MongoDB'],
 	sameAs: [
 		siteConfig.socials.github,
 		siteConfig.socials.linkedin,
@@ -125,12 +128,21 @@ export default function RootLayout({
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
 				/>
-				<Preloader />
-				<InkCursor />
-				<Navbar />
-				{children}
-				<Footer />
-				<BackToTop />
+				<a
+					href="#main"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-sm focus:bg-white focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-btn focus:text-black"
+				>
+					Skip to content
+				</a>
+				<MotionProvider>
+					<Preloader />
+					<InkCursor />
+					<AnimatedBackground />
+					<Navbar />
+					{children}
+					<Footer />
+					<BackToTop />
+				</MotionProvider>
 			</body>
 		</html>
 	);

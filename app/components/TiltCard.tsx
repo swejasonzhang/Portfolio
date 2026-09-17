@@ -5,74 +5,100 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  useMotionTemplate,
   useReducedMotion,
 } from "framer-motion";
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
+/**
+ * 3D tilt + a cursor spotlight, transform-only. Active for hover-capable
+ * pointers only, so a tap on touch never leaves a card tilted or lit.
+ */
 export default function TiltCard({
   children,
   className = "",
-  max = 7,
+  max = 6,
+  spot = "light",
 }: {
   children: ReactNode;
   className?: string;
   max?: number;
+  /** Spotlight color: light on ink plates, dark on the paper band. */
+  spot?: "light" | "dark";
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const [hovered, setHovered] = useState(false);
+  const [fine, setFine] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const on = () => setFine(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+
+  const active = fine && !reduce;
 
   const px = useMotionValue(0.5);
   const py = useMotionValue(0.5);
   const lx = useMotionValue(0);
   const ly = useMotionValue(0);
+  const glow = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(py, [0, 1], [max, -max]), {
-    stiffness: 150,
-    damping: 18,
-  });
-  const rotateY = useSpring(useTransform(px, [0, 1], [-max, max]), {
-    stiffness: 150,
-    damping: 18,
-  });
+  const tiltSpring = { stiffness: 170, damping: 22, mass: 0.6 };
+  const rotateX = useSpring(useTransform(py, [0, 1], [max, -max]), tiltSpring);
+  const rotateY = useSpring(useTransform(px, [0, 1], [-max, max]), tiltSpring);
+  const sx = useSpring(lx, { stiffness: 300, damping: 30 });
+  const sy = useSpring(ly, { stiffness: 300, damping: 30 });
+  const glowS = useSpring(glow, { stiffness: 200, damping: 30 });
 
-  const glow = useMotionTemplate`radial-gradient(220px circle at ${lx}px ${ly}px, rgba(255,255,255,0.12), transparent 65%)`;
-
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+  function handleMove(e: React.PointerEvent<HTMLDivElement>) {
     const el = ref.current;
-    if (!el || reduce) return;
+    if (!el || !active || e.pointerType !== "mouse") return;
     const r = el.getBoundingClientRect();
     px.set((e.clientX - r.left) / r.width);
     py.set((e.clientY - r.top) / r.height);
     lx.set(e.clientX - r.left);
     ly.set(e.clientY - r.top);
+    glow.set(1);
   }
 
   function handleLeave() {
-    setHovered(false);
     px.set(0.5);
     py.set(0.5);
+    glow.set(0);
   }
 
   return (
     <motion.div
       ref={ref}
-      onMouseMove={handleMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleLeave}
-      style={
-        reduce ? undefined : { rotateX, rotateY, transformPerspective: 900 }
-      }
+      onPointerMove={handleMove}
+      onPointerLeave={handleLeave}
+      onPointerCancel={handleLeave}
+      style={active ? { rotateX, rotateY, transformPerspective: 900 } : undefined}
       className={`relative ${className}`}
     >
       {children}
-      {!reduce && (
-        <motion.div
+      {active && (
+        <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300"
-          style={{ background: glow, opacity: hovered ? 1 : 0 }}
-        />
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+        >
+          <motion.div
+            className={`absolute left-0 top-0 h-[440px] w-[440px] rounded-full ${
+              spot === "dark"
+                ? "bg-[radial-gradient(circle,rgba(0,0,0,0.07),transparent_65%)]"
+                : "bg-[radial-gradient(circle,rgba(255,255,255,0.10),transparent_65%)]"
+            }`}
+            style={{
+              x: sx,
+              y: sy,
+              translateX: "-50%",
+              translateY: "-50%",
+              opacity: glowS,
+            }}
+          />
+        </div>
       )}
     </motion.div>
   );

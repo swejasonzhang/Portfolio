@@ -5,22 +5,44 @@
 :root {
   --background: #050505;
   --foreground: #f5f5f5;
+  /* Plate fill; sections and card faces may override it (e.g. the paper band). */
+  --plate: #050505;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  overflow-x: hidden;
-}
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    overflow-x: hidden;
+    font-family: theme(fontFamily.sans);
+    text-rendering: optimizeLegibility;
+  }
 
-::selection {
-  background: #f5f5f5;
-  color: #050505;
+  ::selection {
+    background: #f5f5f5;
+    color: #050505;
+  }
+  .paper ::selection {
+    background: #050505;
+    color: #f5f5f5;
+  }
+
+  /* Monochrome focus ring: crisp white hairline with a black gap. */
+  :focus-visible {
+    outline: 2px solid #f5f5f5;
+    outline-offset: 3px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  .paper :focus-visible {
+    outline-color: #050505;
+  }
 }
 
 /* Custom cursor: hide the native one only where our cursor is active */
@@ -38,44 +60,114 @@ body {
   background: #050505;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ffffff, #6b7280);
-  border-radius: 9999px;
+  background: #3a3a3a;
   border: 2px solid #050505;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8a8a8a;
 }
 
 @layer utilities {
-  /* --- Tattoo / neo-traditional ink system --- */
-  .font-display {
-    font-family: var(--font-display), "Times New Roman", serif;
-    font-weight: 400;
-    letter-spacing: 0.01em;
+  /* --- Layout --- */
+
+  /* The one shared column edge for every section. */
+  .container-ink {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 md:px-8;
   }
 
-  /* Heavy ink-bleed shadow for display headings */
+  /* Break a block out of its container to the full viewport width. */
+  .bleed {
+    @apply relative left-1/2 w-screen -translate-x-1/2;
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* --- Ink type --- */
+
+  /* A hairline of bleed on display headings; no glow. */
   .ink-bleed {
-    text-shadow: 0 0 1px rgba(255, 255, 255, 0.4),
-      0 2px 24px rgba(255, 255, 255, 0.12);
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.35);
   }
 
-  /* Outlined "hollow" flash lettering */
+  /* Hollow "flash" lettering: the yang half of a two-line name. */
   .ink-outline {
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
-    text-stroke: 1.5px rgba(255, 255, 255, 0.85);
+    -webkit-text-stroke: 1.5px #ffffff;
+    text-shadow: none; /* a text-shadow would paint the glyph silhouette under the hollow fill */
+  }
+  @media (min-width: 768px) {
+    .ink-outline {
+      -webkit-text-stroke-width: 2.5px;
+    }
+  }
+  @supports not (-webkit-text-stroke: 1px #fff) {
+    .ink-outline {
+      color: #fff;
+    }
+  }
+  .paper .ink-outline {
+    -webkit-text-stroke-color: rgba(5, 5, 5, 0.9);
   }
 
-  /* Double-rule divider used across the parlor */
+  /* Hand-inked underline that thickens on hover. */
+  .ink-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 1px;
+    padding-bottom: 2px;
+    transition: background-size 0.3s ease, color 0.2s ease;
+  }
+  .ink-underline:hover {
+    background-size: 100% 2px;
+  }
+
+  /* --- Rules --- */
+
   .rule-double {
+    height: 4px;
     border-top: 1px solid rgba(255, 255, 255, 0.35);
     border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-    height: 4px;
+  }
+  .paper .rule-double {
+    border-color: rgba(5, 5, 5, 0.4);
   }
 
-  /* Ornamental flash frame — a bordered plate with inset keyline */
+  /* --- Plates (add `relative` on the element; the frames use pseudo-elements) --- */
+
+  /* Light plate: hairline only. */
+  .plate {
+    background: var(--plate);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    transition: border-color 0.4s ease;
+  }
+  .plate:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Standard flash plate: border + inset keyline; inks in on hover. */
   .flash-frame {
-    position: relative;
+    background: var(--plate);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: inset 0 0 0 4px #050505, inset 0 0 0 5px rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 0 0 4px var(--plate), inset 0 0 0 5px rgba(255, 255, 255, 0.18);
+    transition: border-color 0.4s ease;
   }
   .flash-frame::after {
     content: "";
@@ -83,150 +175,60 @@ body {
     inset: 10px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     pointer-events: none;
+    transition: border-color 0.4s ease;
+  }
+  .flash-frame:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .flash-frame:hover::after {
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
-  /* Rough hand-inked underline */
-  .ink-underline {
-    background-image: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.9),
-      transparent
-    );
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 100% 2px;
-    padding-bottom: 2px;
+  /* Heavy plate: thicker border and corner ticks, for the one featured item in a group. */
+  .flash-frame-heavy {
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.55);
   }
-
-  .sparkle {
-    animation: sparkle 3.2s ease-in-out infinite;
-  }
-
-  .gradient-text {
-    background: linear-gradient(
-      90deg,
-      #ffffff,
-      #6b7280,
-      #ffffff,
-      #9ca3af,
-      #ffffff
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradient-pan 6s linear infinite;
-  }
-
-  .perspective {
-    perspective: 1200px;
-  }
-
-  .animate-spin-slow {
-    animation: spin-slow 44s linear infinite;
-  }
-
-  .animate-spin-slower {
-    animation: spin-slow 90s linear infinite;
-  }
-
-  .glow-border {
-    position: relative;
-  }
-  .glow-border::before {
+  .flash-frame-heavy::before {
     content: "";
     position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      130deg,
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.6)
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    inset: -8px;
     pointer-events: none;
+    background: linear-gradient(#fff, #fff) top left / 14px 2px no-repeat,
+      linear-gradient(#fff, #fff) top left / 2px 14px no-repeat,
+      linear-gradient(#fff, #fff) top right / 14px 2px no-repeat,
+      linear-gradient(#fff, #fff) top right / 2px 14px no-repeat,
+      linear-gradient(#fff, #fff) bottom left / 14px 2px no-repeat,
+      linear-gradient(#fff, #fff) bottom left / 2px 14px no-repeat,
+      linear-gradient(#fff, #fff) bottom right / 14px 2px no-repeat,
+      linear-gradient(#fff, #fff) bottom right / 2px 14px no-repeat;
   }
-  .glow-border:hover::before {
-    opacity: 1;
+  .flash-frame-heavy:hover {
+    border-color: rgba(255, 255, 255, 0.85);
   }
-}
 
-@keyframes gradient-pan {
-  to {
-    background-position: 200% center;
+  /* Paper plate: the inverted (yang) variant used inside the white band. */
+  .flash-frame-paper {
+    --plate: #f5f5f5;
+    border-color: rgba(5, 5, 5, 0.3);
+    box-shadow: inset 0 0 0 4px #f5f5f5, inset 0 0 0 5px rgba(5, 5, 5, 0.22);
   }
-}
+  .flash-frame-paper::after {
+    border-color: rgba(5, 5, 5, 0.1);
+  }
+  .flash-frame-paper:hover {
+    border-color: rgba(5, 5, 5, 0.65);
+  }
+  .flash-frame-paper:hover::after {
+    border-color: rgba(5, 5, 5, 0.25);
+  }
 
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
+  /* --- Texture --- */
 
-@keyframes breathe {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.06);
-  }
-}
-
-@keyframes sparkle {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: scale(0.8) rotate(0deg);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1) rotate(45deg);
-  }
-}
-
-@keyframes ink-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes aurora {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(4%, -6%) scale(1.1);
-  }
-  66% {
-    transform: translate(-5%, 4%) scale(0.95);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
+  /* Static film grain; rasterized once, never repaints. Use at 4-6% opacity. */
+  .grain {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23g)'/></svg>");
+    background-size: 200px 200px;
   }
 }
 
