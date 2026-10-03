@@ -19,10 +19,10 @@ interface Project {
   title: string;
   kind: string;
   description: string;
-  details: [string, string];
+  details: string[];
   tech: string[];
-  live: string;
-  github: string;
+  live?: string;
+  github?: string;
   image: string;
   featured: boolean;
 }
@@ -31,96 +31,85 @@ const TOTAL = 7;
 
 const projects: Project[] = [
   {
-    slug: "second-brain",
-    title: "Second Brain",
-    kind: "AI knowledge base",
-    description:
-      "Capture notes, search them by meaning instead of keywords, and chat with your own knowledge — answers stream back grounded in your notes, sources cited.",
-    details: [
-      "Streaming RAG chat on Next.js 16 App Router, Server Components and Server Actions",
-      "Semantic search on Postgres + pgvector (HNSW) with Gemini embeddings, per-user isolation via Clerk, Vitest suite",
-    ],
-    tech: ["Next.js", "TypeScript", "pgvector", "Drizzle", "Gemini", "Clerk"],
-    live: "https://second-brain-ai-knowledge-base.vercel.app",
-    github: "https://github.com/swejasonzhang/SecondBrain",
-    image: "/assets/SecondBrain.jpg",
-    featured: true,
-  },
-  {
     slug: "inkmity",
     title: "Inkmity",
-    kind: "Community platform",
+    kind: "Booking app · Live",
     description:
-      "Connects tattoo clients with the right artist — browse designs, discover local talent, and join a community that celebrates the craft.",
+      "An early-stage booking app, live since July 2026, where clients find tattoo artists, message them in real time and book a session with a card deposit.",
     details: [
-      "Waitlist sign-up, in-app notifications and a fully responsive interactive UI",
-      "AI roadmap: chatbot guidance and tattoo-placement visualization",
+      "Built the first version myself from Aug 2025 to Jan 2026: Clerk sign-in, client and artist dashboards, Socket.IO chat, a booking calendar, Cloudinary uploads and a Stripe deposit",
+      "Since June 2026 I build it with Claude Code, an AI coding agent: I specify each feature and fix, test it by hand in the live app and approve every release",
     ],
-    tech: ["MongoDB", "Express", "React", "Node.js", "Tailwind", "Framer Motion"],
+    tech: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Stripe"],
     live: "https://inkmity.com/",
-    github: "https://github.com/swejasonzhang/Inkmity",
     image: "/assets/Inkmity.jpg",
-    featured: true,
-  },
-  {
-    slug: "battlefield-tanks",
-    title: "Battlefield: Tanks",
-    kind: "Canvas game engine",
-    description:
-      "A turn-based artillery duel in the spirit of Pocket Tanks — vanilla JavaScript and the Canvas API, no framework, no build step. Mind your angle, power and gravity.",
-    details: [
-      "Custom pseudo-3D voxel renderer: every tank built from cuboids with orthographic projection and flat-face shading",
-      "Procedural destructible terrain, splash damage, live trajectory arc, per-turn stamina and timers, localStorage leaderboard",
-    ],
-    tech: ["JavaScript", "HTML5 Canvas", "ES Modules", "Pixel Art"],
-    live: "https://swejasonzhang.github.io/Battlefield-Tanks/",
-    github: "https://github.com/swejasonzhang/Battlefield-Tanks",
-    image: "/assets/BattlefieldTanks.jpg",
     featured: true,
   },
   {
     slug: "amazeon",
     title: "Amazeon",
-    kind: "E-commerce",
+    kind: "Online store",
     description:
-      "An Amazon-style storefront — browse and buy across a wide catalog, with rotating product imagery and a backend tuned for speed.",
+      "My solo App Academy capstone: an online store with a product catalog, search, customer reviews, a cart and a checkout.",
     details: [
-      "Rails + PostgreSQL backend behind a React/Redux storefront on AWS",
-      "Rotating product images, smooth UI transitions and optimized server performance",
+      "Built the original myself across 167 commits, Nov 2023 – Jul 2024; the checkout reduces each product's stock on purchase",
+      "In July 2026 I modernised the public repo with an AI coding agent; those commits come after the original build in the history",
     ],
-    tech: ["Ruby on Rails", "React", "Redux", "AWS", "PostgreSQL"],
-    live: "https://amazeon.onrender.com",
+    tech: ["Ruby on Rails", "PostgreSQL", "React", "Redux"],
     github: "https://github.com/swejasonzhang/FullStack",
     image: "/assets/Amazeon.jpg",
-    featured: false,
+    featured: true,
   },
   {
     slug: "bonjour-world",
     title: "Bonjour World",
-    kind: "Language exchange",
+    kind: "Team project",
     description:
-      "A language-exchange platform that pairs learners with teachers around the world.",
+      "A platform for hosting and finding language exchange events, built by a four-person App Academy team.",
     details: [
-      "Google Maps integration to find exchange partners by location",
-      "Google Translate API for real-time translation inside conversations",
+      "My part, across 15 pull requests I opened and merged: Google Places address autocomplete, profile image upload, search and the attendee list",
+      "Teammates wrote the translation and sign-in code",
     ],
-    tech: ["React", "Redux", "Node.js", "MongoDB", "Google Maps API"],
+    tech: ["MongoDB", "Express", "React", "Node.js", "Google Places"],
     live: "https://bonjourworld.onrender.com/",
     github: "https://github.com/yuris1234/Bonjour-World",
     image: "/assets/BonjourWorld.jpg",
+    featured: true,
+  },
+  {
+    slug: "battlefield-tanks",
+    title: "Battlefield: Tanks",
+    kind: "Canvas game",
+    description:
+      "A turn-based tank artillery game in vanilla JavaScript on the Canvas API. I first built it in October 2023 as my App Academy JavaScript project, then rebuilt it in July 2026 with an AI coding agent.",
+    details: [],
+    tech: ["JavaScript", "HTML5 Canvas"],
+    live: "https://swejasonzhang.github.io/Battlefield-Tanks/",
+    github: "https://github.com/swejasonzhang/Battlefield-Tanks",
+    image: "/assets/BattlefieldTanks.jpg",
+    featured: false,
+  },
+  {
+    slug: "second-brain",
+    title: "Second Brain",
+    kind: "Notes app",
+    description:
+      "A notes app with AI search and chat over your own notes. I built it in one evening in July 2026 with an AI coding agent, as a portfolio project.",
+    details: [],
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "Clerk"],
+    live: "https://second-brain-ai-knowledge-base.vercel.app",
+    github: "https://github.com/swejasonzhang/SecondBrain",
+    image: "/assets/SecondBrain.jpg",
     featured: false,
   },
   {
     slug: "calmify",
     title: "Calmify",
-    kind: "Wellness",
+    kind: "Team project",
     description:
-      "A meditation and mental-wellness platform with guided exercises, personalized routines and stress tracking.",
-    details: [
-      "Third-party audio APIs power the guided meditation sessions",
-      "Real-time stress analytics via third-party APIs",
-    ],
-    tech: ["React", "Node.js", "Express", "MongoDB"],
+      "A team app from the Headstarter fellowship that offers emotional support through AI-generated flashcards. I added the first Stripe Checkout route, the Clerk setup and the first OpenAI flashcard prompt, then built the landing page and the flashcard flip and swipe UI.",
+    details: [],
+    tech: ["Next.js", "React", "Clerk", "Stripe", "OpenAI"],
     live: "https://calmify-ten.vercel.app/",
     github: "https://github.com/pc9350/Calmify",
     image: "/assets/Calmify.jpg",
@@ -129,14 +118,11 @@ const projects: Project[] = [
   {
     slug: "profscore",
     title: "ProfScore",
-    kind: "Reviews & rankings",
+    kind: "Team project",
     description:
-      "Aggregates student reviews and ratings so students can choose professors with confidence.",
-    details: [
-      "AI-powered analysis of review comments (OpenAI)",
-      "Ranking algorithms and interactive dashboards for comparing professors",
-    ],
-    tech: ["Next.js", "React", "Node.js", "MongoDB", "OpenAI"],
+      "A Rate My Professor app built by a three-person team in the Headstarter fellowship. I built the professor search page and its API route, which de-duplicates results and sorts them by rating; a teammate built the AI recommendation pipeline behind it.",
+    details: [],
+    tech: ["Next.js", "React"],
     live: "https://profscore-beta.vercel.app/",
     github: "https://github.com/pc9350/Rate-my-professor",
     image: "/assets/ProfScore.jpg",
@@ -279,28 +265,32 @@ function FeaturedPlate({ proj, index }: { proj: Project; index: number }) {
             </div>
 
             <div className="relative flex flex-wrap gap-3 pt-1">
-              <MagneticButton
-                href={proj.live}
-                target="_blank"
-                variant="yang"
-                size="sm"
-                strength={0.2}
-              >
-                <span className="sr-only">{proj.title}: </span>
-                Live site
-                {arrowIcon}
-              </MagneticButton>
-              <MagneticButton
-                href={proj.github}
-                target="_blank"
-                variant="yin"
-                size="sm"
-                strength={0.2}
-              >
-                {githubIcon}
-                <span className="sr-only">{proj.title} on </span>
-                Source
-              </MagneticButton>
+              {proj.live && (
+                <MagneticButton
+                  href={proj.live}
+                  target="_blank"
+                  variant="yang"
+                  size="sm"
+                  strength={0.2}
+                >
+                  <span className="sr-only">{proj.title}: </span>
+                  Live site
+                  {arrowIcon}
+                </MagneticButton>
+              )}
+              {proj.github && (
+                <MagneticButton
+                  href={proj.github}
+                  target="_blank"
+                  variant={proj.live ? "yin" : "yang"}
+                  size="sm"
+                  strength={0.2}
+                >
+                  {githubIcon}
+                  <span className="sr-only">{proj.title} on </span>
+                  Source
+                </MagneticButton>
+              )}
             </div>
           </motion.div>
         </div>
@@ -374,8 +364,8 @@ function ArchiveCard({ proj, index }: { proj: Project; index: number }) {
           </ul>
 
           <div className="mt-auto flex gap-6 pt-6 font-mono text-2xs uppercase tracking-label">
-            <ArchiveLink href={proj.live} label="Live site" title={proj.title} />
-            <ArchiveLink href={proj.github} label="Source" title={proj.title} />
+            {proj.live && <ArchiveLink href={proj.live} label="Live site" title={proj.title} />}
+            {proj.github && <ArchiveLink href={proj.github} label="Source" title={proj.title} />}
           </div>
         </div>
       </TiltCard>

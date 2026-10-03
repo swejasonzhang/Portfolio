@@ -40,7 +40,7 @@ export default function Footer() {
           </ul>
         </div>
         <p className="mt-6 text-center font-sans text-xs normal-case tracking-normal text-gray-400">
-          Designed and built by hand.
+          Built with Claude Code, an AI coding agent.
         </p>
       </div>
     </footer>

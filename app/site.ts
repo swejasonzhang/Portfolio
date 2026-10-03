@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: "Jason Zhang",
-  role: "Full-Stack Developer",
-  title: "Jason Zhang — Full-Stack Developer",
+  role: "CS Student & Software Developer",
+  title: "Jason Zhang — CS Student & Software Developer",
   description:
-    "Full-stack developer in New York. React, Next.js, Node and Postgres — from a streaming RAG knowledge base to a from-scratch canvas game engine.",
+    "Computer Science undergraduate at Queens College (CUNY), expected May 2029, open to software engineering internships and co-ops. Founder of Inkmity, a live booking app for tattoo artists.",
   url: "https://swejasonzhang.netlify.app",
   email: "swejasonzhang@gmail.com",
   resume: "/assets/swejasonzhang.pdf",

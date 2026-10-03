@@ -77,9 +77,9 @@ const halves: Half[] = [
         <a href="#project-battlefield-tanks" className={linkClass}>
           Battlefield: Tanks
         </a>
-        , a tank duel with destructible terrain, written from scratch on a bare
-        canvas. Play is how I learn &mdash; hand me a system and I&rsquo;ll want
-        every rule holding it together.
+        , a tank duel on a bare canvas that I first wrote at App Academy in 2023
+        and rebuilt in 2026 with an AI coding agent. Play is how I learn &mdash;
+        hand me a system and I&rsquo;ll want every rule holding it together.
       </>
     ),
     offset: "md:mt-16",

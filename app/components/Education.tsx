@@ -11,17 +11,17 @@ const PAST = [
   {
     no: "02",
     year: "Aug 2023 – Dec 2023",
-    title: "Software Development Certification",
+    title: "Full-Stack Software Engineering Certificate",
     school: "App Academy",
     description:
-      "Completed 1,000+ hours of full-stack training in Ruby on Rails, React and JavaScript, with pair programming throughout.",
+      "Full-stack program in JavaScript, React, Redux, Ruby on Rails, PostgreSQL, MongoDB, Express and Node.js. Capstone: Amazeon, a solo online store.",
   },
   {
     no: "03",
-    year: "May 2020 – Jun 2022",
-    title: "Computer Science",
-    school: "CUNY College of Staten Island",
-    description: "Discrete math, OOP, data structures and algorithms in C++.",
+    year: "2020 – 2022",
+    title: "Computer Science Coursework",
+    school: "College of Staten Island (CUNY)",
+    description: "Computer science coursework, transferred to Queens College.",
   },
 ];
 
@@ -44,20 +44,19 @@ export default function Education() {
                     <span className="whitespace-nowrap">
                       Nº 01 <span className="text-gray-500">/ 03</span>
                     </span>
-                    <span className="whitespace-nowrap">Aug 2026 – Present</span>
+                    <span className="whitespace-nowrap">Fall 2026 – Present</span>
                   </div>
                   <h3 className="mt-4 font-display text-display-lg text-white">B.S. in Computer Science</h3>
-                  <p className="mt-2 text-base font-medium text-gray-200">CUNY Queens College</p>
+                  <p className="mt-2 text-base font-medium text-gray-200">Queens College (CUNY)</p>
                 </div>
                 <div className="mt-6 md:mt-0">
                   <p className="mb-3 flex items-center gap-2 font-mono text-2xs uppercase tracking-label text-gray-300">
                     <YinYang outline className="h-3 w-3 animate-spin-slow" />
-                    <span>Current · Fall 2026</span>
+                    <span>Current · Expected May 2029</span>
                   </p>
                   <p className="text-[15px] leading-relaxed text-gray-400">
-                    Back in the classroom to finish the degree — building on the foundation from CSI with
-                    upper-level computer science coursework, while continuing to ship real-world projects on
-                    the side.
+                    Evening classes; currently taking C++ programming. Open to a software engineering
+                    internship or co-op alongside the degree, and I can start right away.
                   </p>
                 </div>
               </div>

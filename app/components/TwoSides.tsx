@@ -8,19 +8,19 @@ import Backdrop from "./Backdrop";
 import { revealFrom, stagger, VIEWPORT } from "../lib/motion";
 
 const craft = [
-  "React & Next.js architectures",
-  "TypeScript, end to end",
-  "Interactive, responsive interfaces",
-  "Motion & micro-interactions",
-  "Tailwind & design systems",
+  "React pages & components",
+  "TypeScript & JavaScript",
+  "Next.js pages & API routes",
+  "Responsive layouts with Tailwind CSS",
+  "Dashboards, forms & booking calendars",
 ];
 
 const logic = [
-  "API & database design",
-  "Node, Express & PostgreSQL / MongoDB",
-  "Auth, real-time & AI integrations",
-  "Cloud, Firebase & AWS",
-  "CI/CD & deployment pipelines",
+  "Node.js & Express APIs",
+  "MongoDB & PostgreSQL",
+  "Clerk sign-in & Socket.IO chat",
+  "Stripe Checkout & webhooks",
+  "Python scripts, Render & Vercel deploys",
 ];
 
 /**

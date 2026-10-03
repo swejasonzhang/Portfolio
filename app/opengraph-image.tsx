@@ -91,7 +91,7 @@ export default async function OpengraphImage() {
 							marginBottom: 28,
 						}}
 					>
-						Nº 01 · FULL-STACK DEVELOPER · NEW YORK
+						Nº 01 · CS STUDENT & DEVELOPER · NYC
 					</div>
 					<div
 						style={{

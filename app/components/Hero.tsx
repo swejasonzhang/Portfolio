@@ -29,7 +29,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 rounded-sm border border-line px-2.5 py-1 font-mono text-2xs uppercase tracking-label text-gray-300"
           >
             <YinYang outline className="h-3 w-3 animate-spin-slow" />
-            Open to new roles · New York
+            Open to internships &amp; co-ops · New York
           </motion.p>
 
           <h1
@@ -63,10 +63,10 @@ export default function Hero() {
             variants={reveal}
             className="mx-auto mt-6 max-w-lg text-pretty text-[15px] leading-relaxed text-gray-300 md:mx-0 md:text-lg"
           >
-            I&rsquo;m a full-stack developer who thinks in balance &mdash; as
-            much care for the structure holding a system up as for the surface
-            you actually touch. Logic and craft, front and back: two halves of
-            the same thing.
+            I&rsquo;m a Computer Science student at Queens College (CUNY) and
+            the founder of Inkmity, a live booking app for tattoo artists. I
+            think in balance &mdash; as much care for the structure holding a
+            system up as for the surface you actually touch.
           </motion.p>
 
           <motion.div

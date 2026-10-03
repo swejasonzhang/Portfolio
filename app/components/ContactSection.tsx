@@ -46,8 +46,8 @@ export default function ContactSection() {
                 variants={reveal}
                 className="max-w-[44ch] text-pretty text-base leading-relaxed text-gray-400 md:text-lg"
               >
-                Hiring, building, or chasing an idea? My inbox is open &mdash; tell
-                me what you&apos;re working on.
+                Hiring an intern or co-op? I can start right away. My inbox is
+                open &mdash; tell me what you&apos;re working on.
               </motion.p>
               <motion.div variants={reveal}>
                 <a
