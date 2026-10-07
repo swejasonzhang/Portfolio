@@ -1,8 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="49" fill="#ffffff" />
-  <path d="M50,1 A49,49 0 0,1 50,99 Z" fill="#0a0a0a" />
-  <circle cx="50" cy="25.5" r="24.5" fill="#0a0a0a" />
-  <circle cx="50" cy="74.5" r="24.5" fill="#ffffff" />
-  <circle cx="50" cy="25.5" r="8" fill="#ffffff" />
-  <circle cx="50" cy="74.5" r="8" fill="#0a0a0a" />
+  <path d="M9 6 H88 Q94 6 94 12 V46 L92 50 L94 54 V88 Q94 94 88 94 H12 Q6 94 6 88 V13 Q6 6 12 6 Z" fill="#a8321f"/>
+  <rect x="15" y="15" width="70" height="70" fill="none" stroke="#efe8da" stroke-opacity="0.55" stroke-width="1.5"/>
+  <text x="50" y="69" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="54" letter-spacing="-4" fill="#efe8da">JZ</text>
 </svg>

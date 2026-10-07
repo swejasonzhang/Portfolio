@@ -1,13 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono, Pirata_One } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import MotionProvider from './components/MotionProvider';
-import Preloader from './components/Preloader';
-import InkCursor from './components/InkCursor';
-import AnimatedBackground from './components/AnimatedBackground';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import BackToTop from './components/BackToTop';
+import Stamp from './components/Stamp';
+import Rail from './components/Rail';
 import { siteConfig } from './site';
 
 const geistSans = Geist({
@@ -20,9 +16,10 @@ const geistMono = Geist_Mono({
 	subsets: ['latin'],
 });
 
-const pirata = Pirata_One({
+const serif = Instrument_Serif({
 	weight: '400',
-	variable: '--font-display',
+	style: ['normal', 'italic'],
+	variable: '--font-serif',
 	subsets: ['latin'],
 });
 
@@ -37,8 +34,9 @@ export const metadata: Metadata = {
 	keywords: [
 		'Jason Zhang',
 		'swejasonzhang',
-		'Full-Stack Developer',
 		'Software Engineer',
+		'Founder',
+		'Inkmity',
 		'React',
 		'Next.js',
 		'Node.js',
@@ -83,7 +81,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: '#050505',
+	themeColor: '#0c0b0a',
 	colorScheme: 'dark',
 	width: 'device-width',
 	initialScale: 1,
@@ -96,7 +94,7 @@ const personJsonLd = {
 	name: siteConfig.name,
 	url: siteConfig.url,
 	email: `mailto:${siteConfig.email}`,
-	jobTitle: siteConfig.role,
+	jobTitle: 'Software Engineer and Founder',
 	address: {
 		'@type': 'PostalAddress',
 		addressLocality: siteConfig.locationLocality,
@@ -104,16 +102,12 @@ const personJsonLd = {
 		addressCountry: siteConfig.locationCountry,
 	},
 	alumniOf: [
-		{ '@type': 'CollegeOrUniversity', name: 'CUNY Queens College' },
-		{ '@type': 'CollegeOrUniversity', name: 'CUNY College of Staten Island' },
+		{ '@type': 'CollegeOrUniversity', name: 'Queens College (CUNY)' },
+		{ '@type': 'CollegeOrUniversity', name: 'College of Staten Island (CUNY)' },
 		{ '@type': 'EducationalOrganization', name: 'App Academy' },
 	],
-	knowsAbout: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'MongoDB'],
-	sameAs: [
-		siteConfig.socials.github,
-		siteConfig.socials.linkedin,
-		siteConfig.socials.x,
-	],
+	knowsAbout: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Stripe'],
+	sameAs: [siteConfig.socials.github, siteConfig.socials.linkedin, siteConfig.socials.x, siteConfig.inkmity],
 };
 
 export default function RootLayout({
@@ -123,25 +117,21 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} ${pirata.variable} antialiased`}>
+			<body className={`${geistSans.variable} ${geistMono.variable} ${serif.variable} antialiased`}>
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
 				/>
 				<a
 					href="#main"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-sm focus:bg-white focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-btn focus:text-black"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-shu focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-label focus:text-washi"
 				>
 					Skip to content
 				</a>
 				<MotionProvider>
-					<Preloader />
-					<InkCursor />
-					<AnimatedBackground />
-					<Navbar />
+					<Stamp />
+					<Rail />
 					{children}
-					<Footer />
-					<BackToTop />
 				</MotionProvider>
 			</body>
 		</html>
