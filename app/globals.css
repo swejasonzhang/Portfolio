@@ -22,7 +22,9 @@
     color: var(--fg);
     overflow-x: hidden;
     font-family: theme(fontFamily.sans);
-    letter-spacing: 0.012em;
+    /* The System speaks in capitals. A little more tracking keeps caps legible at body size. */
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
     text-rendering: optimizeLegibility;
     font-feature-settings: "tnum" 1;
   }
@@ -122,24 +124,7 @@ html.has-reticle * {
     background-size: 48px 48px;
   }
 
-  /* Static noise. */
-  .noise {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.7 0 0 0 0 1 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23g)'/></svg>");
-    background-size: 200px 200px;
-  }
-
-  /* A soft pool of system light behind a block. */
-  .pool-sys {
-    background-image: radial-gradient(60% 50% at 50% 40%, rgba(88, 166, 255, 0.12), transparent 70%);
-  }
-  .pool-shadow {
-    background-image: radial-gradient(60% 50% at 50% 60%, rgba(124, 92, 255, 0.16), transparent 70%);
-  }
-
-  /* Soft pool of the gate's own light. */
-  .pool-gate {
-    background-image: radial-gradient(60% 50% at 50% 45%, rgba(var(--gate-rgb), 0.14), transparent 70%);
-  }
+  /* Gate-colored text and glow. The background itself never changes: see ManaField. */
   .text-gate {
     color: var(--gate);
   }

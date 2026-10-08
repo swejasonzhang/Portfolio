@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import GateHeader from "./GateHeader";
-import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
 
@@ -29,7 +28,7 @@ const TITLES: Title[] = [
     name: "The Mask",
     source: "Hannya",
     body:
-      "The Hannya is intensity with a face on it. For me that means decisions written down: Inkmity runs on a product constitution with explicit anti-goals, and when I am unsure a feature belongs, I freeze it behind a flag instead of deleting it. Moderation fails closed. Caring that hard is the point.",
+      "The Hannya is intensity with a face on it. For me that means caring about the parts nobody sees: when I am unsure a feature belongs, I freeze it behind a flag instead of deleting it. Moderation fails closed. Every release is tested by hand in the live app before it ships. Caring that hard is the point.",
   },
   {
     name: "The Guardians",
@@ -71,8 +70,6 @@ export default function Titles() {
       aria-labelledby="self-title"
       className="gate-violet relative isolate overflow-hidden py-24 md:py-36"
     >
-      <div aria-hidden="true" className="pool-gate absolute inset-0 -z-10" />
-      <RankMark letter="04" className="-left-[5vw] -bottom-8" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"

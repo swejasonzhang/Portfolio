@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import CountUp from "./CountUp";
 import GateHeader from "./GateHeader";
-import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { siteConfig } from "../site";
 import { EASE_OUT, reveal, rise, stagger, VIEWPORT } from "../lib/motion";
@@ -20,21 +19,6 @@ const GATE_INFO: { k: string; v: string }[] = [
   { k: "Fee", v: "Flat $10 per booking, paid by the client; first booking free" },
   { k: "Artists pay", v: "Nothing; tips 100% to the artist" },
   { k: "Stack", v: "React 19 · Express 5 · MongoDB · Socket.io · Stripe · Clerk" },
-];
-
-const BUILD_RULE = [
-  { n: "I", v: "Reduce artist work" },
-  { n: "II", v: "Reduce client friction" },
-  { n: "III", v: "Increase trust" },
-  { n: "IV", v: "Increase repeat usage" },
-];
-
-const ANTI_GOALS = [
-  "Never ask an artist to abandon Instagram",
-  "Do not replace the artistic conversation in DMs",
-  "Do not become another social network",
-  "Do not force a rigid workflow",
-  "Never charge a client without naming what the charge buys",
 ];
 
 const FROZEN = [
@@ -132,6 +116,9 @@ const VERIFY: { k: string; v: string }[] = [
 /*  Primitives                                                         */
 /* ------------------------------------------------------------------ */
 
+/** camelCase identifier → spaced words, so it stays readable in the all-caps System face. */
+const words = (id: string) => id.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+
 /** A ruled mono register: label left, value right. */
 function Register({
   rows,
@@ -189,56 +176,14 @@ function FloorOne() {
             national directory (yet).
           </p>
           <p>
-            Success is 20 NYC artists using it weekly on real client work. The product has a written
-            constitution, PRINCIPLES.md, that outranks any single opinion, including mine.
+            Artists keep working from Instagram. Inkmity sits behind the link in their bio and turns a
+            DM conversation into a booking with a deposit, a signed waiver and a calendar slot.
           </p>
         </Prose>
-        <div className="mt-6 border-l-2 border-[var(--gate)] pl-5">
-          <p className="font-display text-display-sm uppercase leading-tight text-ice">
-            When a decision contradicts the constitution, the constitution wins, or the document is changed
-            deliberately with the reason written down.
-          </p>
-        </div>
       </div>
 
       <div className="md:col-span-7">
-        <SystemWindow title="Build rule" right="Every feature" animate={false} bodyClassName="px-5 py-1 md:px-6">
-          <ol className="divide-y divide-line">
-            {BUILD_RULE.map((r) => (
-              <li key={r.n} className="flex items-baseline gap-5 py-3.5">
-                <span className="hud w-8 shrink-0 text-[var(--gate)]">{r.n}</span>
-                <span className="font-display text-display-sm uppercase text-ice">{r.v}</span>
-              </li>
-            ))}
-            <li className="flex items-baseline gap-5 py-3.5">
-              <span aria-hidden="true" className="hud w-8 shrink-0 text-mute">
-                —
-              </span>
-              <span className="hud text-[var(--gate)]">Satisfies none → don&rsquo;t build.</span>
-            </li>
-          </ol>
-        </SystemWindow>
-      </div>
-
-      <div className="md:col-span-6">
-        <Label>Anti-goals</Label>
-        <ul className="mt-4 divide-y divide-line border-y border-line">
-          {ANTI_GOALS.map((g, i) => (
-            <li key={g} className="flex items-baseline gap-5 py-3.5 text-sm text-ice">
-              <span className="hud shrink-0 text-mute">{String(i + 1).padStart(2, "0")}</span>
-              {g}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="md:col-span-6">
-        <SystemWindow
-          title="Frozen"
-          right="features.ts"
-          animate={false}
-          bodyClassName="px-5 py-1 md:px-6"
-        >
+        <SystemWindow title="Frozen" right="features.ts" animate={false} bodyClassName="px-5 py-1 md:px-6">
           <ul className="divide-y divide-line">
             {FROZEN.map((f) => (
               <li key={f} className="flex items-baseline justify-between gap-6 py-3.5">
@@ -249,8 +194,7 @@ function FloorOne() {
           </ul>
         </SystemWindow>
         <p className="mt-4 text-pretty text-sm leading-relaxed text-ice-2">
-          Features that are built but not yet needed are frozen behind flags, not deleted. Freezing is a
-          deliberate decision, not a backlog.
+          Features that are built but not yet needed are frozen behind flags, not deleted.
         </p>
       </div>
     </div>
@@ -418,7 +362,7 @@ function FloorFour() {
           <ul className="divide-y divide-line">
             {HARDENING.map((h) => (
               <li key={h} className="py-3 font-mono text-xs text-ice">
-                {h}
+                {words(h)}
               </li>
             ))}
           </ul>
@@ -452,7 +396,7 @@ function FloorFive() {
             <ul className="divide-y divide-line">
               {SUITES.map((s) => (
                 <li key={s} className="py-3 font-mono text-xs text-ice">
-                  {s}
+                  {words(s)}
                 </li>
               ))}
             </ul>
@@ -544,7 +488,7 @@ function FloorSix() {
 }
 
 const FLOORS: { n: number; title: string; summary: string; body: () => ReactNode; boss?: boolean }[] = [
-  { n: 1, title: "The decision", summary: "One workflow, one city. The constitution wins.", body: FloorOne },
+  { n: 1, title: "The scope", summary: "One workflow, one city. Built but not needed → frozen behind a flag.", body: FloorOne },
   { n: 2, title: "The money path", summary: "Flat $10, paid by the client. Deposit → capture → split → clawback.", body: FloorTwo, boss: true },
   { n: 3, title: "Architecture", summary: "React SPA on Vercel ⇄ Express + Socket.io on Render ⇄ Atlas.", body: FloorThree },
   { n: 4, title: "Trust and security", summary: "Fails closed. Signed before a session. Deleted on request.", body: FloorFour },
@@ -597,8 +541,6 @@ export default function Dungeon() {
       aria-labelledby="inkmity-title"
       className="gate-red relative isolate overflow-hidden py-24 md:py-36"
     >
-      <RankMark letter="S" className="-right-[6vw] -top-6" />
-      <div aria-hidden="true" className="pool-gate pointer-events-none absolute inset-0 -z-10" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -746,31 +688,13 @@ export default function Dungeon() {
           </ul>
         </div>
 
-        {/* Closing statement */}
-        <motion.div
-          variants={stagger(0.16)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT}
-          className="mt-24 max-w-[22ch] md:mt-32"
-        >
-          <p className="font-display text-display-lg uppercase text-ice">
-            <motion.span variants={rise} className="block text-balance">
-              Success is twenty NYC artists booking real work here every week.
-            </motion.span>
-          </p>
-          <motion.p variants={reveal} className="mt-6 hud text-mute">
-            The measure written into the product constitution
-          </motion.p>
-        </motion.div>
-
         {/* Cleared stamp */}
         <motion.div
           variants={rise}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
-          className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-[rgba(var(--gate-rgb),0.5)] bg-[rgba(var(--gate-rgb),0.05)] px-5 py-4"
+          className="mt-20 flex flex-wrap items-center justify-between gap-4 border-y border-[rgba(var(--gate-rgb),0.5)] bg-[rgba(var(--gate-rgb),0.05)] px-5 py-4"
         >
           <p className="hud glow-gate text-[var(--gate)]">
             <span>[Gate 01 · S-Rank]</span> Status: cleared and live

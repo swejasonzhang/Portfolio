@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ShadowRise from "./ShadowRise";
 import SystemWindow from "./SystemWindow";
@@ -8,6 +8,7 @@ import CountUp from "./CountUp";
 import TypeOut from "./TypeOut";
 import { siteConfig } from "../site";
 import { EASE_OUT, INTRO_DELAY, reveal, rise, stagger } from "../lib/motion";
+import { useLevel } from "../lib/level";
 
 const STATUS: { k: string; v: string; accent?: boolean }[] = [
   { k: "Name", v: "Jason Zhang" },
@@ -22,16 +23,13 @@ const ROW = "grid grid-cols-[6.5rem_1fr] gap-3 py-2.5 text-base transition-color
 
 /**
  * Gate 00. The awakening: the name rises out of shadow while shadows rise
- * behind it, and the System fills the Player status window in line by line.
- * Every number in the log is real.
+ * behind it over the shared background, and the System fills the Player
+ * status window in line by line. Every number in the log is real.
  */
 export default function Awakening() {
-  const [level, setLevel] = useState(1);
+  const level = useLevel();
   const [begin, setBegin] = useState(false);
   const [step, setStep] = useState(0);
-  const { scrollYProgress } = useScroll();
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => setLevel(1 + Math.min(5, Math.floor(v * 6))));
 
   // The window materializes, then the System starts filling it in.
   useEffect(() => {
@@ -46,9 +44,7 @@ export default function Awakening() {
       data-cursor="pulse"
       className="gate-blue relative isolate min-h-[100svh] overflow-hidden"
     >
-      <ShadowRise />
-      <div aria-hidden="true" className="scanlines pointer-events-none absolute inset-0 -z-10 opacity-70" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-void to-transparent" />
+      <ShadowRise className="[mask-image:linear-gradient(to_bottom,black_72%,transparent)]" />
 
       <span aria-hidden="true" className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block">
         Gate 00 — Awakening · New York
@@ -131,15 +127,15 @@ export default function Awakening() {
               <dl className="divide-y divide-[rgba(var(--gate-rgb),0.18)]">
                 <div className={ROW}>
                   <dt className="hud pt-1 text-mute">Level</dt>
-                  <dd className="flex items-baseline gap-3">
+                  <dd className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <span
                       key={level}
                       aria-live="polite"
-                      className="glow-text font-display text-xl font-bold text-sys-bright motion-safe:animate-level-flash"
+                      className="glow-text whitespace-nowrap font-display text-xl font-bold text-sys-bright motion-safe:animate-level-flash"
                     >
                       LV {level}
                     </span>
-                    <span className="hud text-mute">climbs as you descend</span>
+                    <span className="hud text-mute">one per gate</span>
                   </dd>
                 </div>
                 {STATUS.map((row, i) => (

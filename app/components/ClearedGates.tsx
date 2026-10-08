@@ -3,9 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import GateHeader from "./GateHeader";
-import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
-import { stagger, VIEWPORT } from "../lib/motion";
+import { VIEWPORT } from "../lib/motion";
 
 /* ------------------------------------------------------------------ */
 /* Data: Jason's own write-ups, verbatim                               */
@@ -146,8 +145,6 @@ export default function ClearedGates() {
       aria-labelledby="works-title"
       className="gate-green relative isolate overflow-hidden py-24 md:py-36"
     >
-      <div aria-hidden="true" className="pool-gate pointer-events-none absolute inset-0 -z-10" />
-      <RankMark letter="02" className="-left-[4vw] bottom-0" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -164,25 +161,23 @@ export default function ClearedGates() {
           subtitle="Everything here is live or public, and each write-up says exactly what I built and when."
         />
 
-        <motion.div
-          variants={stagger(0.16)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT}
-          className="space-y-8"
-        >
-          {/* Featured two: full-width rows */}
+        <div className="space-y-8">
+          {/* Featured two: full-width rows, each materializing as it enters view */}
           {featured.map((gate) => (
-            <FeaturedGate key={gate.slug} gate={gate} index={GATES.indexOf(gate)} />
+            <motion.div key={gate.slug} initial="hidden" whileInView="visible" viewport={VIEWPORT}>
+              <FeaturedGate gate={gate} index={GATES.indexOf(gate)} />
+            </motion.div>
           ))}
 
           {/* Remaining four: two-up grid */}
           <div className="grid gap-6 md:grid-cols-2">
             {rest.map((gate) => (
-              <GridGate key={gate.slug} gate={gate} index={GATES.indexOf(gate)} />
+              <motion.div key={gate.slug} initial="hidden" whileInView="visible" viewport={VIEWPORT} className="flex">
+                <GridGate gate={gate} index={GATES.indexOf(gate)} />
+              </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         <p className="mt-12 flex items-center gap-4 hud text-mute md:mt-16">
           <span aria-hidden="true" className="h-px w-10 bg-[rgba(var(--gate-rgb),0.5)]" />
@@ -332,7 +327,7 @@ function GridGate({ gate, index }: { gate: Gate; index: number }) {
         </>
       }
       animate
-      className="flex flex-col"
+      className="flex w-full flex-col"
       bodyClassName="flex flex-1 flex-col"
     >
       <Capture gate={gate} index={index} sizes="(max-width: 768px) 100vw, 50vw" />

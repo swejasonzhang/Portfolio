@@ -1,38 +1,44 @@
 "use client";
 
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-} from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { EASE_OUT, INTRO_DELAY } from "../lib/motion";
+import { getLevel, reachGate } from "../lib/level";
 import { GATES } from "./Rail";
 
 type Toast =
   | { id: string; kind: "gate"; gate: string; label: string; rank?: string; color: string }
-  | { id: string; kind: "level"; level: number };
+  | { id: "level"; kind: "level"; level: number };
+
+const GATE_TTL = 4400;
+const LEVEL_TTL = 3800;
+/** The LEVEL UP window follows the gate window by a beat. */
+const LEVEL_LAG = 450;
+/** Entries that land together (a jump down the rail) collapse into the deepest. */
+const SETTLE = 180;
 
 /**
- * System notifications. The first time a gate enters view it is announced
- * ("You have entered Gate 01"), and each time the level readout climbs a
- * LEVEL UP window flashes in. Once per event per visit, polite for screen
- * readers, dismissible, quiet under reduced motion.
+ * System notifications. Entering a gate for the first time announces it
+ * ("You have entered Gate 01") and, since level is depth, a LEVEL UP window
+ * follows. Only one LEVEL UP window exists at a time and it always shows the
+ * current level; nothing is announced until the entrance has cleared. Polite
+ * for screen readers, dismissible, quiet under reduced motion.
  */
 export default function Notifier() {
   const reduce = useReducedMotion();
   const [toasts, setToasts] = useState<Toast[]>([]);
   const seen = useRef(new Set<string>(["awakening"]));
-  const levelRef = useRef(1);
   const started = useRef(false);
-  const { scrollYProgress } = useScroll();
+  const timers = useRef(new Map<string, number>());
 
-  // Never stack more than two windows; the oldest yields.
+  const dismiss = (id: string) => setToasts((all) => all.filter((x) => x.id !== id));
+
+  // Never more than two windows; re-pushing an id restarts its clock.
   const push = (t: Toast, ttl: number) => {
     setToasts((all) => [...all.filter((x) => x.id !== t.id), t].slice(-2));
-    window.setTimeout(() => setToasts((all) => all.filter((x) => x.id !== t.id)), ttl);
+    const prev = timers.current.get(t.id);
+    if (prev) window.clearTimeout(prev);
+    timers.current.set(t.id, window.setTimeout(() => dismiss(t.id), ttl));
   };
 
   useEffect(() => {
@@ -42,18 +48,35 @@ export default function Notifier() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const lv = 1 + Math.min(5, Math.floor(v * 6));
-    if (lv > levelRef.current) {
-      levelRef.current = lv;
-      if (started.current) push({ id: `lv-${lv}`, kind: "level", level: lv }, 3800);
-    }
-  });
-
   useEffect(() => {
     const targets = GATES.filter((g) => g.id !== "awakening")
       .map((g) => document.getElementById(g.id))
       .filter((el): el is HTMLElement => el !== null);
+
+    let pending: number[] = [];
+    let settle = 0;
+    let lag = 0;
+
+    const announce = () => {
+      settle = 0;
+      if (!pending.length) return;
+      const before = getLevel();
+      const deepest = Math.max(...pending);
+      pending = [];
+      reachGate(deepest);
+      if (!started.current) return;
+      const g = GATES[deepest];
+      push(
+        { id: g.id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined, color: g.color },
+        GATE_TTL
+      );
+      const after = getLevel();
+      if (after > before) {
+        window.clearTimeout(lag);
+        lag = window.setTimeout(() => push({ id: "level", kind: "level", level: after }, LEVEL_TTL), LEVEL_LAG);
+      }
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -61,24 +84,28 @@ export default function Notifier() {
           const id = e.target.id;
           if (seen.current.has(id)) continue;
           seen.current.add(id);
-          const g = GATES.find((x) => x.id === id);
-          if (!g) continue;
-          push(
-            { id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined, color: g.color },
-            4400
-          );
+          const index = GATES.findIndex((x) => x.id === id);
+          if (index > 0) pending.push(index);
         }
+        if (pending.length && !settle) settle = window.setTimeout(announce, SETTLE);
       },
       { rootMargin: "0px 0px -45% 0px", threshold: 0.05 }
     );
     targets.forEach((t) => observer.observe(t));
-    return () => observer.disconnect();
+
+    const all = timers.current;
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(settle);
+      window.clearTimeout(lag);
+      all.forEach((t) => window.clearTimeout(t));
+    };
   }, []);
 
   return (
     <div
       aria-live="polite"
-      className="pointer-events-none fixed inset-x-4 bottom-4 z-[70] flex flex-col items-stretch gap-2 sm:inset-x-auto sm:right-6 sm:top-20 sm:bottom-auto sm:w-80"
+      className="pointer-events-none fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[70] flex flex-col items-stretch gap-2 sm:inset-x-auto sm:right-6 sm:top-20 sm:bottom-auto sm:w-80"
     >
       <AnimatePresence>
         {toasts.map((t) => {
@@ -87,7 +114,7 @@ export default function Notifier() {
             <motion.button
               key={t.id}
               type="button"
-              onClick={() => setToasts((all) => all.filter((x) => x.id !== t.id))}
+              onClick={() => dismiss(t.id)}
               initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24, scale: 0.97 }}
               animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], x: 0, scale: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.6 } }}

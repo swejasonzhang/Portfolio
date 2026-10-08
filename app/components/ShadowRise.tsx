@@ -11,8 +11,9 @@ type Eyes = { x: number; y: number; gap: number; blink: number; next: number; li
  * Arise: shadows rising from the floor in violet, faster embers of system
  * light streaking up through them, and pairs of eyes blinking in the dark.
  * The pointer parts the shadows; a press sends a pulse of light through the
- * field. Canvas 2D, pauses offscreen and in hidden tabs, still frame under
- * reduced motion. No ring, no portal.
+ * field. Transparent, so the mana field behind the whole page shows through.
+ * Canvas 2D, pauses offscreen and in hidden tabs, still frame under reduced
+ * motion. No ring, no portal.
  */
 export default function ShadowRise({ className = "" }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -77,8 +78,7 @@ export default function ShadowRise({ className = "" }: { className?: string }) {
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       seed();
-      ctx.fillStyle = "#06070b";
-      ctx.fillRect(0, 0, w, h);
+      ctx.clearRect(0, 0, w, h);
       if (reduce) {
         t = 10;
         drawFrame(1, false);
@@ -86,8 +86,16 @@ export default function ShadowRise({ className = "" }: { className?: string }) {
     };
 
     const drawFrame = (dt: number, trails: boolean) => {
-      ctx.fillStyle = trails ? "rgba(6,7,11,0.16)" : "#06070b";
-      ctx.fillRect(0, 0, w, h);
+      // Fade the previous frame's alpha instead of painting a floor, so the
+      // field stays transparent over the page's one shared background.
+      if (trails) {
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.fillStyle = "rgba(0,0,0,0.16)";
+        ctx.fillRect(0, 0, w, h);
+        ctx.globalCompositeOperation = "source-over";
+      } else {
+        ctx.clearRect(0, 0, w, h);
+      }
 
       let glow = 0;
       for (const p of pulses) glow = Math.max(glow, Math.max(0, 1 - (t - p.t) / 2));

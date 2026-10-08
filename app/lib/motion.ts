@@ -6,8 +6,12 @@ export const EASE_INOUT: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
 export const DUR = { fast: 0.5, base: 1.1, slow: 1.8 } as const;
 
-/** Shared whileInView config. */
-export const VIEWPORT = { once: true, amount: 0.2 } as const;
+/**
+ * Shared whileInView config. Triggers once any part of the element clears the
+ * bottom 12% of the viewport, so a block taller than the screen (a six-window
+ * grid on a phone) still reveals; a 20% threshold could never be met there.
+ */
+export const VIEWPORT = { once: true, amount: "some", margin: "0px 0px -12% 0px" } as const;
 
 /** Seconds after mount at which the hero choreography begins (as the System screen clears). */
 export const INTRO_DELAY = 2.7;

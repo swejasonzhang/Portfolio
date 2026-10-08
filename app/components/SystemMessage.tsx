@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
 import { siteConfig } from "../site";
 import GateHeader from "./GateHeader";
-import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 
 const CHANNELS = [
@@ -32,8 +31,6 @@ export default function SystemMessage() {
         aria-labelledby="contact-title"
         className="gate-cyan relative isolate overflow-hidden py-24 md:py-36"
       >
-        <RankMark letter="05" className="-right-[4vw] -top-4" />
-        <div aria-hidden="true" className="pool-gate pointer-events-none absolute inset-0 -z-10" />
         <span
           aria-hidden="true"
           className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"

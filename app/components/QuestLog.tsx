@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import CountUp from "./CountUp";
 import GateHeader from "./GateHeader";
-import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
 import { siteConfig } from "../site";
@@ -143,7 +142,7 @@ const SKILLS_PASSIVE: ReactNode[] = [
   </>,
   "Testing by hand — every Inkmity release tested in the live app before approval",
   "Ops — production env vars, live Stripe webhook endpoint, DB scripts, deploy and server logs on Render and Vercel",
-  "Product discipline — a written constitution with anti-goals; features frozen behind flags instead of deleted",
+  "Product discipline — scope held to one workflow and one city; features frozen behind flags instead of deleted",
 ];
 
 function QuestWindow({ quest }: { quest: Quest }) {
@@ -225,7 +224,6 @@ export default function QuestLog() {
       aria-labelledby="record-title"
       className="gate-gold relative isolate overflow-hidden py-24 md:py-36"
     >
-      <RankMark letter="03" className="-right-[4vw] top-4" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
