@@ -37,8 +37,9 @@ export default {
       },
       fontSize: {
         "2xs": ["0.6875rem", { lineHeight: "1rem" }],
+        // Width-driven, but capped by viewport height so the hero fits a laptop screen.
         "display-name": [
-          "clamp(5rem, 1rem + 16vw, 19rem)",
+          "clamp(5rem, min(1rem + 16vw, 24svh), 19rem)",
           { lineHeight: "0.85", letterSpacing: "-0.01em" },
         ],
         "display-xl": [

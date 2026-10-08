@@ -19,7 +19,7 @@ const STATUS: { k: string; v: string; accent?: boolean }[] = [
   { k: "Quest", v: "B.S. Computer Science · Queens College (CUNY) · exp. May 2029" },
 ];
 
-const ROW = "grid grid-cols-[6.5rem_1fr] gap-3 py-2.5 text-base transition-colors duration-300 first:pt-0 last:pb-0 hover:bg-[rgba(var(--gate-rgb),0.06)]";
+const ROW = "grid grid-cols-[6.5rem_1fr] gap-3 py-2.5 text-base transition-colors duration-300 first:pt-0 last:pb-0 hover:bg-[rgba(var(--gate-rgb),0.06)] lg:py-1.5 lg:text-sm";
 
 /**
  * Gate 00. The awakening: the name rises out of shadow while shadows rise
@@ -50,7 +50,7 @@ export default function Awakening() {
         Gate 00 — Awakening · New York
       </span>
 
-      <div className="frame flex min-h-[100svh] flex-col justify-between pb-10 pt-24 md:pt-28">
+      <div className="frame flex min-h-[100svh] flex-col justify-between pb-8 pt-24 md:pt-28 lg:pb-6 lg:pt-20">
         <motion.div
           variants={stagger(0.2, INTRO_DELAY)}
           initial="hidden"
@@ -66,7 +66,7 @@ export default function Awakening() {
           </motion.span>
         </motion.div>
 
-        <div className="grid gap-10 py-10 lg:grid-cols-12 lg:items-end lg:gap-8 md:py-14">
+        <div className="grid gap-10 py-10 md:py-14 lg:grid-cols-12 lg:items-end lg:gap-8 lg:py-6">
           <motion.div
             variants={stagger(0.22, INTRO_DELAY + 0.15)}
             initial="hidden"
@@ -82,14 +82,14 @@ export default function Awakening() {
               </motion.span>
             </h1>
 
-            <motion.p variants={reveal} className="mt-8 hud text-sm text-ice md:text-base">
+            <motion.p variants={reveal} className="mt-8 hud text-sm text-ice md:text-base lg:mt-6">
               Software Engineer <span className="glow-text text-sys">/</span> Builder{" "}
               <span className="glow-text text-sys">/</span> Founder
             </motion.p>
 
             <motion.p
               variants={reveal}
-              className="mt-5 max-w-[44ch] text-pretty text-lg leading-relaxed text-ice-2 md:text-xl"
+              className="mt-5 max-w-[44ch] text-pretty text-lg leading-relaxed text-ice-2 md:text-xl lg:mt-4 lg:max-w-[60ch] lg:text-lg"
             >
               Computer Science at Queens College (CUNY), expected May 2029. Founder of{" "}
               <a href="#inkmity" className="link-sys text-ice">
@@ -99,7 +99,7 @@ export default function Awakening() {
               and the surface, and I level up by shipping.
             </motion.p>
 
-            <motion.div variants={reveal} className="mt-8 flex flex-wrap gap-3">
+            <motion.div variants={reveal} className="mt-8 flex flex-wrap gap-3 lg:mt-6">
               <a href="#inkmity" className="btn-sys">
                 Enter Gate 01
               </a>
@@ -113,10 +113,11 @@ export default function Awakening() {
             variants={stagger(0.25, INTRO_DELAY + 0.9)}
             initial="hidden"
             animate="visible"
-            className="space-y-4 lg:col-span-5"
+            className="space-y-4 lg:col-span-5 lg:space-y-3"
           >
             <SystemWindow
               title="Player status"
+              bodyClassName="px-5 py-4 md:px-6 lg:py-3"
               right={
                 <span className="flex items-center gap-2">
                   <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-[var(--gate)] motion-safe:animate-pulse-soft" />
@@ -154,8 +155,8 @@ export default function Awakening() {
               </dl>
             </SystemWindow>
 
-            <SystemWindow title="Log" right="Real numbers" bodyClassName="p-4 md:p-5">
-              <ul className="space-y-1.5 text-sm text-ice-2">
+            <SystemWindow title="Log" right="Real numbers" bodyClassName="p-4 md:p-5 lg:px-5 lg:py-3">
+              <ul className="space-y-1.5 text-sm text-ice-2 lg:space-y-1">
                 <li className="flex items-baseline gap-3">
                   <span className="hud w-28 shrink-0 pt-0.5 text-mute">Inkmity v1</span>
                   <span>
