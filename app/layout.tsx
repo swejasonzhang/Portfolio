@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
+import { Geist, Geist_Mono, Barlow_Condensed } from 'next/font/google';
 import './globals.css';
 import MotionProvider from './components/MotionProvider';
-import Stamp from './components/Stamp';
+import Arise from './components/Arise';
+import Notifier from './components/Notifier';
 import Rail from './components/Rail';
 import { siteConfig } from './site';
 
@@ -16,10 +17,9 @@ const geistMono = Geist_Mono({
 	subsets: ['latin'],
 });
 
-const serif = Instrument_Serif({
-	weight: '400',
-	style: ['normal', 'italic'],
-	variable: '--font-serif',
+const display = Barlow_Condensed({
+	weight: ['600', '700', '800'],
+	variable: '--font-display',
 	subsets: ['latin'],
 });
 
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: '#0c0b0a',
+	themeColor: '#06070b',
 	colorScheme: 'dark',
 	width: 'device-width',
 	initialScale: 1,
@@ -117,20 +117,21 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} ${serif.variable} antialiased`}>
+			<body className={`${geistSans.variable} ${geistMono.variable} ${display.variable} antialiased`}>
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
 				/>
 				<a
 					href="#main"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-shu focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-label focus:text-washi"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-sys focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-label focus:text-void"
 				>
 					Skip to content
 				</a>
 				<MotionProvider>
-					<Stamp />
+					<Arise />
 					<Rail />
+					<Notifier />
 					{children}
 				</MotionProvider>
 			</body>

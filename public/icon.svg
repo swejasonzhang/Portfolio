@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <path d="M9 6 H88 Q94 6 94 12 V46 L92 50 L94 54 V88 Q94 94 88 94 H12 Q6 94 6 88 V13 Q6 6 12 6 Z" fill="#a8321f"/>
-  <rect x="15" y="15" width="70" height="70" fill="none" stroke="#efe8da" stroke-opacity="0.55" stroke-width="1.5"/>
-  <text x="50" y="69" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="54" letter-spacing="-4" fill="#efe8da">JZ</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#06070b"/>
+  <path d="M16 3 L29 16 L16 29 L3 16 Z" fill="none" stroke="#58a6ff" stroke-width="1.5"/>
+  <path d="M16 9.5 L22.5 16 L16 22.5 L9.5 16 Z" fill="#58a6ff"/>
 </svg>

@@ -8,22 +8,43 @@ export const alt = 'Jason Zhang — Software Engineer, Builder, Founder';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const INK = '#0c0b0a';
-const WASHI = '#efe8da';
-const ASH = '#8d8679';
-const SHU = '#a8321f';
+const VOID = '#06070b';
+const ICE = '#e6ecff';
+const SYS = '#58a6ff';
+const SYS_BRIGHT = '#9cd0ff';
+const MUTE = '#7d86a3';
+
+const TICK = 14;
+const FRAME = 28;
+
+function Tick({ style }: { style: Record<string, string | number> }) {
+	return (
+		<div
+			style={{
+				position: 'absolute',
+				width: TICK,
+				height: TICK,
+				borderColor: SYS_BRIGHT,
+				borderStyle: 'solid',
+				...style,
+			}}
+		/>
+	);
+}
 
 export default async function OpengraphImage() {
-	const [serif, serifItalic, mono] = await Promise.all([
-		readFile(join(process.cwd(), 'app/fonts/InstrumentSerif-Regular.ttf')),
-		readFile(join(process.cwd(), 'app/fonts/InstrumentSerif-Italic.ttf')),
+	const [display, mono] = await Promise.all([
+		readFile(join(process.cwd(), 'app/fonts/BarlowCondensed-Bold.ttf')),
 		readFile(join(process.cwd(), 'app/fonts/GeistMono.ttf')),
 	]);
 
 	const monoStyle = {
 		fontFamily: 'Geist Mono',
-		color: ASH,
+		fontSize: 20,
+		letterSpacing: 5,
 	} as const;
+
+	const slash = { color: SYS, margin: '0 14px' } as const;
 
 	return new ImageResponse(
 		(
@@ -33,35 +54,51 @@ export default async function OpengraphImage() {
 					height: '100%',
 					display: 'flex',
 					position: 'relative',
-					background: INK,
-					color: WASHI,
+					background: VOID,
+					color: ICE,
 				}}
 			>
-				{/* Hairline frame */}
+				{/* System frame */}
 				<div
 					style={{
 						position: 'absolute',
-						top: 36,
-						left: 36,
-						right: 36,
-						bottom: 36,
-						border: '1px solid rgba(239,232,218,0.32)',
+						top: FRAME,
+						left: FRAME,
+						right: FRAME,
+						bottom: FRAME,
+						border: '1px solid rgba(88,166,255,0.35)',
+					}}
+				/>
+				{/* Inner frame */}
+				<div
+					style={{
+						position: 'absolute',
+						top: 40,
+						left: 40,
+						right: 40,
+						bottom: 40,
+						border: '1px solid rgba(88,166,255,0.12)',
 					}}
 				/>
 
-				{/* Chapter label */}
+				{/* Corner ticks */}
+				<Tick style={{ top: FRAME - 1, left: FRAME - 1, borderWidth: '2px 0 0 2px' }} />
+				<Tick style={{ top: FRAME - 1, right: FRAME - 1, borderWidth: '2px 2px 0 0' }} />
+				<Tick style={{ bottom: FRAME - 1, left: FRAME - 1, borderWidth: '0 0 2px 2px' }} />
+				<Tick style={{ bottom: FRAME - 1, right: FRAME - 1, borderWidth: '0 2px 2px 0' }} />
+
+				{/* Gate label */}
 				<div
 					style={{
 						position: 'absolute',
 						left: 96,
 						top: 84,
 						display: 'flex',
-						fontSize: 22,
-						letterSpacing: 6,
+						color: SYS,
 						...monoStyle,
 					}}
 				>
-					I · ENTRANCE
+					[GATE 00 · AWAKENING]
 				</div>
 
 				{/* The name */}
@@ -74,33 +111,15 @@ export default async function OpengraphImage() {
 						display: 'flex',
 						flexDirection: 'column',
 						justifyContent: 'center',
+						fontFamily: 'Barlow Condensed',
+						fontWeight: 700,
+						fontSize: 220,
+						lineHeight: 0.85,
+						textTransform: 'uppercase',
 					}}
 				>
-					<div
-						style={{
-							display: 'flex',
-							fontFamily: 'Instrument Serif',
-							fontSize: 196,
-							lineHeight: 0.82,
-							letterSpacing: -6,
-							color: WASHI,
-						}}
-					>
-						JASON
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							fontFamily: 'Instrument Serif',
-							fontStyle: 'italic',
-							fontSize: 196,
-							lineHeight: 0.82,
-							letterSpacing: -6,
-							color: WASHI,
-						}}
-					>
-						ZHANG
-					</div>
+					<div style={{ display: 'flex', color: ICE }}>JASON</div>
+					<div style={{ display: 'flex', color: SYS_BRIGHT }}>ZHANG</div>
 				</div>
 
 				{/* Identity line */}
@@ -111,19 +130,18 @@ export default async function OpengraphImage() {
 						bottom: 84,
 						display: 'flex',
 						flexDirection: 'row',
-						fontSize: 20,
-						letterSpacing: 4,
+						color: MUTE,
 						...monoStyle,
 					}}
 				>
 					<span>SOFTWARE ENGINEER</span>
-					<span style={{ color: SHU, margin: '0 14px' }}>/</span>
+					<span style={slash}>/</span>
 					<span>BUILDER</span>
-					<span style={{ color: SHU, margin: '0 14px' }}>/</span>
+					<span style={slash}>/</span>
 					<span>FOUNDER — NEW YORK</span>
 				</div>
 
-				{/* The seal */}
+				{/* Register */}
 				<div
 					style={{
 						position: 'absolute',
@@ -131,47 +149,14 @@ export default async function OpengraphImage() {
 						top: 84,
 						display: 'flex',
 						flexDirection: 'column',
-						alignItems: 'center',
+						alignItems: 'flex-end',
+						fontFamily: 'Geist Mono',
+						fontSize: 18,
+						letterSpacing: 3,
 					}}
 				>
-					<div
-						style={{
-							width: 112,
-							height: 112,
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							background: SHU,
-							transform: 'rotate(-3deg)',
-						}}
-					>
-						<div
-							style={{
-								width: 80,
-								height: 80,
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								border: '1px solid rgba(239,232,218,0.55)',
-								fontFamily: 'Instrument Serif',
-								fontStyle: 'italic',
-								fontSize: 60,
-								letterSpacing: -4,
-								color: WASHI,
-							}}
-						>
-							JZ
-						</div>
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							marginTop: 22,
-							fontSize: 18,
-							letterSpacing: 2,
-							...monoStyle,
-						}}
-					>
+					<div style={{ display: 'flex', color: MUTE }}>LV 1 · XP 0%</div>
+					<div style={{ display: 'flex', marginTop: 10, color: ICE }}>
 						{siteConfig.url.replace('https://', '')}
 					</div>
 				</div>
@@ -180,8 +165,7 @@ export default async function OpengraphImage() {
 		{
 			...size,
 			fonts: [
-				{ name: 'Instrument Serif', data: serif, weight: 400, style: 'normal' },
-				{ name: 'Instrument Serif', data: serifItalic, weight: 400, style: 'italic' },
+				{ name: 'Barlow Condensed', data: display, weight: 700, style: 'normal' },
 				{ name: 'Geist Mono', data: mono, weight: 400, style: 'normal' },
 			],
 		}

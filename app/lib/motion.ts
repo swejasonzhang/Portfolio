@@ -4,15 +4,15 @@ import type { Variants } from "framer-motion";
 export const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export const EASE_INOUT: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
-export const DUR = { fast: 0.35, base: 0.7, slow: 1.1 } as const;
+export const DUR = { fast: 0.3, base: 0.6, slow: 1 } as const;
 
 /** Shared whileInView config. */
 export const VIEWPORT = { once: true, amount: 0.2 } as const;
 
-/** Seconds after mount at which the entrance choreography begins (as the stamp lifts). */
-export const INTRO_DELAY = 1.15;
+/** Seconds after mount at which the hero choreography begins (as the System screen clears). */
+export const INTRO_DELAY = 1.7;
 
-/** Fade and rise: the default entrance for blocks. */
+/** Fade and rise. */
 export const reveal: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -22,37 +22,32 @@ export const reveal: Variants = {
   },
 };
 
-/** Slide in from a side. */
-export const revealFrom = (side: "left" | "right"): Variants => ({
-  hidden: { opacity: 0, x: side === "left" ? -24 : 24 },
+/** Rise out of shadow: uncovered from the bottom up. */
+export const rise: Variants = {
+  hidden: { clipPath: "inset(100% 0 0 0)", y: 24 },
   visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: DUR.base, ease: EASE_OUT },
-  },
-});
-
-/**
- * Line-mask rise: wrap in a `block overflow-hidden` span, apply to an inner
- * `block` span. Transform-only.
- */
-export const lift: Variants = {
-  hidden: { y: "110%" },
-  visible: {
+    clipPath: "inset(0% 0 0 0)",
     y: 0,
     transition: { duration: 0.9, ease: EASE_OUT },
   },
 };
 
-/**
- * Masked wipe (the Hannya reveal): the element is uncovered left to right as
- * if a mask were drawn away. One-shot; use on headings and images.
- */
+/** System materialize: a fast flicker into place. */
+export const materialize: Variants = {
+  hidden: { opacity: 0, scale: 0.985 },
+  visible: {
+    opacity: [0, 1, 0.45, 1],
+    scale: 1,
+    transition: { duration: 0.5, ease: "linear", times: [0, 0.3, 0.5, 1] },
+  },
+};
+
+/** Masked wipe left to right. */
 export const wipe: Variants = {
   hidden: { clipPath: "inset(0 100% 0 0)" },
   visible: {
     clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 1, ease: EASE_OUT },
+    transition: { duration: 0.9, ease: EASE_OUT },
   },
 };
 

@@ -1,19 +1,25 @@
-import Entrance from './components/Entrance';
-import InkmityStudy from './components/InkmityStudy';
-import Works from './components/Works';
-import Record from './components/Record';
-import Self from './components/Self';
-import Closing from './components/Closing';
+import Awakening from './components/Awakening';
+import Dungeon from './components/Dungeon';
+import ClearedGates from './components/ClearedGates';
+import QuestLog from './components/QuestLog';
+import Titles from './components/Titles';
+import SystemMessage from './components/SystemMessage';
+import GateDivider from './components/GateDivider';
 
 export default function Page() {
 	return (
 		<main id="main" className="relative">
-			<Entrance />
-			<InkmityStudy />
-			<Works />
-			<Record />
-			<Self />
-			<Closing />
+			<Awakening />
+			<GateDivider caption="Gate 01 // S-Rank" />
+			<Dungeon />
+			<GateDivider caption="Gate 02 // Cleared" />
+			<ClearedGates />
+			<GateDivider caption="Gate 03 // Quest log" />
+			<QuestLog />
+			<GateDivider caption="Gate 04 // Titles" />
+			<Titles />
+			<GateDivider caption="Gate 05 // Message" />
+			<SystemMessage />
 		</main>
 	);
 }
