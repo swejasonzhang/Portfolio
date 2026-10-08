@@ -1,16 +1,22 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+import { GATES } from "./gates";
 
 /**
- * The player's level: one source of truth for the header, the hero window
- * and the notifications. Level is depth, 1 + the deepest gate entered this
- * visit, so it climbs exactly when you enter a new gate and never falls
- * back, whatever the browser chrome does to the viewport while scrolling.
+ * One source of truth for where the player is. A single probe line, 40% down
+ * the viewport, decides the current gate: the last section whose top has
+ * crossed it. The header numeral, the level readout (gate + 1) and the
+ * notifications all read this same number, so they can never disagree,
+ * whatever the browser chrome does to the viewport on a phone. `depth` is the
+ * deepest gate reached this visit, which is what LEVEL UP is measured against.
  */
-export const MAX_LEVEL = 6;
+const PROBE = 0.4;
+export const MAX_LEVEL = GATES.length;
 
-let depth = 0;
+type State = { current: number; depth: number };
+let state: State = { current: 0, depth: 0 };
+const SERVER: State = { current: 0, depth: 0 };
 const listeners = new Set<() => void>();
 
 const subscribe = (fn: () => void) => {
@@ -19,21 +25,67 @@ const subscribe = (fn: () => void) => {
     listeners.delete(fn);
   };
 };
-const snapshot = () => 1 + depth;
-const serverSnapshot = () => 1;
+const snapshot = () => state;
+const serverSnapshot = () => SERVER;
 
-/** Record that the gate at this index (0 = awakening) has been entered. */
-export function reachGate(index: number) {
-  const next = Math.max(0, Math.min(MAX_LEVEL - 1, Math.floor(index)));
-  if (next <= depth) return;
-  depth = next;
+function measure() {
+  const line = window.innerHeight * PROBE;
+  let current = 0;
+  GATES.forEach((g, i) => {
+    const el = document.getElementById(g.id);
+    if (el && el.getBoundingClientRect().top <= line) current = i;
+  });
+  if (current === state.current) return;
+  state = { current, depth: Math.max(state.depth, current) };
   listeners.forEach((fn) => fn());
 }
 
-export function getLevel() {
-  return 1 + depth;
+let trackers = 0;
+let raf = 0;
+let ro: ResizeObserver | null = null;
+const schedule = () => {
+  if (raf) return;
+  raf = requestAnimationFrame(() => {
+    raf = 0;
+    measure();
+  });
+};
+
+/** Mount in any consumer; the first starts tracking, the last stops. */
+export function useGateTracker() {
+  useEffect(() => {
+    trackers += 1;
+    if (trackers === 1) {
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      // Layout can shift sections without a scroll (a floor opening, fonts landing).
+      ro = new ResizeObserver(schedule);
+      ro.observe(document.body);
+      schedule();
+    }
+    return () => {
+      trackers -= 1;
+      if (trackers === 0) {
+        window.removeEventListener("scroll", schedule);
+        window.removeEventListener("resize", schedule);
+        ro?.disconnect();
+        ro = null;
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+  }, []);
 }
 
-export function useLevel() {
+export function useGate() {
   return useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+}
+
+/** Level is the gate you are in, plus one. */
+export function useLevel() {
+  return useGate().current + 1;
+}
+
+export function getGate() {
+  return state;
 }

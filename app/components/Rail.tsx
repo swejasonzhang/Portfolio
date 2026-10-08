@@ -3,16 +3,8 @@
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
 import { EASE_INOUT, EASE_OUT, INTRO_DELAY } from "../lib/motion";
-import { useLevel } from "../lib/level";
-
-export const GATES = [
-  { id: "awakening", gate: "00", label: "Awakening", color: "#58a6ff", rgb: "88, 166, 255" },
-  { id: "inkmity", gate: "01", label: "Inkmity", rank: "S-Rank", color: "#ff4d64", rgb: "255, 77, 100" },
-  { id: "works", gate: "02", label: "Cleared gates", color: "#3ddc97", rgb: "61, 220, 151" },
-  { id: "record", gate: "03", label: "Quest log", color: "#f5b942", rgb: "245, 185, 66" },
-  { id: "self", gate: "04", label: "Titles", color: "#a06bff", rgb: "160, 107, 255" },
-  { id: "contact", gate: "05", label: "Message", color: "#38d6f5", rgb: "56, 214, 245" },
-] as const;
+import { GATES } from "../lib/gates";
+import { useGate, useGateTracker } from "../lib/level";
 
 /** The tab icon, recolored to the gate you are in. Same mark as /icon.svg. */
 const favicon = (color: string) =>
@@ -34,32 +26,19 @@ function Mark({ className = "" }: { className?: string }) {
  * the color of the gate you are currently in, plus XP fed by scroll progress.
  * Desktop: a right-side rail of gates with an XP bar that fills as you
  * descend. Below lg: a System button opening the gate list as a full-screen
- * window. Level itself comes from the shared store (depth reached).
+ * window. The current gate and the level both come from the shared gate
+ * store, so the numeral and the level always agree.
  */
 export default function Rail() {
-  const [active, setActive] = useState<string>("awakening");
   const [open, setOpen] = useState(false);
-  const level = useLevel();
+  useGateTracker();
+  const { current: depth } = useGate();
+  const current = GATES[depth];
+  const active = current.id;
+  const level = depth + 1;
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
   const pct = useTransform(progress, (v) => `${Math.round(Math.min(1, Math.max(0, v)) * 100)}`);
-
-  useEffect(() => {
-    const sections = GATES.map((g) => document.getElementById(g.id)).filter(
-      (el): el is HTMLElement => el !== null
-    );
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: "-35% 0px -55% 0px", threshold: [0, 0.2, 0.5, 1] }
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -73,7 +52,6 @@ export default function Rail() {
     };
   }, [open]);
 
-  const current = GATES.find((g) => g.id === active) ?? GATES[0];
   // The header and rail take the current gate's color through the same
   // --gate variables the sections use.
   const vars = { "--gate": current.color, "--gate-rgb": current.rgb } as CSSProperties;

@@ -3,8 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { EASE_OUT, INTRO_DELAY } from "../lib/motion";
-import { getLevel, reachGate } from "../lib/level";
-import { GATES } from "./Rail";
+import { GATES } from "../lib/gates";
+import { getGate, useGate, useGateTracker } from "../lib/level";
 
 type Toast =
   | { id: string; kind: "gate"; gate: string; label: string; rank?: string; color: string }
@@ -14,21 +14,28 @@ const GATE_TTL = 4400;
 const LEVEL_TTL = 3800;
 /** The LEVEL UP window follows the gate window by a beat. */
 const LEVEL_LAG = 450;
-/** Entries that land together (a jump down the rail) collapse into the deepest. */
+/** Announce once the scroll has been quiet this long, so a jump down the rail reports only where it landed. */
 const SETTLE = 180;
 
 /**
- * System notifications. Entering a gate for the first time announces it
- * ("You have entered Gate 01") and, since level is depth, a LEVEL UP window
- * follows. Only one LEVEL UP window exists at a time and it always shows the
- * current level; nothing is announced until the entrance has cleared. Polite
- * for screen readers, dismissible, quiet under reduced motion.
+ * System notifications, driven by the same gate store as the header. The
+ * first time you land in a gate it is announced ("You have entered Gate 01")
+ * and, if it is deeper than you have been, a LEVEL UP window follows. Only
+ * one LEVEL UP window exists at a time; nothing is announced until the
+ * entrance has cleared. Polite for screen readers, dismissible, quiet under
+ * reduced motion.
  */
 export default function Notifier() {
   const reduce = useReducedMotion();
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const seen = useRef(new Set<string>(["awakening"]));
+  useGateTracker();
+  const { current } = useGate();
+  const seen = useRef(new Set<number>([0]));
   const started = useRef(false);
+  const pending = useRef(false);
+  const lastDepth = useRef(0);
+  const settle = useRef(0);
+  const lag = useRef(0);
   const timers = useRef(new Map<string, number>());
 
   const dismiss = (id: string) => setToasts((all) => all.filter((x) => x.id !== id));
@@ -41,6 +48,37 @@ export default function Notifier() {
     timers.current.set(t.id, window.setTimeout(() => dismiss(t.id), ttl));
   };
 
+  const announce = () => {
+    settle.current = 0;
+    if (!pending.current) return;
+    pending.current = false;
+    const { current: idx, depth } = getGate();
+    const fresh = !seen.current.has(idx);
+    // Gates passed through on the way count as seen; they are not announced late.
+    for (let i = 0; i <= idx; i++) seen.current.add(i);
+    if (!started.current) {
+      lastDepth.current = depth;
+      return;
+    }
+    if (fresh && idx > 0) {
+      const g = GATES[idx];
+      push(
+        { id: g.id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined, color: g.color },
+        GATE_TTL
+      );
+    }
+    if (depth > lastDepth.current) {
+      lastDepth.current = depth;
+      window.clearTimeout(lag.current);
+      lag.current = window.setTimeout(() => push({ id: "level", kind: "level", level: depth + 1 }, LEVEL_TTL), LEVEL_LAG);
+    }
+  };
+
+  const arm = () => {
+    window.clearTimeout(settle.current);
+    settle.current = window.setTimeout(announce, SETTLE);
+  };
+
   useEffect(() => {
     const timer = window.setTimeout(() => {
       started.current = true;
@@ -48,58 +86,27 @@ export default function Notifier() {
     return () => window.clearTimeout(timer);
   }, []);
 
+  // A change of gate is pending until the scroll goes quiet.
   useEffect(() => {
-    const targets = GATES.filter((g) => g.id !== "awakening")
-      .map((g) => document.getElementById(g.id))
-      .filter((el): el is HTMLElement => el !== null);
+    if (seen.current.has(current)) return;
+    pending.current = true;
+    arm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
 
-    let pending: number[] = [];
-    let settle = 0;
-    let lag = 0;
-
-    const announce = () => {
-      settle = 0;
-      if (!pending.length) return;
-      const before = getLevel();
-      const deepest = Math.max(...pending);
-      pending = [];
-      reachGate(deepest);
-      if (!started.current) return;
-      const g = GATES[deepest];
-      push(
-        { id: g.id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined, color: g.color },
-        GATE_TTL
-      );
-      const after = getLevel();
-      if (after > before) {
-        window.clearTimeout(lag);
-        lag = window.setTimeout(() => push({ id: "level", kind: "level", level: after }, LEVEL_TTL), LEVEL_LAG);
-      }
+  useEffect(() => {
+    const onScroll = () => {
+      if (pending.current) arm();
     };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (!e.isIntersecting) continue;
-          const id = e.target.id;
-          if (seen.current.has(id)) continue;
-          seen.current.add(id);
-          const index = GATES.findIndex((x) => x.id === id);
-          if (index > 0) pending.push(index);
-        }
-        if (pending.length && !settle) settle = window.setTimeout(announce, SETTLE);
-      },
-      { rootMargin: "0px 0px -45% 0px", threshold: 0.05 }
-    );
-    targets.forEach((t) => observer.observe(t));
-
+    window.addEventListener("scroll", onScroll, { passive: true });
     const all = timers.current;
     return () => {
-      observer.disconnect();
-      window.clearTimeout(settle);
-      window.clearTimeout(lag);
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settle.current);
+      window.clearTimeout(lag.current);
       all.forEach((t) => window.clearTimeout(t));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
