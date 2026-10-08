@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 
 type Orbiter = { a: number; r: number; speed: number; size: number; hue: number; wobble: number };
 type Shade = { x: number; y: number; vy: number; size: number; alpha: number; drift: number };
+type Eyes = { x: number; y: number; gap: number; blink: number; next: number; life: number; born: number; violet: boolean };
 
 /**
  * The gate: a dark portal ringed by orbiting motes of system light, with
@@ -27,6 +28,7 @@ export default function PortalCanvas({ className = "" }: { className?: string })
     let cx = 0, cy = 0, R = 0;
     let orbiters: Orbiter[] = [];
     let shades: Shade[] = [];
+    let eyes: Eyes[] = [];
     const pulses: { t: number }[] = [];
     const pointer = { x: 0, y: 0, active: false };
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -36,19 +38,32 @@ export default function PortalCanvas({ className = "" }: { className?: string })
       orbiters = Array.from({ length: n }, () => ({
         a: Math.random() * Math.PI * 2,
         r: 0.86 + Math.random() * 0.3,
-        speed: (0.0025 + Math.random() * 0.004) * (Math.random() < 0.5 ? 1 : -1),
+        speed: (0.0011 + Math.random() * 0.0022) * (Math.random() < 0.5 ? 1 : -1),
         size: 0.6 + Math.random() * 1.6,
         hue: Math.random(),
         wobble: Math.random() * Math.PI * 2,
       }));
       const m = w < 768 ? 40 : 90;
       shades = Array.from({ length: m }, () => makeShade(true));
+      eyes = Array.from({ length: w < 768 ? 3 : 6 }, () => makeEyes(true));
     };
+
+    // Shadows in the dark, watching: pairs of glowing eyes that blink, fade and move on.
+    const makeEyes = (first: boolean): Eyes => ({
+      x: w * (0.06 + Math.random() * 0.88),
+      y: h * (0.58 + Math.random() * 0.36),
+      gap: 8 + Math.random() * 7,
+      blink: 0,
+      next: t + 1.5 + Math.random() * 4,
+      life: 7 + Math.random() * 8,
+      born: first ? t - Math.random() * 6 : t,
+      violet: Math.random() < 0.7,
+    });
 
     const makeShade = (anywhere: boolean): Shade => ({
       x: Math.random() * w,
       y: anywhere ? Math.random() * h : h + 20,
-      vy: 0.25 + Math.random() * 0.6,
+      vy: 0.11 + Math.random() * 0.3,
       size: 1 + Math.random() * 3,
       alpha: 0.08 + Math.random() * 0.25,
       drift: Math.random() * Math.PI * 2,
@@ -100,7 +115,7 @@ export default function PortalCanvas({ className = "" }: { className?: string })
 
     const drawFrame = (dt: number, trails: boolean) => {
       if (trails) {
-        ctx.fillStyle = "rgba(6,7,11,0.22)";
+        ctx.fillStyle = "rgba(6,7,11,0.16)";
         ctx.fillRect(0, 0, w, h);
       } else {
         ctx.fillStyle = "#06070b";
@@ -120,22 +135,50 @@ export default function PortalCanvas({ className = "" }: { className?: string })
         ctx.fillRect(s.x - s.size * 0.4, s.y - s.size * 0.4, s.size * 0.8, s.size * 0.8);
       }
 
+      // eyes
+      for (const e of eyes) {
+        const age = t - e.born;
+        if (age > e.life) {
+          Object.assign(e, makeEyes(false));
+          continue;
+        }
+        const fade = Math.min(1, age / 1.6) * Math.min(1, (e.life - age) / 1.6);
+        if (t > e.next) {
+          e.blink = 0.16;
+          e.next = t + 1.5 + Math.random() * 4;
+        }
+        const open = e.blink > 0 ? 0.15 : 1;
+        e.blink = Math.max(0, e.blink - dt / 60);
+        e.y += Math.sin(t * 0.6 + e.gap) * 0.03 * dt;
+        const c = e.violet ? "179,157,255" : "156,208,255";
+        for (const ex of [e.x - e.gap, e.x + e.gap]) {
+          ctx.fillStyle = `rgba(${e.violet ? "124,92,255" : "88,166,255"},${0.16 * fade})`;
+          ctx.beginPath();
+          ctx.ellipse(ex, e.y, 6, 4 * open + 1, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = `rgba(${c},${0.95 * fade})`;
+          ctx.beginPath();
+          ctx.ellipse(ex, e.y, 2.4, 1.6 * open + 0.2, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
       let glow = 0;
       for (const p of pulses) {
         const age = t - p.t;
-        glow = Math.max(glow, Math.max(0, 1 - age / 1.2));
+        glow = Math.max(glow, Math.max(0, 1 - age / 2));
       }
       drawRing(glow);
 
       // orbiting motes
       for (const o of orbiters) {
         o.a += o.speed * dt;
-        const wob = Math.sin(t * 1.3 + o.wobble) * 0.03;
+        const wob = Math.sin(t * 0.7 + o.wobble) * 0.03;
         let rr = R * (o.r + wob);
         // pulses push the ring outward briefly
         for (const p of pulses) {
           const age = t - p.t;
-          if (age < 1.2) rr += Math.sin(Math.min(1, age / 1.2) * Math.PI) * 18 * (1 - age / 1.2);
+          if (age < 2) rr += Math.sin(Math.min(1, age / 2) * Math.PI) * 18 * (1 - age / 2);
         }
         let x = cx + Math.cos(o.a) * rr;
         let y = cy + Math.sin(o.a) * rr;
@@ -157,7 +200,7 @@ export default function PortalCanvas({ className = "" }: { className?: string })
         ctx.fillRect(x - s / 2, y - s / 2, s, s);
       }
 
-      for (let i = pulses.length - 1; i >= 0; i--) if (t - pulses[i].t > 1.4) pulses.splice(i, 1);
+      for (let i = pulses.length - 1; i >= 0; i--) if (t - pulses[i].t > 2.2) pulses.splice(i, 1);
     };
 
     const still = () => {

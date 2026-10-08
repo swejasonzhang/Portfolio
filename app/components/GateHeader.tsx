@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
+import { reveal, rise, stagger, sweep, VIEWPORT } from "../lib/motion";
 
 /**
  * Chapter threshold: a HUD line with the gate number and optional rank, a
@@ -30,7 +30,7 @@ export default function GateHeader({
 }) {
   return (
     <motion.header
-      variants={stagger(0.1)}
+      variants={stagger(0.18)}
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT}
@@ -43,7 +43,7 @@ export default function GateHeader({
             {rank}
           </span>
         )}
-        <span aria-hidden="true" className="hidden h-px flex-1 bg-line sm:block" />
+        <motion.span variants={sweep} aria-hidden="true" className="hidden h-px flex-1 origin-left bg-gradient-to-r from-sys/80 via-sys/30 to-line sm:block" />
         {status && <span className="text-mute">{status}</span>}
       </motion.div>
 

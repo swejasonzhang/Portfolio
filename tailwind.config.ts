@@ -85,13 +85,24 @@ export default {
         "ring-spin": {
           to: { transform: "rotate(360deg)" },
         },
+        breathe: {
+          "0%, 100%": { opacity: "0.55", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.08)" },
+        },
+        "level-flash": {
+          "0%": { opacity: "0.2", transform: "scale(1.35)" },
+          "60%": { opacity: "1", transform: "scale(0.96)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         flicker: "flicker 7s linear infinite",
-        "pulse-soft": "pulse-soft 2.6s ease-in-out infinite",
-        drift: "drift 2.4s ease-in-out infinite",
-        blink: "blink 1s steps(1) infinite",
-        "ring-spin": "ring-spin 60s linear infinite",
+        "pulse-soft": "pulse-soft 4.2s ease-in-out infinite",
+        drift: "drift 3.8s ease-in-out infinite",
+        blink: "blink 1.3s steps(1) infinite",
+        "ring-spin": "ring-spin 140s linear infinite",
+        breathe: "breathe 14s ease-in-out infinite",
+        "level-flash": "level-flash 1.1s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },

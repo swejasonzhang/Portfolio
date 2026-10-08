@@ -11,6 +11,7 @@ import {
   useSpring,
 } from "framer-motion";
 import GateHeader from "./GateHeader";
+import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { DUR, EASE_OUT, reveal, stagger, VIEWPORT } from "../lib/motion";
@@ -206,6 +207,7 @@ export default function ClearedGates() {
       className="relative isolate overflow-hidden py-24 md:py-36"
     >
       <RankMark letter="02" className="-left-[4vw] bottom-0" />
+      <GateRing className="w-[70vw] -right-[30vw] -bottom-[20vw] md:w-[40vw] md:-right-[10vw]" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -235,7 +237,7 @@ export default function ClearedGates() {
         </div>
 
         <motion.ol
-          variants={stagger(0.08)}
+          variants={stagger(0.14)}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
@@ -276,7 +278,7 @@ export default function ClearedGates() {
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.97 }}
-                transition={{ duration: DUR.fast, ease: EASE_OUT }}
+                transition={{ duration: 0.9, ease: EASE_OUT }}
                 style={{ x, y }}
                 className="pointer-events-none fixed left-0 top-0 z-40 aspect-[2/1] w-[22rem] overflow-hidden border border-line bg-void-2 shadow-glow"
               >
@@ -287,7 +289,7 @@ export default function ClearedGates() {
                     alt=""
                     fill
                     sizes="352px"
-                    className={`object-cover transition-opacity duration-300 ${
+                    className={`object-cover transition-opacity duration-[900ms] ease-out ${
                       hovered === i ? "opacity-100" : "opacity-0"
                     }`}
                   />
@@ -336,7 +338,12 @@ function GateRow({
   const [lead, rest] = splitLead(gate.description);
 
   return (
-    <motion.li variants={reveal} className="group relative border-t border-line">
+    <motion.li
+      variants={reveal}
+      className={`group relative border-t border-line transition-colors duration-[900ms] ease-out ${
+        open ? "bg-sys/5" : ""
+      }`}
+    >
       {/* Hover rule: lights up along the top of the row */}
       <span
         aria-hidden="true"
@@ -352,7 +359,13 @@ function GateRow({
           onClick={onToggle}
           className="grid w-full grid-cols-2 items-center gap-x-6 gap-y-3 py-6 text-left md:grid-cols-12 md:gap-6"
         >
-          <span className="order-1 hud text-sys md:col-span-1">{number}</span>
+          <span
+            className={`order-1 hud text-sys transition-[text-shadow] duration-[900ms] ease-out md:col-span-1 ${
+              open ? "glow-text" : ""
+            }`}
+          >
+            {number}
+          </span>
 
           <span
             className={`order-3 col-span-2 font-display text-display-md uppercase text-ice transition-[text-shadow] duration-300 group-hover:glow-text md:order-2 md:col-span-5 ${

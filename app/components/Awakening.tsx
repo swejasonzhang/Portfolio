@@ -1,8 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useState, type ReactNode } from "react";
 import PortalCanvas from "./PortalCanvas";
 import SystemWindow from "./SystemWindow";
+import CountUp from "./CountUp";
 import { siteConfig } from "../site";
 import { EASE_OUT, INTRO_DELAY, reveal, rise, stagger } from "../lib/motion";
 
@@ -15,20 +17,67 @@ const STATUS: { k: string; v: string; tone?: "sys" | "shadow" }[] = [
   { k: "Quest", v: "B.S. Computer Science · Queens College (CUNY) · exp. May 2029" },
 ];
 
-const LOG = [
-  { k: "Inkmity v1", v: "530+ commits, built by hand" },
-  { k: "Series", v: "50+ pull requests" },
-  { k: "Move Tact", v: "19 Python scripts · 108 commits" },
-  { k: "Amazeon", v: "167 commits, solo capstone" },
-  { k: "Bonjour World", v: "15 PRs merged" },
+/** Real counts only. Numbers count up when the window scrolls into view. */
+const LOG: { k: string; v: ReactNode }[] = [
+  {
+    k: "Inkmity v1",
+    v: (
+      <>
+        <CountUp to={530} suffix="+" className="text-ice" /> commits, built by hand
+      </>
+    ),
+  },
+  {
+    k: "Series",
+    v: (
+      <>
+        <CountUp to={50} suffix="+" className="text-ice" /> pull requests
+      </>
+    ),
+  },
+  {
+    k: "Move Tact",
+    v: (
+      <>
+        <CountUp to={19} className="text-ice" /> Python scripts ·{" "}
+        <CountUp to={108} className="text-ice" /> commits
+      </>
+    ),
+  },
+  {
+    k: "Amazeon",
+    v: (
+      <>
+        <CountUp to={167} className="text-ice" /> commits, solo capstone
+      </>
+    ),
+  },
+  {
+    k: "Bonjour World",
+    v: (
+      <>
+        <CountUp to={15} className="text-ice" /> PRs merged
+      </>
+    ),
+  },
 ];
+
+const ROW_CLASS =
+  "grid grid-cols-[6rem_1fr] gap-3 py-2 text-sm first:pt-0 last:pb-0 transition-colors duration-300 hover:bg-sys/5";
 
 /**
  * Gate 00. The awakening: the name rises out of shadow in front of the
  * portal, the identity line, one true paragraph, and the Player status
- * window with real numbers for stats.
+ * window with real numbers for stats. The Level row is fed by scroll and
+ * uses the same formula as the rail (1 + floor(progress * 6), capped at 6).
  */
 export default function Awakening() {
+  const { scrollYProgress } = useScroll();
+  const [level, setLevel] = useState(1);
+  useMotionValueEvent(scrollYProgress, "change", (v) =>
+    setLevel(1 + Math.min(5, Math.floor(v * 6)))
+  );
+
   return (
     <section
       id="awakening"
@@ -48,7 +97,7 @@ export default function Awakening() {
 
       <div className="frame flex min-h-[100svh] flex-col justify-between pb-10 pt-24 md:pt-28">
         <motion.div
-          variants={stagger(0.1, INTRO_DELAY)}
+          variants={stagger(0.2, INTRO_DELAY)}
           initial="hidden"
           animate="visible"
           className="flex items-center justify-between hud text-mute"
@@ -64,7 +113,7 @@ export default function Awakening() {
 
         <div className="grid gap-10 py-10 lg:grid-cols-12 lg:items-end lg:gap-8 md:py-14">
           <motion.div
-            variants={stagger(0.12, INTRO_DELAY + 0.1)}
+            variants={stagger(0.22, INTRO_DELAY + 0.15)}
             initial="hidden"
             animate="visible"
             className="lg:col-span-7"
@@ -78,9 +127,9 @@ export default function Awakening() {
               </motion.span>
             </h1>
 
-            <motion.p variants={reveal} className="mt-8 hud text-ice md:text-xs">
-              Software Engineer <span className="text-sys">/</span> Builder{" "}
-              <span className="text-sys">/</span> Founder
+            <motion.p variants={reveal} className="mt-8 hud text-xs text-ice md:text-sm">
+              Software Engineer <span className="glow-text text-sys">/</span> Builder{" "}
+              <span className="glow-text text-sys">/</span> Founder
             </motion.p>
 
             <motion.p
@@ -106,15 +155,39 @@ export default function Awakening() {
           </motion.div>
 
           <motion.div
-            variants={stagger(0.15, INTRO_DELAY + 0.5)}
+            variants={stagger(0.25, INTRO_DELAY + 0.9)}
             initial="hidden"
             animate="visible"
             className="space-y-4 lg:col-span-5"
           >
-            <SystemWindow title="Player status" right="Live">
+            <SystemWindow
+              title="Player status"
+              right={
+                <span className="flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-1.5 rotate-45 bg-sys motion-safe:animate-pulse-soft"
+                  />
+                  Live
+                </span>
+              }
+            >
               <dl className="divide-y divide-line">
+                <div className={ROW_CLASS}>
+                  <dt className="hud pt-0.5 text-mute">Level</dt>
+                  <dd className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span
+                      key={level}
+                      aria-live="polite"
+                      className="glow-text font-display text-base font-bold uppercase text-sys-bright motion-safe:animate-level-flash"
+                    >
+                      LV {level}
+                    </span>
+                    <span className="hud text-mute">climbs as you descend</span>
+                  </dd>
+                </div>
                 {STATUS.map((row) => (
-                  <div key={row.k} className="grid grid-cols-[6rem_1fr] gap-3 py-2 text-sm first:pt-0 last:pb-0">
+                  <div key={row.k} className={ROW_CLASS}>
                     <dt className="hud pt-0.5 text-mute">{row.k}</dt>
                     <dd
                       className={
@@ -148,15 +221,21 @@ export default function Awakening() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: INTRO_DELAY + 1.1, duration: 0.8, ease: EASE_OUT }}
+          transition={{ delay: INTRO_DELAY + 2, duration: 1.2, ease: EASE_OUT }}
           className="flex items-end justify-between hud text-mute"
         >
-          <a href="#inkmity" className="group flex items-center gap-4 transition-colors hover:text-ice">
-            <span aria-hidden="true" className="relative block h-12 w-px overflow-hidden bg-line">
-              <span className="absolute inset-x-0 top-0 h-4 bg-sys motion-safe:animate-drift" />
+          <div className="flex items-center gap-8">
+            <a href="#inkmity" className="group flex items-center gap-4 transition-colors duration-300 hover:text-ice">
+              <span aria-hidden="true" className="relative block h-12 w-px overflow-hidden bg-line">
+                <span className="absolute inset-x-0 top-0 h-4 bg-sys motion-safe:animate-drift" />
+              </span>
+              Descend
+            </a>
+            <span className="hidden items-center gap-2 lg:flex">
+              <span aria-hidden="true" className="h-1 w-1 rotate-45 bg-sys-dim" />
+              Press anywhere on the gate to send a pulse
             </span>
-            Descend
-          </a>
+          </div>
           <span className="hidden sm:inline">Gates 00 → 05</span>
         </motion.div>
       </div>

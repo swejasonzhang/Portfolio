@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
 import { siteConfig } from "../site";
 import GateHeader from "./GateHeader";
+import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 
@@ -33,6 +34,7 @@ export default function SystemMessage() {
         className="relative isolate overflow-hidden py-24 md:py-36"
       >
         <RankMark letter="05" className="-right-[4vw] -top-4" />
+        <GateRing className="w-[70vw] -right-[30vw] -top-[20vw] md:w-[42vw] md:-right-[12vw]" />
         <div aria-hidden="true" className="pool-sys pointer-events-none absolute inset-0 -z-10" />
         <span
           aria-hidden="true"
@@ -45,13 +47,13 @@ export default function SystemMessage() {
           <GateHeader id="contact-title" gate="05" status="Last gate" title="Send a message" />
 
           <motion.div
-            variants={stagger(0.12)}
+            variants={stagger(0.14)}
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
             className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8"
           >
-            <SystemWindow title="Notification" right="Open" className="col-span-1 md:col-span-12 lg:col-span-7">
+            <SystemWindow title="Notification" right="Open · New York" alert className="col-span-1 md:col-span-12 lg:col-span-7">
               <p className="hud text-mute">
                 To: {siteConfig.name} · {siteConfig.location}
               </p>
@@ -83,6 +85,7 @@ export default function SystemMessage() {
 
             <SystemWindow
               title="Channels"
+              right="4 open"
               className="col-span-1 md:col-span-12 lg:col-span-5"
               bodyClassName="p-0 md:p-0"
             >
@@ -111,7 +114,7 @@ export default function SystemMessage() {
           </motion.div>
 
           <motion.div
-            variants={stagger(0.15)}
+            variants={stagger(0.16)}
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
@@ -123,7 +126,7 @@ export default function SystemMessage() {
               </motion.span>
             </p>
             <motion.p variants={reveal} className="hud mt-4 text-mute">
-              Thanks for reading all the way down.
+              All gates read. Thanks for descending this far.
             </motion.p>
           </motion.div>
         </div>

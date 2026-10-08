@@ -1,21 +1,53 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { EASE_OUT } from "../lib/motion";
+import { EASE_OUT, INTRO_DELAY } from "../lib/motion";
 import { GATES } from "./Rail";
 
-type Toast = { id: string; gate: string; label: string };
+type Toast =
+  | { id: string; kind: "gate"; gate: string; label: string; rank?: string }
+  | { id: string; kind: "level"; level: number };
 
 /**
- * System notifications: the first time a chapter enters view it is
- * "unlocked" and a small window announces it. Once per chapter per visit,
- * polite for screen readers, dismissible, and quiet under reduced motion.
+ * System notifications. The first time a gate enters view it is announced
+ * ("You have entered Gate 01"), and each time the level readout climbs a
+ * LEVEL UP window flashes in. Once per event per visit, polite for screen
+ * readers, dismissible, quiet under reduced motion.
  */
 export default function Notifier() {
   const reduce = useReducedMotion();
   const [toasts, setToasts] = useState<Toast[]>([]);
   const seen = useRef(new Set<string>(["awakening"]));
+  const levelRef = useRef(1);
+  const started = useRef(false);
+  const { scrollYProgress } = useScroll();
+
+  const push = (t: Toast, ttl: number) => {
+    setToasts((all) => [...all.filter((x) => x.id !== t.id), t]);
+    window.setTimeout(() => setToasts((all) => all.filter((x) => x.id !== t.id)), ttl);
+  };
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      started.current = true;
+    }, (INTRO_DELAY + 0.8) * 1000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const lv = 1 + Math.min(5, Math.floor(v * 6));
+    if (lv > levelRef.current) {
+      levelRef.current = lv;
+      if (started.current) push({ id: `lv-${lv}`, kind: "level", level: lv }, 3800);
+    }
+  });
 
   useEffect(() => {
     const targets = GATES.filter((g) => g.id !== "awakening")
@@ -30,9 +62,10 @@ export default function Notifier() {
           seen.current.add(id);
           const g = GATES.find((x) => x.id === id);
           if (!g) continue;
-          const toast = { id, gate: g.gate, label: g.label };
-          setToasts((t) => [...t, toast]);
-          window.setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 2800);
+          push(
+            { id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined },
+            4400
+          );
         }
       },
       { rootMargin: "0px 0px -45% 0px", threshold: 0.05 }
@@ -47,26 +80,45 @@ export default function Notifier() {
       className="pointer-events-none fixed inset-x-4 bottom-4 z-[70] flex flex-col items-stretch gap-2 sm:inset-x-auto sm:right-6 sm:top-20 sm:bottom-auto sm:w-80"
     >
       <AnimatePresence>
-        {toasts.map((t) => (
-          <motion.button
-            key={t.id}
-            type="button"
-            onClick={() => setToasts((all) => all.filter((x) => x.id !== t.id))}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24, scale: 0.98 }}
-            animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], x: 0, scale: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.25 } }}
-            transition={{ duration: 0.45, ease: EASE_OUT }}
-            className="pointer-events-auto relative border border-sys/50 bg-void/90 px-4 py-3 text-left shadow-glow"
-          >
-            <span aria-hidden="true" className="absolute -left-px -top-px h-2.5 w-2.5 border-l-2 border-t-2 border-sys-bright" />
-            <span aria-hidden="true" className="absolute -bottom-px -right-px h-2.5 w-2.5 border-b-2 border-r-2 border-sys-bright" />
-            <span className="hud block text-sys">[System]</span>
-            <span className="mt-1 block font-display text-base uppercase tracking-wide text-ice">
-              Gate {t.gate} unlocked
-            </span>
-            <span className="hud block text-mute">{t.label}</span>
-          </motion.button>
-        ))}
+        {toasts.map((t) => {
+          const level = t.kind === "level";
+          return (
+            <motion.button
+              key={t.id}
+              type="button"
+              onClick={() => setToasts((all) => all.filter((x) => x.id !== t.id))}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24, scale: 0.97 }}
+              animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], x: 0, scale: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.6 } }}
+              transition={{ duration: 0.9, ease: EASE_OUT }}
+              className={`pointer-events-auto relative border bg-void/90 px-4 py-3 text-left ${
+                level ? "border-shadow/70 shadow-glow-violet" : "border-sys/50 shadow-glow"
+              }`}
+            >
+              <span aria-hidden="true" className={`absolute -left-px -top-px h-2.5 w-2.5 border-l-2 border-t-2 ${level ? "border-shadow-bright" : "border-sys-bright"}`} />
+              <span aria-hidden="true" className={`absolute -bottom-px -right-px h-2.5 w-2.5 border-b-2 border-r-2 ${level ? "border-shadow-bright" : "border-sys-bright"}`} />
+              <span className={`hud block ${level ? "text-shadow-bright" : "text-sys"}`}>[System]</span>
+              {t.kind === "level" ? (
+                <>
+                  <span className="glow-text-violet mt-1 block font-display text-2xl font-bold uppercase tracking-wide text-ice">
+                    Level up!
+                  </span>
+                  <span className="hud block text-mute">You are now LV {t.level}</span>
+                </>
+              ) : (
+                <>
+                  <span className="mt-1 block font-display text-base uppercase tracking-wide text-ice">
+                    You have entered Gate {t.gate}
+                  </span>
+                  <span className="hud block text-mute">
+                    {t.rank ? `${t.rank} · ` : ""}
+                    {t.label}
+                  </span>
+                </>
+              )}
+            </motion.button>
+          );
+        })}
       </AnimatePresence>
     </div>
   );

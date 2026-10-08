@@ -193,7 +193,7 @@
     }
   }
   .screen-fallback {
-    animation: screen-clear 0.6s ease 3.4s forwards;
+    animation: screen-clear 0.8s ease 5.4s forwards;
   }
 }
 

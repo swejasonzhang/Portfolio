@@ -3,7 +3,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
+import CountUp from "./CountUp";
 import GateHeader from "./GateHeader";
+import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { siteConfig } from "../site";
@@ -81,15 +83,6 @@ const SECURITY: { k: string; v: ReactNode }[] = [
   { k: "Operator keys", v: "rejectOperatorKeys middleware" },
   { k: "Legal", v: "Signed client waiver and artist / studio agreements, enforced before a session on client and server" },
   { k: "Deletion", v: "Self-serve account deletion erases personal data; transaction and signed-legal records are retained as required by law" },
-  {
-    k: "Moderation",
-    v: (
-      <>
-        <span className="text-danger">Fails closed.</span> Production refuses to boot without a key unless
-        MODERATION_FAIL_OPEN=true is set deliberately.
-      </>
-    ),
-  },
 ];
 
 const HARDENING = [
@@ -414,6 +407,13 @@ function FloorFour() {
     <div className="grid gap-10 md:grid-cols-12 md:gap-8">
       <div className="md:col-span-7">
         <Register rows={SECURITY} className="border-y border-line" />
+        <SystemWindow title="Warning" tone="danger" alert animate={false} className="mt-8 max-w-md">
+          <p className="text-pretty text-sm leading-relaxed text-ice">
+            Moderation <span className="text-danger">fails closed</span>. Production refuses to boot without a
+            Gemini key unless <span className="font-mono text-xs">MODERATION_FAIL_OPEN=true</span> is set
+            deliberately.
+          </p>
+        </SystemWindow>
       </div>
       <div className="md:col-span-5">
         <SystemWindow title="Hardening suites" right="Jest · backend" animate={false} bodyClassName="px-5 py-1 md:px-6">
@@ -435,12 +435,14 @@ function FloorFive() {
     <div>
       <div className="grid grid-cols-3 border-y border-line">
         {[
-          { n: "545", k: "Test files" },
-          { n: "60", k: "Integration suites" },
-          { n: "7", k: "Viewports audited" },
+          { n: 545, k: "Test files" },
+          { n: 60, k: "Integration suites" },
+          { n: 7, k: "Viewports in the fit audit" },
         ].map((s, i) => (
           <div key={s.k} className={`py-6 ${i > 0 ? "border-l border-line pl-4 md:pl-8" : ""}`}>
-            <div className="glow-text font-display text-display-lg uppercase text-sys-bright">{s.n}</div>
+            <div className="glow-text font-display text-display-lg uppercase text-sys-bright">
+              <CountUp to={s.n} />
+            </div>
             <div className="hud mt-2 text-mute">{s.k}</div>
           </div>
         ))}
@@ -521,7 +523,9 @@ function FloorSix() {
           <dl className="divide-y divide-line">
             <div className="py-4">
               <dt className="hud text-sys">By hand</dt>
-              <dd className="mt-1.5 text-sm text-ice">Aug 2025 – Jan 2026 · 530+ commits</dd>
+              <dd className="mt-1.5 text-sm text-ice">
+                Aug 2025 – Jan 2026 · <CountUp to={530} suffix="+" /> commits
+              </dd>
             </div>
             <div className="py-4">
               <dt className="hud text-sys">With Claude Code</dt>
@@ -541,9 +545,9 @@ function FloorSix() {
   );
 }
 
-const FLOORS: { n: number; title: string; summary: string; body: () => ReactNode }[] = [
+const FLOORS: { n: number; title: string; summary: string; body: () => ReactNode; boss?: boolean }[] = [
   { n: 1, title: "The decision", summary: "One workflow, one city. The constitution wins.", body: FloorOne },
-  { n: 2, title: "The money path", summary: "Flat $10, paid by the client. Deposit → capture → split → clawback.", body: FloorTwo },
+  { n: 2, title: "The money path", summary: "Flat $10, paid by the client. Deposit → capture → split → clawback.", body: FloorTwo, boss: true },
   { n: 3, title: "Architecture", summary: "React SPA on Vercel ⇄ Express + Socket.io on Render ⇄ Atlas.", body: FloorThree },
   { n: 4, title: "Trust and security", summary: "Fails closed. Signed before a session. Deleted on request.", body: FloorFour },
   { n: 5, title: "Testing and delivery", summary: "545 test files. Deploys only after CI is green.", body: FloorFive },
@@ -596,6 +600,7 @@ export default function Dungeon() {
       className="relative isolate overflow-hidden py-24 md:py-36"
     >
       <RankMark letter="S" className="-right-[6vw] -top-6" />
+      <GateRing className="w-[80vw] -left-[35vw] -top-[20vw] md:w-[50vw] md:-left-[18vw]" />
       <div aria-hidden="true" className="pool-shadow pointer-events-none absolute inset-0 -z-10" />
       <span
         aria-hidden="true"
@@ -616,7 +621,7 @@ export default function Dungeon() {
 
         {/* Threshold: capture + gate info */}
         <motion.div
-          variants={stagger(0.12)}
+          variants={stagger(0.16)}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
@@ -680,14 +685,21 @@ export default function Dungeon() {
                       className="group flex w-full items-baseline gap-5 py-6 text-left md:gap-8"
                     >
                       <span
-                        className={`font-display text-display-md text-sys transition-[color,text-shadow] duration-300 group-hover:text-sys-bright ${
-                          isOpen ? "glow-text" : ""
+                        className={`font-display text-display-md transition-[color,text-shadow] duration-300 ${
+                          f.boss
+                            ? `text-shadow group-hover:text-shadow-bright ${isOpen ? "glow-text-violet text-shadow-bright" : ""}`
+                            : `text-sys group-hover:text-sys-bright ${isOpen ? "glow-text" : ""}`
                         }`}
                       >
                         F{f.n}
                       </span>
-                      <span className="min-w-0 flex-1 font-display text-display-md uppercase text-ice md:flex-none">
-                        {f.title}
+                      <span className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-4 gap-y-2 md:flex-none">
+                        <span className="font-display text-display-md uppercase text-ice">{f.title}</span>
+                        {f.boss && (
+                          <span className="hud border border-shadow/60 bg-shadow/10 px-2 py-0.5 text-shadow-bright">
+                            Boss floor
+                          </span>
+                        )}
                       </span>
                       <span className="hidden min-w-0 flex-1 truncate font-mono text-2xs text-mute transition-colors duration-300 group-hover:text-ice-2 md:block">
                         {f.summary}
@@ -722,7 +734,7 @@ export default function Dungeon() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: reduce ? 0 : 0.5, ease: EASE_OUT }}
+                        transition={{ duration: reduce ? 0 : 0.9, ease: EASE_OUT }}
                         className="overflow-hidden"
                       >
                         <div className="pb-14 pt-2 md:pb-20 md:pl-[4.5rem]">
@@ -739,7 +751,7 @@ export default function Dungeon() {
 
         {/* Closing quote */}
         <motion.blockquote
-          variants={stagger(0.1)}
+          variants={stagger(0.16)}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
@@ -754,6 +766,27 @@ export default function Dungeon() {
             — Inkmity product constitution
           </motion.footer>
         </motion.blockquote>
+
+        {/* Cleared stamp */}
+        <motion.div
+          variants={rise}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-shadow/50 bg-shadow/5 px-5 py-4"
+        >
+          <p className="hud glow-text-violet text-shadow-bright">
+            <span className="text-shadow-bright">[Gate 01 · S-Rank]</span> Status: cleared and live
+          </p>
+          <a
+            href={siteConfig.inkmity}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-sys hud inline-flex min-h-[44px] items-center text-mute"
+          >
+            Live since July 2026 · inkmity.com<span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

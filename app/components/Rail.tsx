@@ -13,7 +13,7 @@ import { EASE_INOUT, EASE_OUT, INTRO_DELAY } from "../lib/motion";
 
 export const GATES = [
   { id: "awakening", gate: "00", label: "Awakening" },
-  { id: "inkmity", gate: "01", label: "Inkmity" },
+  { id: "inkmity", gate: "01", label: "Inkmity", rank: "S-Rank" },
   { id: "works", gate: "02", label: "Cleared gates" },
   { id: "record", gate: "03", label: "Quest log" },
   { id: "self", gate: "04", label: "Titles" },
@@ -81,7 +81,7 @@ export default function Rail() {
       <motion.header
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: INTRO_DELAY, duration: 0.6, ease: EASE_OUT }}
+        transition={{ delay: INTRO_DELAY, duration: 1.1, ease: EASE_OUT }}
         className="pointer-events-none fixed inset-x-0 top-0 z-50"
       >
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-void via-void/85 to-transparent" />
@@ -97,7 +97,9 @@ export default function Rail() {
 
           <div className="pointer-events-auto flex items-center gap-3">
             <span className="hud hidden items-center gap-3 border border-line bg-void/60 px-3 py-2 text-mute sm:flex">
-              <span className="text-sys">LV {level}</span>
+              <span key={level} className="text-sys motion-safe:animate-level-flash">
+                LV {level}
+              </span>
               <span aria-hidden="true" className="h-3 w-px bg-line" />
               <span>
                 XP <motion.span className="text-ice">{pct}</motion.span>%
@@ -122,7 +124,7 @@ export default function Rail() {
         aria-label="Gates"
         initial={{ opacity: 0, x: 12 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: INTRO_DELAY + 0.2, duration: 0.6, ease: EASE_OUT }}
+        transition={{ delay: INTRO_DELAY + 0.3, duration: 1.1, ease: EASE_OUT }}
         className="fixed right-7 top-1/2 z-50 hidden -translate-y-1/2 lg:block"
       >
         <div className="relative">
@@ -179,8 +181,8 @@ export default function Rail() {
             aria-modal="true"
             aria-label="Gates"
             initial={{ clipPath: "inset(50% 0 50% 0)" }}
-            animate={{ clipPath: "inset(0% 0 0% 0)", transition: { duration: 0.45, ease: EASE_INOUT } }}
-            exit={{ clipPath: "inset(50% 0 50% 0)", transition: { duration: 0.35, ease: EASE_INOUT } }}
+            animate={{ clipPath: "inset(0% 0 0% 0)", transition: { duration: 0.75, ease: EASE_INOUT } }}
+            exit={{ clipPath: "inset(50% 0 50% 0)", transition: { duration: 0.55, ease: EASE_INOUT } }}
             className="fixed inset-0 z-[60] bg-void text-ice"
           >
             <div aria-hidden="true" className="scanlines pointer-events-none absolute inset-0" />
@@ -204,7 +206,7 @@ export default function Rail() {
                   <motion.li
                     key={g.id}
                     initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0, transition: { delay: 0.2 + i * 0.05, duration: 0.45, ease: EASE_OUT } }}
+                    animate={{ opacity: 1, x: 0, transition: { delay: 0.35 + i * 0.09, duration: 0.8, ease: EASE_OUT } }}
                   >
                     <a
                       href={`#${g.id}`}

@@ -12,13 +12,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { EASE_INOUT, EASE_OUT } from "../lib/motion";
 
 const LINES = ["Player detected.", "Loading gates 00 → 05."];
-const HOLD_MS = 1250;
-const SAFETY_MS = 3400;
+const HOLD_MS = 2250;
+const SAFETY_MS = 5200;
 
 /**
  * The entrance: a black System screen types two lines and fills a bar, the
  * word ARISE flashes, then the screen parts top and bottom to reveal the gate.
- * Total ≈ 1.25s hold + 0.55s part. INTRO_DELAY in lib/motion is tuned to it.
+ * Total ≈ 2.25s hold + 0.95s part. INTRO_DELAY in lib/motion is tuned to it.
  */
 export default function Arise() {
   const reduce = useReducedMotion();
@@ -45,8 +45,8 @@ export default function Arise() {
     }
     document.body.style.overflow = "hidden";
     document.querySelectorAll("main, header, nav").forEach((el) => el.setAttribute("inert", ""));
-    const controls = animate(p, 100, { duration: 0.9, ease: EASE_OUT });
-    const arise = window.setTimeout(() => setStage("arise"), 850);
+    const controls = animate(p, 100, { duration: 1.5, ease: EASE_OUT });
+    const arise = window.setTimeout(() => setStage("arise"), 1450);
     const hide = window.setTimeout(() => setShow(false), HOLD_MS);
     const safety = window.setTimeout(release, SAFETY_MS);
     return () => {
@@ -69,11 +69,11 @@ export default function Arise() {
           {/* two halves of the screen, parting like a gate */}
           <motion.div
             className="scanlines absolute inset-x-0 top-0 h-1/2 bg-void"
-            exit={{ y: "-100%", transition: { duration: 0.55, ease: EASE_INOUT } }}
+            exit={{ y: "-100%", transition: { duration: 0.95, ease: EASE_INOUT } }}
           />
           <motion.div
             className="scanlines absolute inset-x-0 bottom-0 h-1/2 bg-void"
-            exit={{ y: "100%", transition: { duration: 0.55, ease: EASE_INOUT } }}
+            exit={{ y: "100%", transition: { duration: 0.95, ease: EASE_INOUT } }}
           />
           <motion.span
             aria-hidden="true"
@@ -97,7 +97,7 @@ export default function Arise() {
                     <motion.p
                       key={l}
                       initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, transition: { delay: 0.15 + i * 0.3, duration: 0.2 } }}
+                      animate={{ opacity: 1, transition: { delay: 0.3 + i * 0.5, duration: 0.35 } }}
                     >
                       <span className="text-sys">›</span> {l}
                       {i === LINES.length - 1 && (
@@ -122,7 +122,7 @@ export default function Arise() {
               <motion.p
                 aria-hidden="true"
                 initial={{ opacity: 0, scale: 1.08 }}
-                animate={{ opacity: [0, 1, 0.6, 1], scale: 1, transition: { duration: 0.35, ease: "linear" } }}
+                animate={{ opacity: [0, 1, 0.6, 1], scale: 1, transition: { duration: 0.7, ease: "linear" } }}
                 className="glow-text font-display text-display-xl uppercase tracking-[0.08em] text-ice"
               >
                 Arise

@@ -4,6 +4,8 @@ import './globals.css';
 import MotionProvider from './components/MotionProvider';
 import Arise from './components/Arise';
 import Notifier from './components/Notifier';
+import ManaField from './components/ManaField';
+import Reticle from './components/Reticle';
 import Rail from './components/Rail';
 import { siteConfig } from './site';
 
@@ -129,9 +131,11 @@ export default function RootLayout({
 					Skip to content
 				</a>
 				<MotionProvider>
+					<ManaField />
 					<Arise />
 					<Rail />
 					<Notifier />
+					<Reticle />
 					{children}
 				</MotionProvider>
 			</body>

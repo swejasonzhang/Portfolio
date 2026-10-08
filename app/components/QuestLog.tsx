@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import CountUp from "./CountUp";
 import GateHeader from "./GateHeader";
+import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
@@ -14,7 +16,7 @@ type Quest = {
   role: string;
   kind: string;
   description: string;
-  objectives: string[];
+  objectives: ReactNode[];
   active?: boolean;
 };
 
@@ -41,7 +43,9 @@ const WORK: Quest[] = [
     description:
       "Wrote Python scripts that pull social media metrics into Google Sheets for a 10+ person marketing team.",
     objectives: [
-      "Sole author of 19 Python scripts across 108 commits",
+      <>
+        Sole author of <CountUp to={19} /> Python scripts across <CountUp to={108} /> commits
+      </>,
       "TikTok, Instagram and YouTube metrics from the Ensemble Data and Chartmetric APIs",
       "Slack notifications, plus a small Node.js, Express and React web app",
     ],
@@ -54,7 +58,9 @@ const WORK: Quest[] = [
     description:
       "Built backend endpoints and Twilio integrations on a 3-person engineering team with the CTO.",
     objectives: [
-      "Opened 50+ pull requests, working through code review",
+      <>
+        Opened <CountUp to={50} suffix="+" /> pull requests, working through code review
+      </>,
       "Node.js and Firebase backend endpoints",
       "Twilio integrations for Vera, the company's communications bot",
     ],
@@ -110,22 +116,35 @@ const STUDY: Quest[] = [
   },
 ];
 
-const INVENTORY: { label: string; items: string }[] = [
-  { label: "Languages", items: "JavaScript, TypeScript, Python, HTML, CSS, Ruby, C++" },
+const ACTIVE_QUESTS: { text: string; progress: string }[] = [
   {
-    label: "Web",
-    items:
-      "React, Redux, Tailwind CSS, Node.js, Express.js, REST APIs, Socket.IO, MongoDB, PostgreSQL, Ruby on Rails, Firebase",
+    text: "Finish the B.S. in Computer Science at Queens College (CUNY)",
+    progress: "In progress · expected May 2029",
   },
   {
-    label: "Integrations",
-    items:
-      "Stripe Checkout, Stripe webhooks, Clerk, Cloudinary, Twilio, Google Places, Google Sheets, Slack",
+    text: "Grow Inkmity to 20 NYC artists using it weekly on real client work",
+    progress: "In progress · live since Jul 2026",
   },
   {
-    label: "Cloud and tools",
-    items: "Claude Code, AI-assisted development, Git, GitHub, Render, Vercel, MongoDB Atlas",
+    text: "Land a software engineering internship or co-op",
+    progress: "Open · can start right away",
   },
+];
+
+const SKILLS_ACTIVE: ReactNode[] = [
+  "Languages — JavaScript, TypeScript, Python, HTML, CSS, Ruby, C++",
+  "Web — React, Redux, Tailwind CSS, Node.js, Express.js, REST APIs, Socket.IO, MongoDB, PostgreSQL, Ruby on Rails, Firebase",
+  "Integrations — Stripe Checkout, Stripe webhooks, Clerk, Cloudinary, Twilio, Google Places, Google Sheets, Slack",
+  "Cloud and tools — Claude Code, AI-assisted development, Git, GitHub, Render, Vercel, MongoDB Atlas",
+];
+
+const SKILLS_PASSIVE: ReactNode[] = [
+  <>
+    Code review — <CountUp to={50} suffix="+" /> pull requests at Series, worked through review
+  </>,
+  "Testing by hand — every Inkmity release tested in the live app before approval",
+  "Ops — production env vars, live Stripe webhook endpoint, DB scripts, deploy and server logs on Render and Vercel",
+  "Product discipline — a written constitution with anti-goals; features frozen behind flags instead of deleted",
 ];
 
 function QuestWindow({ quest }: { quest: Quest }) {
@@ -144,8 +163,8 @@ function QuestWindow({ quest }: { quest: Quest }) {
         <div className="md:col-span-7">
           <p className="hud text-mute">Objectives</p>
           <ul className="mt-3 divide-y divide-line border-t border-line font-mono text-sm text-ice">
-            {quest.objectives.map((o) => (
-              <li key={o} className="flex items-start gap-3 py-3 leading-relaxed">
+            {quest.objectives.map((o, i) => (
+              <li key={i} className="flex items-start gap-3 py-3 leading-relaxed">
                 <span
                   aria-hidden="true"
                   className={`mt-2 h-1.5 w-1.5 shrink-0 rotate-45 ${
@@ -165,11 +184,11 @@ function QuestWindow({ quest }: { quest: Quest }) {
 function Board({ heading, quests }: { heading: string; quests: Quest[] }) {
   return (
     <motion.div
-      variants={stagger(0.1)}
+      variants={stagger()}
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT}
-      className="mt-16 first:mt-0 md:mt-24"
+      className="mt-16 md:mt-24"
     >
       <motion.h3 variants={reveal} className="hud mb-6 text-sys">
         [{heading}]
@@ -183,6 +202,22 @@ function Board({ heading, quests }: { heading: string; quests: Quest[] }) {
   );
 }
 
+function SkillList({ heading, items }: { heading: string; items: ReactNode[] }) {
+  return (
+    <div>
+      <h4 className="hud text-sys">[{heading}]</h4>
+      <ul className="mt-3 divide-y divide-line border-t border-line font-mono text-sm text-ice">
+        {items.map((item, i) => (
+          <li key={i} className="flex items-start gap-3 py-3 leading-relaxed">
+            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-sys" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function QuestLog() {
   return (
     <section
@@ -191,6 +226,7 @@ export default function QuestLog() {
       className="relative isolate overflow-hidden py-24 md:py-36"
     >
       <RankMark letter="03" className="-right-[4vw] top-4" />
+      <GateRing className="w-[70vw] -right-[30vw] top-10 md:w-[42vw] md:-right-[12vw]" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -207,33 +243,53 @@ export default function QuestLog() {
           subtitle="Completed and active quests. Real dates, real scope."
         />
 
+        <motion.div
+          variants={stagger()}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          className="mt-16 md:mt-24"
+        >
+          <SystemWindow title="Active quests" right="3 in progress" alert tone="shadow" animate>
+            <ul className="divide-y divide-line border-t border-line">
+              {ACTIVE_QUESTS.map((q) => (
+                <li
+                  key={q.text}
+                  className="flex flex-col gap-2 py-4 md:flex-row md:items-start md:justify-between md:gap-8"
+                >
+                  <span className="flex items-start gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="mt-1.5 h-3 w-3 shrink-0 border border-shadow-bright bg-shadow/15"
+                    />
+                    <span className="leading-relaxed text-ice">{q.text}</span>
+                  </span>
+                  <span className="hud shrink-0 text-mute md:pt-1 md:text-right">{q.progress}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="hud mt-5 text-mute">Reward — unknown until cleared.</p>
+          </SystemWindow>
+        </motion.div>
+
         <Board heading="Main quests · Work" quests={WORK} />
         <Board heading="Side quests · Study" quests={STUDY} />
 
         <motion.div
-          variants={stagger(0.1)}
+          variants={stagger()}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
           className="mt-16 md:mt-24"
         >
           <motion.h3 variants={reveal} className="hud mb-6 text-sys">
-            [Inventory]
+            [Skills]
           </motion.h3>
-          <SystemWindow title="Inventory" right="Skills" animate bodyClassName="p-0 md:p-0">
-            <dl className="divide-y divide-line">
-              {INVENTORY.map((row) => (
-                <div
-                  key={row.label}
-                  className="grid gap-2 px-5 py-4 md:grid-cols-12 md:gap-8 md:px-6"
-                >
-                  <dt className="hud text-mute md:col-span-3">{row.label}</dt>
-                  <dd className="font-mono text-sm leading-relaxed text-ice md:col-span-9">
-                    {row.items}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+          <SystemWindow title="Skills" right="From the resume" animate>
+            <div className="grid gap-8 md:grid-cols-2">
+              <SkillList heading="Active" items={SKILLS_ACTIVE} />
+              <SkillList heading="Passive" items={SKILLS_PASSIVE} />
+            </div>
           </SystemWindow>
 
           <motion.div variants={reveal} className="mt-10 flex justify-end">

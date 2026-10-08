@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import GateHeader from "./GateHeader";
+import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
@@ -73,6 +74,7 @@ export default function Titles() {
     >
       <div aria-hidden="true" className="pool-shadow absolute inset-0 -z-10" />
       <RankMark letter="04" className="-left-[5vw] -bottom-8" />
+      <GateRing className="w-[80vw] -left-[40vw] top-0 md:w-[46vw] md:-left-[16vw]" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -90,7 +92,7 @@ export default function Titles() {
         />
 
         <motion.div
-          variants={stagger(0.1)}
+          variants={stagger(0.14)}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
@@ -106,11 +108,11 @@ export default function Titles() {
           {/* Four earned titles */}
           <div className="col-span-full grid grid-cols-1 gap-5 md:grid-cols-2">
             {TITLES.map((t) => (
-              <SystemWindow key={t.name} title="Title" right="Earned" tone="shadow">
+              <SystemWindow key={t.name} title="Title" right="Title acquired" tone="shadow">
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                    <h3 className="glow-text-violet font-display text-display-md uppercase text-shadow-bright">
-                      {t.name}
+                    <h3 className="font-display text-display-md uppercase text-shadow-bright">
+                      <span className="glow-text-violet motion-safe:animate-flicker inline-block">{t.name}</span>
                     </h3>
                     <span className="hud text-mute">Source · {t.source}</span>
                   </div>
@@ -118,6 +120,10 @@ export default function Titles() {
                 </div>
               </SystemWindow>
             ))}
+            <motion.p variants={reveal} className="col-span-full flex items-center gap-4 hud text-mute">
+              <span aria-hidden="true" className="h-px w-10 bg-line" />
+              Titles are earned by clearing gates. Four so far.
+            </motion.p>
           </div>
 
           {/* Player profile register */}

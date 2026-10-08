@@ -7,9 +7,9 @@ import { materialize } from "../lib/motion";
 type Tone = "sys" | "shadow" | "danger";
 
 const BORDER: Record<Tone, string> = {
-  sys: "border-sys/40 shadow-glow",
-  shadow: "border-shadow/50 shadow-glow-violet",
-  danger: "border-danger/50",
+  sys: "border-sys/40 shadow-glow hover:border-sys/75",
+  shadow: "border-shadow/50 shadow-glow-violet hover:border-shadow/80",
+  danger: "border-danger/50 hover:border-danger/80",
 };
 const TICK: Record<Tone, string> = {
   sys: "border-sys-bright",
@@ -39,6 +39,7 @@ export default function SystemWindow({
   className = "",
   bodyClassName = "",
   animate = true,
+  alert = false,
 }: {
   /** Header text, e.g. "Player status". Rendered as [Player status]. */
   title: string;
@@ -50,13 +51,15 @@ export default function SystemWindow({
   bodyClassName?: string;
   /** Set false to render without the materialize variant (e.g. inside your own stagger). */
   animate?: boolean;
+  /** Notification style: an exclamation mark inside the header diamond. */
+  alert?: boolean;
 }) {
   const Tag = animate ? motion.div : "div";
   const motionProps = animate ? { variants: materialize } : {};
   return (
     <Tag
       {...(motionProps as object)}
-      className={`relative border bg-panel ${BORDER[tone]} ${className}`}
+      className={`relative border bg-panel transition-[border-color,box-shadow] duration-300 ${BORDER[tone]} ${className}`}
     >
       {/* corner ticks */}
       <span aria-hidden="true" className={`absolute -left-px -top-px h-3 w-3 border-l-2 border-t-2 ${TICK[tone]}`} />
@@ -66,7 +69,14 @@ export default function SystemWindow({
 
       <div className={`flex items-center justify-between gap-4 border-b border-line px-4 py-2.5 hud ${TITLE[tone]}`}>
         <span className="flex items-center gap-2">
-          <span aria-hidden="true" className={`h-1.5 w-1.5 rotate-45 ${DOT[tone]}`} />
+          {alert ? (
+            <span aria-hidden="true" className={`relative flex h-4 w-4 items-center justify-center`}>
+              <span className={`absolute inset-0 rotate-45 border ${TICK[tone]}`} />
+              <span className={`relative font-mono text-[10px] font-bold leading-none ${TITLE[tone]}`}>!</span>
+            </span>
+          ) : (
+            <span aria-hidden="true" className={`h-1.5 w-1.5 rotate-45 ${DOT[tone]}`} />
+          )}
           [{title}]
         </span>
         {right && <span className="text-mute">{right}</span>}
