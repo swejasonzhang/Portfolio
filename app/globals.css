@@ -13,6 +13,8 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    /* One condensed face for everything, so the base size steps up for readability. */
+    font-size: 17px;
   }
 
   body {
@@ -20,8 +22,19 @@
     color: var(--fg);
     overflow-x: hidden;
     font-family: theme(fontFamily.sans);
+    letter-spacing: 0.012em;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "tnum" 1;
   }
+
+  /* Gate colors. Each <section> sets one; chrome inside reads --gate / --gate-rgb. */
+  .gate-blue   { --gate: #58a6ff; --gate-rgb: 88, 166, 255; }
+  .gate-red    { --gate: #ff4d64; --gate-rgb: 255, 77, 100; }
+  .gate-green  { --gate: #3ddc97; --gate-rgb: 61, 220, 151; }
+  .gate-gold   { --gate: #f5b942; --gate-rgb: 245, 185, 66; }
+  .gate-violet { --gate: #a06bff; --gate-rgb: 160, 107, 255; }
+  .gate-cyan   { --gate: #38d6f5; --gate-rgb: 56, 214, 245; }
+  :root { --gate: #58a6ff; --gate-rgb: 88, 166, 255; }
 
   ::selection {
     background: var(--sys);
@@ -35,6 +48,12 @@
   :focus:not(:focus-visible) {
     outline: none;
   }
+}
+
+/* The System cursor replaces the native pointer on fine-pointer devices. */
+html.has-reticle,
+html.has-reticle * {
+  cursor: none !important;
 }
 
 ::-webkit-scrollbar {
@@ -115,6 +134,17 @@
   }
   .pool-shadow {
     background-image: radial-gradient(60% 50% at 50% 60%, rgba(124, 92, 255, 0.16), transparent 70%);
+  }
+
+  /* Soft pool of the gate's own light. */
+  .pool-gate {
+    background-image: radial-gradient(60% 50% at 50% 45%, rgba(var(--gate-rgb), 0.14), transparent 70%);
+  }
+  .text-gate {
+    color: var(--gate);
+  }
+  .glow-gate {
+    text-shadow: 0 0 18px rgba(var(--gate-rgb), 0.55), 0 0 2px rgba(var(--gate-rgb), 0.6);
   }
 
   /* --- Type --- */

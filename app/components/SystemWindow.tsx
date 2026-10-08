@@ -4,37 +4,52 @@ import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { materialize } from "../lib/motion";
 
-type Tone = "sys" | "shadow" | "danger";
+/**
+ * "gate" (default) takes the color of the surrounding gate from the section's
+ * --gate / --gate-rgb variables, so every gate's windows glow in its own
+ * rank color. "sys", "shadow" and "danger" are explicit overrides.
+ */
+type Tone = "gate" | "sys" | "shadow" | "danger";
 
 const BORDER: Record<Tone, string> = {
+  gate: "border-[rgba(var(--gate-rgb),0.45)] shadow-[0_0_26px_rgba(var(--gate-rgb),0.16),inset_0_0_0_1px_rgba(var(--gate-rgb),0.06)] hover:border-[rgba(var(--gate-rgb),0.8)]",
   sys: "border-sys/40 shadow-glow hover:border-sys/75",
   shadow: "border-shadow/50 shadow-glow-violet hover:border-shadow/80",
   danger: "border-danger/50 hover:border-danger/80",
 };
 const TICK: Record<Tone, string> = {
+  gate: "border-[var(--gate)]",
   sys: "border-sys-bright",
   shadow: "border-shadow-bright",
   danger: "border-danger",
 };
 const DOT: Record<Tone, string> = {
+  gate: "bg-[var(--gate)]",
   sys: "bg-sys",
   shadow: "bg-shadow",
   danger: "bg-danger",
 };
 const TITLE: Record<Tone, string> = {
+  gate: "text-[var(--gate)]",
   sys: "text-sys",
   shadow: "text-shadow-bright",
   danger: "text-danger",
 };
+const RULE: Record<Tone, string> = {
+  gate: "border-[rgba(var(--gate-rgb),0.25)]",
+  sys: "border-line",
+  shadow: "border-shadow/30",
+  danger: "border-danger/30",
+};
 
 /**
  * A System window: translucent panel, luminous border, corner ticks, a header
- * row with a diamond and a bracketed title. Materializes with a quick flicker.
+ * row with a diamond and a bracketed title. Materializes with a slow flicker.
  */
 export default function SystemWindow({
   title,
   right,
-  tone = "sys",
+  tone = "gate",
   children,
   className = "",
   bodyClassName = "",
@@ -61,18 +76,17 @@ export default function SystemWindow({
       {...(motionProps as object)}
       className={`relative border bg-panel transition-[border-color,box-shadow] duration-300 ${BORDER[tone]} ${className}`}
     >
-      {/* corner ticks */}
       <span aria-hidden="true" className={`absolute -left-px -top-px h-3 w-3 border-l-2 border-t-2 ${TICK[tone]}`} />
       <span aria-hidden="true" className={`absolute -right-px -top-px h-3 w-3 border-r-2 border-t-2 ${TICK[tone]}`} />
       <span aria-hidden="true" className={`absolute -bottom-px -left-px h-3 w-3 border-b-2 border-l-2 ${TICK[tone]}`} />
       <span aria-hidden="true" className={`absolute -bottom-px -right-px h-3 w-3 border-b-2 border-r-2 ${TICK[tone]}`} />
 
-      <div className={`flex items-center justify-between gap-4 border-b border-line px-4 py-2.5 hud ${TITLE[tone]}`}>
+      <div className={`flex items-center justify-between gap-4 border-b px-4 py-2.5 hud ${RULE[tone]} ${TITLE[tone]}`}>
         <span className="flex items-center gap-2">
           {alert ? (
-            <span aria-hidden="true" className={`relative flex h-4 w-4 items-center justify-center`}>
+            <span aria-hidden="true" className="relative flex h-4 w-4 items-center justify-center">
               <span className={`absolute inset-0 rotate-45 border ${TICK[tone]}`} />
-              <span className={`relative font-mono text-[10px] font-bold leading-none ${TITLE[tone]}`}>!</span>
+              <span className={`relative text-[10px] font-bold leading-none ${TITLE[tone]}`}>!</span>
             </span>
           ) : (
             <span aria-hidden="true" className={`h-1.5 w-1.5 rotate-45 ${DOT[tone]}`} />

@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import CountUp from "./CountUp";
 import GateHeader from "./GateHeader";
-import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { siteConfig } from "../site";
@@ -169,7 +168,7 @@ function Prose({ children, className = "" }: { children: ReactNode; className?: 
 function Label({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-3 hud text-mute">
-      <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-sys" />
+      <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-[var(--gate)]" />
       {children}
     </div>
   );
@@ -191,15 +190,15 @@ function FloorOne() {
           </p>
           <p>
             Success is 20 NYC artists using it weekly on real client work. The product has a written
-            constitution, PRINCIPLES.md, and it outranks every other opinion, including mine:
+            constitution, PRINCIPLES.md, that outranks any single opinion, including mine.
           </p>
         </Prose>
-        <blockquote className="mt-6 border-l-2 border-shadow pl-5">
+        <div className="mt-6 border-l-2 border-[var(--gate)] pl-5">
           <p className="font-display text-display-sm uppercase leading-tight text-ice">
-            &ldquo;If a decision contradicts this document, this document wins — or the document gets
-            changed deliberately, with a reason written down.&rdquo;
+            When a decision contradicts the constitution, the constitution wins, or the document is changed
+            deliberately with the reason written down.
           </p>
-        </blockquote>
+        </div>
       </div>
 
       <div className="md:col-span-7">
@@ -207,7 +206,7 @@ function FloorOne() {
           <ol className="divide-y divide-line">
             {BUILD_RULE.map((r) => (
               <li key={r.n} className="flex items-baseline gap-5 py-3.5">
-                <span className="hud w-8 shrink-0 text-sys">{r.n}</span>
+                <span className="hud w-8 shrink-0 text-[var(--gate)]">{r.n}</span>
                 <span className="font-display text-display-sm uppercase text-ice">{r.v}</span>
               </li>
             ))}
@@ -215,7 +214,7 @@ function FloorOne() {
               <span aria-hidden="true" className="hud w-8 shrink-0 text-mute">
                 —
               </span>
-              <span className="hud text-shadow-bright">Satisfies none → don&rsquo;t build.</span>
+              <span className="hud text-[var(--gate)]">Satisfies none → don&rsquo;t build.</span>
             </li>
           </ol>
         </SystemWindow>
@@ -237,7 +236,6 @@ function FloorOne() {
         <SystemWindow
           title="Frozen"
           right="features.ts"
-          tone="shadow"
           animate={false}
           bodyClassName="px-5 py-1 md:px-6"
         >
@@ -245,14 +243,14 @@ function FloorOne() {
             {FROZEN.map((f) => (
               <li key={f} className="flex items-baseline justify-between gap-6 py-3.5">
                 <span className="text-sm text-ice">{f}</span>
-                <span className="hud text-shadow-bright">Frozen</span>
+                <span className="hud text-[var(--gate)]">Frozen</span>
               </li>
             ))}
           </ul>
         </SystemWindow>
         <p className="mt-4 text-pretty text-sm leading-relaxed text-ice-2">
-          Built, tested and frozen behind flags rather than deleted.{" "}
-          <span className="text-ice">&ldquo;Frozen is a decision, not a backlog.&rdquo;</span>
+          Features that are built but not yet needed are frozen behind flags, not deleted. Freezing is a
+          deliberate decision, not a backlog.
         </p>
       </div>
     </div>
@@ -277,13 +275,13 @@ function FloorTwo() {
             <span
               aria-hidden="true"
               className={`absolute left-[2px] top-[2px] h-[11px] w-[11px] rotate-45 border bg-void ${
-                n.accent ? "border-shadow-bright bg-shadow/30" : "border-sys"
+                n.accent ? "border-[var(--gate)] bg-[rgba(var(--gate-rgb),0.3)]" : "border-sys"
               }`}
             />
-            <span className={`hud block ${n.accent ? "text-shadow-bright" : "text-mute"}`}>{n.step}</span>
+            <span className={`hud block ${n.accent ? "text-[var(--gate)]" : "text-mute"}`}>{n.step}</span>
             <h4
               className={`mt-2 font-display text-display-sm uppercase ${
-                n.accent ? "glow-text-violet text-shadow-bright" : "text-ice"
+                n.accent ? "glow-gate text-[var(--gate)]" : "text-ice"
               }`}
             >
               {n.title}
@@ -440,7 +438,7 @@ function FloorFive() {
           { n: 7, k: "Viewports in the fit audit" },
         ].map((s, i) => (
           <div key={s.k} className={`py-6 ${i > 0 ? "border-l border-line pl-4 md:pl-8" : ""}`}>
-            <div className="glow-text font-display text-display-lg uppercase text-sys-bright">
+            <div className="glow-gate font-display text-display-lg uppercase text-[var(--gate)]">
               <CountUp to={s.n} />
             </div>
             <div className="hud mt-2 text-mute">{s.k}</div>
@@ -522,13 +520,13 @@ function FloorSix() {
         <SystemWindow title="Build log" right="Aug 2025 – present" animate={false} bodyClassName="px-5 py-1 md:px-6">
           <dl className="divide-y divide-line">
             <div className="py-4">
-              <dt className="hud text-sys">By hand</dt>
+              <dt className="hud text-[var(--gate)]">By hand</dt>
               <dd className="mt-1.5 text-sm text-ice">
                 Aug 2025 – Jan 2026 · <CountUp to={530} suffix="+" /> commits
               </dd>
             </div>
             <div className="py-4">
-              <dt className="hud text-sys">With Claude Code</dt>
+              <dt className="hud text-[var(--gate)]">With Claude Code</dt>
               <dd className="mt-1.5 text-sm text-ice">Jun 2026 – present · I specify, test, approve</dd>
             </div>
             <div className="py-4">
@@ -597,11 +595,10 @@ export default function Dungeon() {
     <section
       id="inkmity"
       aria-labelledby="inkmity-title"
-      className="relative isolate overflow-hidden py-24 md:py-36"
+      className="gate-red relative isolate overflow-hidden py-24 md:py-36"
     >
       <RankMark letter="S" className="-right-[6vw] -top-6" />
-      <GateRing className="w-[80vw] -left-[35vw] -top-[20vw] md:w-[50vw] md:-left-[18vw]" />
-      <div aria-hidden="true" className="pool-shadow pointer-events-none absolute inset-0 -z-10" />
+      <div aria-hidden="true" className="pool-gate pointer-events-none absolute inset-0 -z-10" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -628,7 +625,7 @@ export default function Dungeon() {
           className="grid gap-10 md:grid-cols-12 md:gap-8"
         >
           <motion.figure variants={reveal} className="md:col-span-7">
-            <div className="relative aspect-[2/1] border border-line shadow-glow">
+            <div className="relative aspect-[2/1] border border-[rgba(var(--gate-rgb),0.4)]">
               <Image
                 src="/assets/Inkmity.jpg"
                 alt="Inkmity, the live app"
@@ -644,7 +641,7 @@ export default function Dungeon() {
           </motion.figure>
 
           <div className="flex flex-col gap-6 md:col-span-5">
-            <SystemWindow title="Gate info" right="S-Rank" tone="shadow" bodyClassName="px-5 py-1 md:px-6">
+            <SystemWindow title="Gate info" right="S-Rank" bodyClassName="px-5 py-1 md:px-6">
               <Register rows={GATE_INFO} />
             </SystemWindow>
             <motion.div variants={reveal}>
@@ -652,7 +649,7 @@ export default function Dungeon() {
                 href={siteConfig.inkmity}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-shadow w-full sm:w-auto"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-3 border border-[rgba(var(--gate-rgb),0.6)] bg-[rgba(var(--gate-rgb),0.1)] px-5 font-mono text-2xs uppercase tracking-label text-[var(--gate)] transition-all duration-300 hover:bg-[var(--gate)] hover:text-void sm:w-auto"
               >
                 Enter inkmity.com ↗<span className="sr-only"> (opens in a new tab)</span>
               </a>
@@ -663,7 +660,7 @@ export default function Dungeon() {
         {/* Floors */}
         <div className="mt-24 md:mt-32">
           <div className="flex items-center gap-4 hud text-mute">
-            <span className="text-sys">Floors</span>
+            <span className="text-[var(--gate)]">Floors</span>
             <span aria-hidden="true" className="h-px flex-1 bg-line" />
             <span className="text-right">Six floors · descend in any order</span>
           </div>
@@ -687,8 +684,8 @@ export default function Dungeon() {
                       <span
                         className={`font-display text-display-md transition-[color,text-shadow] duration-300 ${
                           f.boss
-                            ? `text-shadow group-hover:text-shadow-bright ${isOpen ? "glow-text-violet text-shadow-bright" : ""}`
-                            : `text-sys group-hover:text-sys-bright ${isOpen ? "glow-text" : ""}`
+                            ? `text-[var(--gate)] ${isOpen ? "glow-gate" : "opacity-80 group-hover:opacity-100"}`
+                            : `text-ice-2 group-hover:text-[var(--gate)] ${isOpen ? "glow-gate text-[var(--gate)]" : ""}`
                         }`}
                       >
                         F{f.n}
@@ -696,7 +693,7 @@ export default function Dungeon() {
                       <span className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-4 gap-y-2 md:flex-none">
                         <span className="font-display text-display-md uppercase text-ice">{f.title}</span>
                         {f.boss && (
-                          <span className="hud border border-shadow/60 bg-shadow/10 px-2 py-0.5 text-shadow-bright">
+                          <span className="hud border border-[rgba(var(--gate-rgb),0.6)] bg-[rgba(var(--gate-rgb),0.1)] px-2 py-0.5 text-[var(--gate)]">
                             Boss floor
                           </span>
                         )}
@@ -712,12 +709,12 @@ export default function Dungeon() {
                       >
                         <span
                           className={`absolute left-0 top-1/2 h-px w-full -translate-y-1/2 transition-colors duration-300 ${
-                            isOpen ? "bg-sys-bright" : "bg-sys group-hover:bg-sys-bright"
+                            isOpen ? "bg-[var(--gate)]" : "bg-line-strong group-hover:bg-[var(--gate)]"
                           }`}
                         />
                         <span
                           className={`absolute left-1/2 top-0 h-full w-px -translate-x-1/2 transition-colors duration-300 ${
-                            isOpen ? "bg-sys-bright" : "bg-sys group-hover:bg-sys-bright"
+                            isOpen ? "bg-[var(--gate)]" : "bg-line-strong group-hover:bg-[var(--gate)]"
                           }`}
                         />
                       </span>
@@ -749,8 +746,8 @@ export default function Dungeon() {
           </ul>
         </div>
 
-        {/* Closing quote */}
-        <motion.blockquote
+        {/* Closing statement */}
+        <motion.div
           variants={stagger(0.16)}
           initial="hidden"
           whileInView="visible"
@@ -759,13 +756,13 @@ export default function Dungeon() {
         >
           <p className="font-display text-display-lg uppercase text-ice">
             <motion.span variants={rise} className="block text-balance">
-              An artist profile proves nothing. A completed client transaction proves the product.
+              Success is twenty NYC artists booking real work here every week.
             </motion.span>
           </p>
-          <motion.footer variants={reveal} className="mt-6 hud text-mute">
-            — Inkmity product constitution
-          </motion.footer>
-        </motion.blockquote>
+          <motion.p variants={reveal} className="mt-6 hud text-mute">
+            The measure written into the product constitution
+          </motion.p>
+        </motion.div>
 
         {/* Cleared stamp */}
         <motion.div
@@ -773,10 +770,10 @@ export default function Dungeon() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
-          className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-shadow/50 bg-shadow/5 px-5 py-4"
+          className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-[rgba(var(--gate-rgb),0.5)] bg-[rgba(var(--gate-rgb),0.05)] px-5 py-4"
         >
-          <p className="hud glow-text-violet text-shadow-bright">
-            <span className="text-shadow-bright">[Gate 01 · S-Rank]</span> Status: cleared and live
+          <p className="hud glow-gate text-[var(--gate)]">
+            <span>[Gate 01 · S-Rank]</span> Status: cleared and live
           </p>
           <a
             href={siteConfig.inkmity}

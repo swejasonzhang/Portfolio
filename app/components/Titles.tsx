@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import GateHeader from "./GateHeader";
-import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
@@ -70,11 +69,10 @@ export default function Titles() {
     <section
       id="self"
       aria-labelledby="self-title"
-      className="relative isolate overflow-hidden py-24 md:py-36"
+      className="gate-violet relative isolate overflow-hidden py-24 md:py-36"
     >
-      <div aria-hidden="true" className="pool-shadow absolute inset-0 -z-10" />
+      <div aria-hidden="true" className="pool-gate absolute inset-0 -z-10" />
       <RankMark letter="04" className="-left-[5vw] -bottom-8" />
-      <GateRing className="w-[80vw] -left-[40vw] top-0 md:w-[46vw] md:-left-[16vw]" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -108,11 +106,11 @@ export default function Titles() {
           {/* Four earned titles */}
           <div className="col-span-full grid grid-cols-1 gap-5 md:grid-cols-2">
             {TITLES.map((t) => (
-              <SystemWindow key={t.name} title="Title" right="Title acquired" tone="shadow">
+              <SystemWindow key={t.name} title="Title" right="Title acquired">
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                    <h3 className="font-display text-display-md uppercase text-shadow-bright">
-                      <span className="glow-text-violet motion-safe:animate-flicker inline-block">{t.name}</span>
+                    <h3 className="font-display text-display-md uppercase text-[var(--gate)]">
+                      <span className="glow-gate text-[var(--gate)] motion-safe:animate-flicker inline-block">{t.name}</span>
                     </h3>
                     <span className="hud text-mute">Source · {t.source}</span>
                   </div>
@@ -153,7 +151,7 @@ export default function Titles() {
             variants={reveal}
             className="col-span-full md:col-span-8 md:col-start-2 lg:col-span-7"
           >
-            <span aria-hidden="true" className="hud block text-sys">
+            <span aria-hidden="true" className="hud block text-[var(--gate)]">
               Independent build
             </span>
             <span aria-hidden="true" className="rule mt-3 block" />

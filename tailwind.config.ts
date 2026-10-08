@@ -10,8 +10,9 @@ export default {
         xs: "475px",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
+        // One face for the whole System.
+        sans: ["var(--font-display)", "Arial Narrow", ...defaultTheme.fontFamily.sans],
+        mono: ["var(--font-display)", "Arial Narrow", ...defaultTheme.fontFamily.sans],
         display: ["var(--font-display)", "Impact", "Arial Narrow", ...defaultTheme.fontFamily.sans],
       },
       colors: {

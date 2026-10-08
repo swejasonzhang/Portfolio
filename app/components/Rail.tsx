@@ -12,12 +12,12 @@ import { useEffect, useState } from "react";
 import { EASE_INOUT, EASE_OUT, INTRO_DELAY } from "../lib/motion";
 
 export const GATES = [
-  { id: "awakening", gate: "00", label: "Awakening" },
-  { id: "inkmity", gate: "01", label: "Inkmity", rank: "S-Rank" },
-  { id: "works", gate: "02", label: "Cleared gates" },
-  { id: "record", gate: "03", label: "Quest log" },
-  { id: "self", gate: "04", label: "Titles" },
-  { id: "contact", gate: "05", label: "Message" },
+  { id: "awakening", gate: "00", label: "Awakening", color: "#58a6ff" },
+  { id: "inkmity", gate: "01", label: "Inkmity", rank: "S-Rank", color: "#ff4d64" },
+  { id: "works", gate: "02", label: "Cleared gates", color: "#3ddc97" },
+  { id: "record", gate: "03", label: "Quest log", color: "#f5b942" },
+  { id: "self", gate: "04", label: "Titles", color: "#a06bff" },
+  { id: "contact", gate: "05", label: "Message", color: "#38d6f5" },
 ] as const;
 
 function Mark({ className = "" }: { className?: string }) {
@@ -153,16 +153,18 @@ export default function Rail() {
                     </span>
                     <span
                       className={`font-display text-base tracking-wide transition-colors ${
-                        isActive ? "glow-text text-sys-bright" : "text-mute group-hover:text-ice"
+                        isActive ? "" : "text-mute group-hover:text-ice"
                       }`}
+                      style={isActive ? { color: g.color, textShadow: `0 0 14px ${g.color}` } : undefined}
                     >
                       {g.gate}
                     </span>
                     <span
                       aria-hidden="true"
                       className={`absolute right-0 h-[11px] w-[11px] rotate-45 border transition-all duration-300 ${
-                        isActive ? "border-sys bg-sys shadow-glow-strong" : "border-line bg-void"
+                        isActive ? "" : "border-line bg-void"
                       }`}
+                      style={isActive ? { borderColor: g.color, background: g.color, boxShadow: `0 0 16px ${g.color}` } : undefined}
                     />
                   </a>
                 </li>
@@ -213,7 +215,7 @@ export default function Rail() {
                       onClick={() => setOpen(false)}
                       className="flex items-baseline gap-5 border-b border-line py-4"
                     >
-                      <span className="w-10 font-display text-xl text-sys">{g.gate}</span>
+                      <span className="w-10 font-display text-xl" style={{ color: g.color }}>{g.gate}</span>
                       <span className={`font-display text-display-md uppercase ${g.id === active ? "text-ice" : "text-ice-2"}`}>
                         {g.label}
                       </span>

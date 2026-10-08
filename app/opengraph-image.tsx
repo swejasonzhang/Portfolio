@@ -35,11 +35,11 @@ function Tick({ style }: { style: Record<string, string | number> }) {
 export default async function OpengraphImage() {
 	const [display, mono] = await Promise.all([
 		readFile(join(process.cwd(), 'app/fonts/BarlowCondensed-Bold.ttf')),
-		readFile(join(process.cwd(), 'app/fonts/GeistMono.ttf')),
+		readFile(join(process.cwd(), 'app/fonts/BarlowCondensed-SemiBold.ttf')),
 	]);
 
 	const monoStyle = {
-		fontFamily: 'Geist Mono',
+		fontFamily: 'Barlow Condensed',
 		fontSize: 20,
 		letterSpacing: 5,
 	} as const;
@@ -150,7 +150,7 @@ export default async function OpengraphImage() {
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'flex-end',
-						fontFamily: 'Geist Mono',
+						fontFamily: 'Barlow Condensed',
 						fontSize: 18,
 						letterSpacing: 3,
 					}}
@@ -166,7 +166,7 @@ export default async function OpengraphImage() {
 			...size,
 			fonts: [
 				{ name: 'Barlow Condensed', data: display, weight: 700, style: 'normal' },
-				{ name: 'Geist Mono', data: mono, weight: 400, style: 'normal' },
+				{ name: 'Barlow Condensed', data: mono, weight: 600, style: 'normal' },
 			],
 		}
 	);

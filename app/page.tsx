@@ -10,15 +10,15 @@ export default function Page() {
 	return (
 		<main id="main" className="relative">
 			<Awakening />
-			<GateDivider caption="Gate 01 // S-Rank" />
+			<GateDivider caption="Gate 01 // S-Rank" color="#ff4d64" />
 			<Dungeon />
-			<GateDivider caption="Gate 02 // Cleared" />
+			<GateDivider caption="Gate 02 // Cleared" color="#3ddc97" />
 			<ClearedGates />
-			<GateDivider caption="Gate 03 // Quest log" />
+			<GateDivider caption="Gate 03 // Quest log" color="#f5b942" />
 			<QuestLog />
-			<GateDivider caption="Gate 04 // Titles" />
+			<GateDivider caption="Gate 04 // Titles" color="#a06bff" />
 			<Titles />
-			<GateDivider caption="Gate 05 // Message" />
+			<GateDivider caption="Gate 05 // Message" color="#38d6f5" />
 			<SystemMessage />
 		</main>
 	);

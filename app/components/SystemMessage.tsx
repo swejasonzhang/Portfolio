@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { reveal, rise, stagger, VIEWPORT } from "../lib/motion";
 import { siteConfig } from "../site";
 import GateHeader from "./GateHeader";
-import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 
@@ -31,11 +30,10 @@ export default function SystemMessage() {
       <section
         id="contact"
         aria-labelledby="contact-title"
-        className="relative isolate overflow-hidden py-24 md:py-36"
+        className="gate-cyan relative isolate overflow-hidden py-24 md:py-36"
       >
         <RankMark letter="05" className="-right-[4vw] -top-4" />
-        <GateRing className="w-[70vw] -right-[30vw] -top-[20vw] md:w-[42vw] md:-right-[12vw]" />
-        <div aria-hidden="true" className="pool-sys pointer-events-none absolute inset-0 -z-10" />
+        <div aria-hidden="true" className="pool-gate pointer-events-none absolute inset-0 -z-10" />
         <span
           aria-hidden="true"
           className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -120,7 +118,7 @@ export default function SystemMessage() {
             viewport={VIEWPORT}
             className="mt-20 md:mt-28"
           >
-            <p className="font-display text-display-lg uppercase text-ice">
+            <p className="font-display text-display-lg uppercase glow-gate text-[var(--gate)]">
               <motion.span variants={rise} className="block">
                 Gate 05 cleared.
               </motion.span>

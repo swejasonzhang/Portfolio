@@ -12,7 +12,7 @@ import { EASE_OUT, INTRO_DELAY } from "../lib/motion";
 import { GATES } from "./Rail";
 
 type Toast =
-  | { id: string; kind: "gate"; gate: string; label: string; rank?: string }
+  | { id: string; kind: "gate"; gate: string; label: string; rank?: string; color: string }
   | { id: string; kind: "level"; level: number };
 
 /**
@@ -29,8 +29,9 @@ export default function Notifier() {
   const started = useRef(false);
   const { scrollYProgress } = useScroll();
 
+  // Never stack more than two windows; the oldest yields.
   const push = (t: Toast, ttl: number) => {
-    setToasts((all) => [...all.filter((x) => x.id !== t.id), t]);
+    setToasts((all) => [...all.filter((x) => x.id !== t.id), t].slice(-2));
     window.setTimeout(() => setToasts((all) => all.filter((x) => x.id !== t.id)), ttl);
   };
 
@@ -63,7 +64,7 @@ export default function Notifier() {
           const g = GATES.find((x) => x.id === id);
           if (!g) continue;
           push(
-            { id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined },
+            { id, kind: "gate", gate: g.gate, label: g.label, rank: "rank" in g ? g.rank : undefined, color: g.color },
             4400
           );
         }
@@ -92,12 +93,17 @@ export default function Notifier() {
               exit={{ opacity: 0, transition: { duration: 0.6 } }}
               transition={{ duration: 0.9, ease: EASE_OUT }}
               className={`pointer-events-auto relative border bg-void/90 px-4 py-3 text-left ${
-                level ? "border-shadow/70 shadow-glow-violet" : "border-sys/50 shadow-glow"
+                level ? "border-shadow/70 shadow-glow-violet" : ""
               }`}
+              style={
+                t.kind === "gate"
+                  ? { borderColor: `${t.color}99`, boxShadow: `0 0 24px ${t.color}33` }
+                  : undefined
+              }
             >
-              <span aria-hidden="true" className={`absolute -left-px -top-px h-2.5 w-2.5 border-l-2 border-t-2 ${level ? "border-shadow-bright" : "border-sys-bright"}`} />
-              <span aria-hidden="true" className={`absolute -bottom-px -right-px h-2.5 w-2.5 border-b-2 border-r-2 ${level ? "border-shadow-bright" : "border-sys-bright"}`} />
-              <span className={`hud block ${level ? "text-shadow-bright" : "text-sys"}`}>[System]</span>
+              <span aria-hidden="true" className={`absolute -left-px -top-px h-2.5 w-2.5 border-l-2 border-t-2 ${level ? "border-shadow-bright" : ""}`} style={t.kind === "gate" ? { borderColor: t.color } : undefined} />
+              <span aria-hidden="true" className={`absolute -bottom-px -right-px h-2.5 w-2.5 border-b-2 border-r-2 ${level ? "border-shadow-bright" : ""}`} style={t.kind === "gate" ? { borderColor: t.color } : undefined} />
+              <span className={`hud block ${level ? "text-shadow-bright" : ""}`} style={t.kind === "gate" ? { color: t.color } : undefined}>[System]</span>
               {t.kind === "level" ? (
                 <>
                   <span className="glow-text-violet mt-1 block font-display text-2xl font-bold uppercase tracking-wide text-ice">

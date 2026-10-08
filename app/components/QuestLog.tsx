@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import CountUp from "./CountUp";
 import GateHeader from "./GateHeader";
-import GateRing from "./GateRing";
 import RankMark from "./RankMark";
 import SystemWindow from "./SystemWindow";
 import { reveal, stagger, VIEWPORT } from "../lib/motion";
@@ -148,10 +147,13 @@ const SKILLS_PASSIVE: ReactNode[] = [
 ];
 
 function QuestWindow({ quest }: { quest: Quest }) {
-  const tone = quest.active ? "shadow" : "sys";
-  const right: ReactNode = quest.active ? `Active · ${quest.period}` : quest.period;
+  const right: ReactNode = quest.active ? (
+    <span className="text-[var(--gate)] glow-gate">Active · {quest.period}</span>
+  ) : (
+    quest.period
+  );
   return (
-    <SystemWindow title={quest.org} right={right} tone={tone} animate>
+    <SystemWindow title={quest.org} right={right} animate>
       <div className="grid gap-6 md:grid-cols-12 md:gap-8">
         <div className="md:col-span-5">
           <h4 className="font-display text-display-md uppercase leading-none text-ice">
@@ -167,9 +169,7 @@ function QuestWindow({ quest }: { quest: Quest }) {
               <li key={i} className="flex items-start gap-3 py-3 leading-relaxed">
                 <span
                   aria-hidden="true"
-                  className={`mt-2 h-1.5 w-1.5 shrink-0 rotate-45 ${
-                    quest.active ? "bg-shadow-bright" : "bg-sys"
-                  }`}
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-[var(--gate)]"
                 />
                 <span>{o}</span>
               </li>
@@ -190,7 +190,7 @@ function Board({ heading, quests }: { heading: string; quests: Quest[] }) {
       viewport={VIEWPORT}
       className="mt-16 md:mt-24"
     >
-      <motion.h3 variants={reveal} className="hud mb-6 text-sys">
+      <motion.h3 variants={reveal} className="hud mb-6 text-[var(--gate)]">
         [{heading}]
       </motion.h3>
       <div className="grid gap-4">
@@ -205,11 +205,11 @@ function Board({ heading, quests }: { heading: string; quests: Quest[] }) {
 function SkillList({ heading, items }: { heading: string; items: ReactNode[] }) {
   return (
     <div>
-      <h4 className="hud text-sys">[{heading}]</h4>
+      <h4 className="hud text-[var(--gate)]">[{heading}]</h4>
       <ul className="mt-3 divide-y divide-line border-t border-line font-mono text-sm text-ice">
         {items.map((item, i) => (
           <li key={i} className="flex items-start gap-3 py-3 leading-relaxed">
-            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-sys" />
+            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-[var(--gate)]" />
             <span>{item}</span>
           </li>
         ))}
@@ -223,10 +223,9 @@ export default function QuestLog() {
     <section
       id="record"
       aria-labelledby="record-title"
-      className="relative isolate overflow-hidden py-24 md:py-36"
+      className="gate-gold relative isolate overflow-hidden py-24 md:py-36"
     >
       <RankMark letter="03" className="-right-[4vw] top-4" />
-      <GateRing className="w-[70vw] -right-[30vw] top-10 md:w-[42vw] md:-right-[12vw]" />
       <span
         aria-hidden="true"
         className="vertical hud absolute left-6 top-1/2 hidden -translate-y-1/2 text-mute lg:block"
@@ -250,7 +249,7 @@ export default function QuestLog() {
           viewport={VIEWPORT}
           className="mt-16 md:mt-24"
         >
-          <SystemWindow title="Active quests" right="3 in progress" alert tone="shadow" animate>
+          <SystemWindow title="Active quests" right="3 in progress" alert animate>
             <ul className="divide-y divide-line border-t border-line">
               {ACTIVE_QUESTS.map((q) => (
                 <li
@@ -260,7 +259,7 @@ export default function QuestLog() {
                   <span className="flex items-start gap-3">
                     <span
                       aria-hidden="true"
-                      className="mt-1.5 h-3 w-3 shrink-0 border border-shadow-bright bg-shadow/15"
+                      className="mt-1.5 h-3 w-3 shrink-0 border border-[var(--gate)] bg-[rgba(var(--gate-rgb),0.15)]"
                     />
                     <span className="leading-relaxed text-ice">{q.text}</span>
                   </span>
@@ -282,7 +281,7 @@ export default function QuestLog() {
           viewport={VIEWPORT}
           className="mt-16 md:mt-24"
         >
-          <motion.h3 variants={reveal} className="hud mb-6 text-sys">
+          <motion.h3 variants={reveal} className="hud mb-6 text-[var(--gate)]">
             [Skills]
           </motion.h3>
           <SystemWindow title="Skills" right="From the resume" animate>

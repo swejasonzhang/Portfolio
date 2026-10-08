@@ -1,6 +1,7 @@
 /**
- * A giant rank letter as a watermark behind a chapter: outlined, faint,
- * violet. Decorative only.
+ * A giant rank letter or gate number as a watermark behind a chapter,
+ * outlined in the gate's own color (from the section's --gate-rgb variable).
+ * Decorative only.
  */
 export default function RankMark({
   letter,
@@ -12,7 +13,7 @@ export default function RankMark({
   return (
     <span
       aria-hidden="true"
-      className={`pointer-events-none absolute select-none font-display text-[32vw] font-bold uppercase leading-none text-transparent [-webkit-text-stroke:1.5px_rgba(124,92,255,0.22)] md:text-[22vw] ${className}`}
+      className={`pointer-events-none absolute select-none font-display text-[32vw] font-bold uppercase leading-none text-transparent [-webkit-text-stroke:1.5px_rgba(var(--gate-rgb),0.26)] md:text-[22vw] ${className}`}
     >
       {letter}
     </span>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono, Barlow_Condensed } from 'next/font/google';
+import { Barlow_Condensed } from 'next/font/google';
 import './globals.css';
 import MotionProvider from './components/MotionProvider';
 import Arise from './components/Arise';
@@ -9,18 +9,8 @@ import Reticle from './components/Reticle';
 import Rail from './components/Rail';
 import { siteConfig } from './site';
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
-});
-
 const display = Barlow_Condensed({
-	weight: ['600', '700', '800'],
+	weight: ['400', '500', '600', '700', '800'],
 	variable: '--font-display',
 	subsets: ['latin'],
 });
@@ -119,7 +109,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} ${display.variable} antialiased`}>
+			<body className={`${display.variable} antialiased`}>
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
