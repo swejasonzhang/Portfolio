@@ -45,7 +45,7 @@ const PROFILE: { label: string; value: string }[] = [
   },
   {
     label: "Now",
-    value: "Queens College (CUNY), evening classes, C++ · expected May 2029",
+    value: "Queens College (CUNY), evening classes, C++ · expected June 2028",
   },
   {
     label: "Open to",

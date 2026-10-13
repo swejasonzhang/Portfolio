@@ -16,7 +16,7 @@ const STATUS: { k: string; v: string; accent?: boolean }[] = [
   { k: "Class", v: "Software Engineer · Builder" },
   { k: "Location", v: "New York, NY" },
   { k: "Status", v: "Open to internships & co-ops · can start now", accent: true },
-  { k: "Quest", v: "B.S. Computer Science · Queens College (CUNY) · exp. May 2029" },
+  { k: "Quest", v: "B.S. Computer Science · Queens College (CUNY) · exp. June 2028" },
 ];
 
 const ROW = "grid grid-cols-[6.5rem_1fr] gap-3 py-2.5 text-base transition-colors duration-300 first:pt-0 last:pb-0 hover:bg-[rgba(var(--gate-rgb),0.06)] lg:py-1.5 lg:text-sm";
@@ -91,7 +91,7 @@ export default function Awakening() {
               variants={reveal}
               className="mt-5 max-w-[44ch] text-pretty text-lg leading-relaxed text-ice-2 md:text-xl lg:mt-4 lg:max-w-[60ch] lg:text-lg"
             >
-              Computer Science at Queens College (CUNY), expected May 2029. Founder of{" "}
+              Computer Science at Queens College (CUNY), expected June 2028. Founder of{" "}
               <a href="#inkmity" className="link-sys text-ice">
                 Inkmity
               </a>

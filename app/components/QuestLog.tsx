@@ -80,7 +80,7 @@ const WORK: Quest[] = [
 const STUDY: Quest[] = [
   {
     org: "Queens College (CUNY)",
-    period: "Expected May 2029",
+    period: "Expected June 2028",
     role: "B.S. in Computer Science",
     kind: "Fall 2026 – Present",
     description:
@@ -117,7 +117,7 @@ const STUDY: Quest[] = [
 const ACTIVE_QUESTS: { text: string; progress: string }[] = [
   {
     text: "Finish the B.S. in Computer Science at Queens College (CUNY)",
-    progress: "In progress · expected May 2029",
+    progress: "In progress · expected June 2028",
   },
   {
     text: "Grow Inkmity to 20 NYC artists using it weekly on real client work",

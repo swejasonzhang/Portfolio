@@ -10,7 +10,7 @@ import { VIEWPORT } from "../lib/motion";
 /* Data: Jason's own write-ups, verbatim                               */
 /* ------------------------------------------------------------------ */
 
-type Aspect = "2/1" | "4/3";
+type Aspect = "2/1" | "16/10" | "4/3";
 
 type Gate = {
   slug: string;
@@ -28,6 +28,25 @@ type Gate = {
 };
 
 const GATES: Gate[] = [
+  {
+    slug: "arc",
+    title: "Arc",
+    kind: "Hackathon",
+    year: "Oct 2026",
+    description:
+      "A webcam goniometer and training coach, built in 48 hours at Hackknight 2026 by a team of three. It tracks your body in the browser, measures each joint's range of motion in degrees and counts only the reps done with good form.",
+    details: [
+      "My part: the web app and API, with browser pose tracking, the rep and form engine, the 3D body, the voice coach wiring, the data model, CI and deployment",
+      "Built with Claude Code, an AI coding agent: I specified each feature, tested it by hand and approved every merge. 44 pull requests merged through CI and 604 automated tests that weekend",
+      "Teammates built the Python camera app and the original Gemini and ElevenLabs voice coach",
+    ],
+    tech: ["React", "TypeScript", "MediaPipe", "Three.js", "Express", "MongoDB", "Gemini", "ElevenLabs"],
+    live: "https://getarc.health/",
+    github: "https://github.com/swejasonzhang/Hackknight2026",
+    image: "/assets/Arc.jpg",
+    aspect: "16/10",
+    featured: true,
+  },
   {
     slug: "amazeon",
     title: "Amazeon",
@@ -119,6 +138,7 @@ const GATES: Gate[] = [
 
 const ASPECT_CLASS: Record<Aspect, string> = {
   "2/1": "aspect-[2/1]",
+  "16/10": "aspect-[16/10]",
   "4/3": "aspect-[4/3]",
 };
 
@@ -156,7 +176,7 @@ export default function ClearedGates() {
         <GateHeader
           id="works-title"
           gate="02"
-          status="Six builds · 2023 – 2026"
+          status="Seven builds · 2023 – 2026"
           title="Cleared gates"
           subtitle="Everything here is live or public, and each write-up says exactly what I built and when."
         />
