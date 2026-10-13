@@ -131,7 +131,7 @@ export default function SystemMessage() {
         <span aria-hidden="true" className="rule-glow block w-full" />
         <div className="hud mt-6 flex flex-wrap justify-between gap-x-8 gap-y-3 text-mute">
           <span>© 2026 {siteConfig.name}</span>
-          <span>Set in Barlow Condensed, Geist and Geist Mono · Next.js</span>
+          <span>Set in Barlow Condensed · Next.js</span>
           <span>Built with Claude Code, an AI coding agent.</span>
         </div>
       </footer>

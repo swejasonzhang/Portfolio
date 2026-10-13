@@ -25,9 +25,9 @@ const WORK: Quest[] = [
     role: "Founder & Software Developer",
     kind: "Self-employed · New York",
     description:
-      "Founded and launched an early-stage booking app for tattoo artists, live since July 2026.",
+      "Founded and launched an early-stage booking app for independent New York tattoo artists, live since July 2026.",
     objectives: [
-      "Built the first version myself, Aug 2025 – Jan 2026",
+      "Built the first version myself, Aug 2025 – Jan 2026 (530+ commits)",
       "Since June 2026: built with Claude Code, an AI coding agent; I test and approve every release",
       "Deploy and run it on Render and Vercel",
     ],
@@ -39,13 +39,17 @@ const WORK: Quest[] = [
     role: "Software Engineer",
     kind: "Contract · Remote",
     description:
-      "Wrote Python scripts that pull social media metrics into Google Sheets for a 10+ person marketing team.",
+      "Wrote the Python reporting and file automation for a 10+ person marketing team, and built two small web apps.",
     objectives: [
       <>
         Sole author of <CountUp to={19} /> Python scripts across <CountUp to={108} /> commits
       </>,
-      "TikTok, Instagram and YouTube metrics from the Ensemble Data and Chartmetric APIs",
-      "Slack notifications, plus a small Node.js, Express and React web app",
+      "Views, likes, comments, shares and followers for TikTok, Instagram, YouTube and X, pulled from the Ensemble Data and Chartmetric APIs into Google Sheets, with Slack alerts",
+      "A Slack-to-Google Drive script that filed each campaign channel's videos by creator",
+      <>
+        A MERN app with sign-up, login and a Chartmetric dashboard (<CountUp to={101} /> commits), and a
+        creator-voting site with Stripe Checkout and an embedded Twitch stream
+      </>,
     ],
   },
   {
@@ -120,7 +124,7 @@ const ACTIVE_QUESTS: { text: string; progress: string }[] = [
     progress: "In progress · expected June 2028",
   },
   {
-    text: "Grow Inkmity to 20 NYC artists using it weekly on real client work",
+    text: "Grow Inkmity with New York artists booking real client work through it",
     progress: "In progress · live since Jul 2026",
   },
   {
@@ -132,7 +136,7 @@ const ACTIVE_QUESTS: { text: string; progress: string }[] = [
 const SKILLS_ACTIVE: ReactNode[] = [
   "Languages — JavaScript, TypeScript, Python, HTML, CSS, Ruby, C++",
   "Web — React, Redux, Tailwind CSS, Node.js, Express.js, REST APIs, Socket.IO, MongoDB, PostgreSQL, Ruby on Rails, Firebase",
-  "Integrations — Stripe Checkout, Stripe webhooks, Clerk, Cloudinary, Twilio, Google Places, Google Sheets, Slack",
+  "Integrations — Stripe Checkout, Stripe webhooks, Clerk, Cloudinary, Twilio, Google Places, Google Sheets, Google Drive, Slack",
   "Cloud and tools — Claude Code, AI-assisted development, Git, GitHub, Render, Vercel, MongoDB Atlas",
 ];
 

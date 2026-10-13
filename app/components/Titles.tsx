@@ -28,7 +28,7 @@ const TITLES: Title[] = [
     name: "The Mask",
     source: "Hannya",
     body:
-      "The Hannya is intensity with a face on it. For me that means caring about the parts nobody sees: when I am unsure a feature belongs, I freeze it behind a flag instead of deleting it. Moderation fails closed. Every release is tested by hand in the live app before it ships. Caring that hard is the point.",
+      "The Hannya is intensity with a face on it. For me that means caring about the parts nobody sees: when I am unsure a feature belongs, I freeze it behind a flag instead of deleting it. Image and review moderation fails closed. Every release is tested by hand in the live app before it ships. Caring that hard is the point.",
   },
   {
     name: "The Guardians",

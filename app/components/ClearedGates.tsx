@@ -37,7 +37,7 @@ const GATES: Gate[] = [
       "A webcam goniometer and training coach, built in 48 hours at Hackknight 2026 by a team of three. It tracks your body in the browser, measures each joint's range of motion in degrees and counts only the reps done with good form.",
     details: [
       "My part: the web app and API, with browser pose tracking, the rep and form engine, the 3D body, the voice coach wiring, the data model, CI and deployment",
-      "Built with Claude Code, an AI coding agent: I specified each feature, tested it by hand and approved every merge. 44 pull requests merged through CI and 604 automated tests that weekend",
+      "Built with Claude Code, an AI coding agent: I specified each feature, tested it by hand and merged all 44 pull requests through CI, with 600 automated tests on the final code",
       "Teammates built the Python camera app and the original Gemini and ElevenLabs voice coach",
     ],
     tech: ["React", "TypeScript", "MediaPipe", "Three.js", "Express", "MongoDB", "Gemini", "ElevenLabs"],

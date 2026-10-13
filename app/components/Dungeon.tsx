@@ -24,8 +24,7 @@ const GATE_INFO: { k: string; v: string }[] = [
 const FROZEN = [
   "Studio tooling",
   "Nationwide discovery",
-  "AI discovery",
-  "Community surfaces",
+  "AI Inspiration tab",
   "Artist tier badges",
 ];
 
@@ -53,7 +52,7 @@ const SATELLITES: { k: string; v: string }[] = [
   { k: "Clerk", v: "Auth · RBAC: client / artist / studio" },
   { k: "Stripe", v: "Checkout · PaymentIntents · Connect split payouts · webhooks" },
   { k: "Cloudinary", v: "Media" },
-  { k: "Gemini", v: "Moderation, fails closed · brief extraction · assistant on its own key" },
+  { k: "Gemini", v: "Image and review moderation · brief extraction · idea-to-artist matching · assistant on its own key" },
   { k: "Resend / Nodemailer", v: "Email" },
   { k: "Redis", v: "ioredis cache · Socket.io adapter · optional" },
   { k: "Sentry + pino", v: "Monitoring and logging" },
@@ -62,7 +61,7 @@ const SATELLITES: { k: string; v: string }[] = [
 const SECURITY: { k: string; v: ReactNode }[] = [
   { k: "Headers", v: "helmet" },
   { k: "Origins", v: "CORS allowlist" },
-  { k: "Rate limits", v: "Three limiters: api / auth / assistant, with a Redis-backed option" },
+  { k: "Rate limits", v: "Six limiters: api / auth / assistant / email check / translate / user writes, with a Redis-backed option" },
   { k: "Operator keys", v: "rejectOperatorKeys middleware" },
   { k: "Legal", v: "Signed client waiver and artist / studio agreements, enforced before a session on client and server" },
   { k: "Deletion", v: "Self-serve account deletion erases personal data; transaction and signed-legal records are retained as required by law" },
@@ -94,7 +93,7 @@ const SUITES = [
 const CI_JOBS: { k: string; v: string }[] = [
   { k: "Backend", v: "lint + tests with DB integration + coverage" },
   { k: "Frontend", v: "lint + typecheck + build + coverage" },
-  { k: "Audit", v: "npm audit at high and above, both sides" },
+  { k: "Audit", v: "npm audit of production dependencies at high and above, both sides" },
 ];
 
 const VERIFY: { k: string; v: string }[] = [
@@ -108,7 +107,7 @@ const VERIFY: { k: string; v: string }[] = [
   },
   {
     k: "Playwright",
-    v: "Visual snapshots at 375 / 768 / 1440 asserting no horizontal overflow, plus a 7-viewport fit audit for clipped or overflowing elements.",
+    v: "Full-page screenshots at 375 / 768 / 1440 asserting no horizontal overflow, plus a 7-viewport fit audit for clipped or overflowing elements.",
   },
 ];
 
@@ -351,7 +350,7 @@ function FloorFour() {
         <Register rows={SECURITY} className="border-y border-line" />
         <SystemWindow title="Warning" tone="danger" alert animate={false} className="mt-8 max-w-md">
           <p className="text-pretty text-sm leading-relaxed text-ice">
-            Moderation <span className="text-danger">fails closed</span>. Production refuses to boot without a
+            Image and review moderation <span className="text-danger">fails closed</span>. Production refuses to boot without a
             Gemini key unless <span className="font-mono text-xs">MODERATION_FAIL_OPEN=true</span> is set
             deliberately.
           </p>
@@ -476,7 +475,7 @@ function FloorSix() {
             <div className="py-4">
               <dt className="hud text-mute">Repository today</dt>
               <dd className="mt-1.5 font-mono text-xs leading-relaxed text-ice-2">
-                29 route files · 38 models · 50+ services · ~199k lines incl. tests
+                29 route files · 38 models · 49 services · ~199k lines incl. tests
               </dd>
             </div>
           </dl>
