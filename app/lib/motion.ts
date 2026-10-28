@@ -13,8 +13,8 @@ export const DUR = { fast: 0.5, base: 1.1, slow: 1.8 } as const;
  */
 export const VIEWPORT = { once: true, amount: "some", margin: "0px 0px -12% 0px" } as const;
 
-/** Seconds after mount at which the hero choreography begins (as the System screen clears). */
-export const INTRO_DELAY = 2.7;
+/** Seconds after mount at which the header and notifications arrive. No loading screen: the page is usable at once. */
+export const INTRO_DELAY = 0.6;
 
 /** Fade and rise. */
 export const reveal: Variants = {

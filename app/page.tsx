@@ -1,25 +1,18 @@
-import Awakening from './components/Awakening';
-import Dungeon from './components/Dungeon';
-import ClearedGates from './components/ClearedGates';
-import QuestLog from './components/QuestLog';
-import Titles from './components/Titles';
-import SystemMessage from './components/SystemMessage';
-import GateDivider from './components/GateDivider';
+import About from './components/About';
+import Contact from './components/Contact';
+import Hero from './components/Hero';
+import Projects from './components/Projects';
+import Skills from './components/Skills';
 
+/** Awakening → Projects → Abilities → the climb → the next gate. */
 export default function Page() {
 	return (
 		<main id="main" className="relative">
-			<Awakening />
-			<GateDivider caption="Gate 01 // S-Rank" color="#ff4d64" />
-			<Dungeon />
-			<GateDivider caption="Gate 02 // Cleared" color="#3ddc97" />
-			<ClearedGates />
-			<GateDivider caption="Gate 03 // Quest log" color="#f5b942" />
-			<QuestLog />
-			<GateDivider caption="Gate 04 // Titles" color="#a06bff" />
-			<Titles />
-			<GateDivider caption="Gate 05 // Message" color="#38d6f5" />
-			<SystemMessage />
+			<Hero />
+			<Projects />
+			<Skills />
+			<About />
+			<Contact />
 		</main>
 	);
 }

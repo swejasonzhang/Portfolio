@@ -28,13 +28,33 @@ const subscribe = (fn: () => void) => {
 const snapshot = () => state;
 const serverSnapshot = () => SERVER;
 
+/**
+ * Continuous position through the gates for the scene: gate index plus how
+ * far the probe line has travelled through that gate. Most of the camera move
+ * happens in the last stretch of a gate, so each crossing reads as a scene
+ * change rather than a slow pan.
+ */
+let progress = 0;
+export function getProgress() {
+  return progress;
+}
+
 function measure() {
   const line = window.innerHeight * PROBE;
   let current = 0;
+  const tops: number[] = [];
   GATES.forEach((g, i) => {
     const el = document.getElementById(g.id);
-    if (el && el.getBoundingClientRect().top <= line) current = i;
+    const top = el ? el.getBoundingClientRect().top : Infinity;
+    tops.push(top);
+    if (top <= line) current = i;
   });
+  const start = tops[current];
+  const next = current + 1 < tops.length ? tops[current + 1] : start + window.innerHeight;
+  const span = Math.max(1, next - start);
+  const frac = Math.min(1, Math.max(0, (line - start) / span));
+  const ease = frac < 0.62 ? 0 : (frac - 0.62) / 0.38;
+  progress = current + 0.1 * frac + 0.9 * ease * ease * (3 - 2 * ease);
   if (current === state.current) return;
   state = { current, depth: Math.max(state.depth, current) };
   listeners.forEach((fn) => fn());

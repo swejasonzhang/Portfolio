@@ -89,7 +89,7 @@ export default function Reticle() {
 
   if (!on) return null;
 
-  const label = mode === "select" ? "Select" : mode === "pulse" ? "Pulse" : "";
+  const label = mode === "select" ? "Select" : mode === "pulse" ? "Arise" : "";
 
   return (
     <>

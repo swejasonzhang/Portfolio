@@ -10,60 +10,49 @@ export default {
         xs: "475px",
       },
       fontFamily: {
-        // One face for the whole System.
-        sans: ["var(--font-display)", "Arial Narrow", ...defaultTheme.fontFamily.sans],
+        // Reading text: Barlow. The System's voice (display, labels): Barlow Condensed.
+        sans: ["var(--font-body)", ...defaultTheme.fontFamily.sans],
+        display: ["var(--font-display)", "Arial Narrow", ...defaultTheme.fontFamily.sans],
         mono: ["var(--font-display)", "Arial Narrow", ...defaultTheme.fontFamily.sans],
-        display: ["var(--font-display)", "Impact", "Arial Narrow", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         gray: colors.slate,
-        // The void the System renders onto
-        void: { DEFAULT: "#06070b", 2: "#0b0e16", 3: "#111626" },
-        panel: "rgba(14,18,30,0.72)",
-        // System blue
-        sys: { DEFAULT: "#58a6ff", bright: "#9cd0ff", dim: "#2f6fcf" },
-        // Shadow violet
-        shadow: { DEFAULT: "#7c5cff", bright: "#b39dff", dim: "#4c3bb3" },
-        // Text
-        ice: { DEFAULT: "#e6ecff", 2: "#b9c3e0" },
-        mute: "#7d86a3",
+        // Near-black, charcoal, midnight
+        void: { DEFAULT: "#05060a", 2: "#0a0d14", 3: "#111522" },
+        midnight: "#0b1328",
+        panel: "rgba(9,12,20,0.78)",
+        // Electric ice blue, the System's light
+        sys: { DEFAULT: "#6cbcff", bright: "#c2e4ff", dim: "#2b6cc4" },
+        // Shadow violet, used sparingly for depth
+        shadow: { DEFAULT: "#8b6cff", bright: "#bba8ff", dim: "#4c3bb3" },
+        // Cool silver and text
+        silver: { DEFAULT: "#c9d3e6", 2: "#8e9ab3" },
+        ice: { DEFAULT: "#eef3ff", 2: "#b7c2da" },
+        mute: "#7c869e",
         danger: "#ff3b5c",
-        // Luminous hairlines
         line: {
-          hair: "rgba(88,166,255,0.12)",
-          DEFAULT: "rgba(88,166,255,0.28)",
-          strong: "rgba(88,166,255,0.6)",
+          hair: "rgba(160,184,224,0.10)",
+          DEFAULT: "rgba(160,184,224,0.18)",
+          strong: "rgba(160,184,224,0.42)",
         },
       },
       fontSize: {
         "2xs": ["0.6875rem", { lineHeight: "1rem" }],
-        // Width-driven, but capped by viewport height so the hero fits a laptop screen.
-        "display-name": [
-          "clamp(5rem, min(1rem + 16vw, 24svh), 19rem)",
-          { lineHeight: "0.85", letterSpacing: "-0.01em" },
-        ],
-        "display-xl": [
-          "clamp(3rem, 1.5rem + 5vw, 7.5rem)",
-          { lineHeight: "0.9", letterSpacing: "-0.005em" },
-        ],
-        "display-lg": [
-          "clamp(2rem, 1.4rem + 2.4vw, 4rem)",
-          { lineHeight: "0.95", letterSpacing: "0" },
-        ],
-        "display-md": [
-          "clamp(1.5rem, 1.2rem + 1vw, 2.25rem)",
-          { lineHeight: "1", letterSpacing: "0.01em" },
-        ],
+        "display-name": ["clamp(4.5rem, min(1rem + 14vw, 25svh), 17rem)", { lineHeight: "0.84", letterSpacing: "-0.01em" }],
+        "display-hero": ["clamp(3.6rem, 1rem + 11vw, 13rem)", { lineHeight: "0.84", letterSpacing: "-0.012em" }],
+        "display-xl": ["clamp(3rem, 1.4rem + 5.4vw, 8rem)", { lineHeight: "0.88", letterSpacing: "-0.005em" }],
+        "display-lg": ["clamp(2.1rem, 1.3rem + 2.6vw, 4.25rem)", { lineHeight: "0.94", letterSpacing: "0" }],
+        "display-md": ["clamp(1.55rem, 1.2rem + 1.1vw, 2.4rem)", { lineHeight: "1", letterSpacing: "0.01em" }],
         "display-sm": ["1.375rem", { lineHeight: "1.1", letterSpacing: "0.02em" }],
       },
       letterSpacing: {
-        label: "0.18em",
-        kicker: "0.3em",
+        label: "0.2em",
+        kicker: "0.32em",
       },
       boxShadow: {
-        glow: "0 0 24px rgba(88,166,255,0.18), inset 0 0 0 1px rgba(88,166,255,0.08)",
-        "glow-strong": "0 0 40px rgba(88,166,255,0.35), inset 0 0 0 1px rgba(88,166,255,0.2)",
-        "glow-violet": "0 0 28px rgba(124,92,255,0.24), inset 0 0 0 1px rgba(124,92,255,0.12)",
+        glow: "0 0 24px rgba(108,188,255,0.16), inset 0 0 0 1px rgba(108,188,255,0.06)",
+        "glow-strong": "0 0 44px rgba(108,188,255,0.32), inset 0 0 0 1px rgba(108,188,255,0.18)",
+        "glow-violet": "0 0 30px rgba(139,108,255,0.22), inset 0 0 0 1px rgba(139,108,255,0.1)",
       },
       keyframes: {
         flicker: {
@@ -87,14 +76,20 @@ export default {
         "ring-spin": {
           to: { transform: "rotate(360deg)" },
         },
-        breathe: {
-          "0%, 100%": { opacity: "0.55", transform: "scale(1)" },
-          "50%": { opacity: "1", transform: "scale(1.08)" },
-        },
         "level-flash": {
           "0%": { opacity: "0.2", transform: "scale(1.35)" },
           "60%": { opacity: "1", transform: "scale(0.96)" },
           "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        "travel-x": {
+          "0%": { transform: "translateX(-10%)", opacity: "0" },
+          "15%, 85%": { opacity: "1" },
+          "100%": { transform: "translateX(1000%)", opacity: "0" },
+        },
+        "travel-y": {
+          "0%": { transform: "translateY(-10%)", opacity: "0" },
+          "15%, 85%": { opacity: "1" },
+          "100%": { transform: "translateY(1000%)", opacity: "0" },
         },
       },
       animation: {
@@ -103,8 +98,9 @@ export default {
         drift: "drift 3.8s ease-in-out infinite",
         blink: "blink 1.3s steps(1) infinite",
         "ring-spin": "ring-spin 140s linear infinite",
-        breathe: "breathe 14s ease-in-out infinite",
         "level-flash": "level-flash 1.1s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "travel-x": "travel-x 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+        "travel-y": "travel-y 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite",
       },
     },
   },

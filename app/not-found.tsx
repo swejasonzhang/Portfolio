@@ -18,10 +18,10 @@ export default function NotFound() {
 			</p>
 			<div className="flex flex-wrap justify-center gap-4">
 				<Link href="/" className="btn-sys">
-					Return to the awakening
+					Back to the start
 				</Link>
-				<Link href="/#inkmity" className="btn-ghost">
-					Enter the S-Rank gate
+				<Link href="/#projects" className="btn-ghost">
+					See the projects
 				</Link>
 			</div>
 		</main>

@@ -5,6 +5,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { EASE_INOUT, EASE_OUT, INTRO_DELAY } from "../lib/motion";
 import { GATES } from "../lib/gates";
 import { useGate, useGateTracker } from "../lib/level";
+import { siteConfig } from "../site";
 
 /** The tab icon, recolored to the gate you are in. Same mark as /icon.svg. */
 const favicon = (color: string) =>
@@ -75,15 +76,23 @@ export default function Rail() {
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-void via-void/85 to-transparent" />
         <div data-gate={current.gate} style={vars} className="frame relative flex items-center justify-between py-4">
           <a
-            href="#awakening"
+            href="#home"
             className="pointer-events-auto flex min-h-10 items-center gap-3 text-ice"
-            aria-label="Jason Zhang, back to the awakening"
+            aria-label="Jason Zhang, back to the top"
           >
             <Mark className="h-7 w-7 text-[var(--gate)] drop-shadow-[0_0_6px_rgba(var(--gate-rgb),0.55)] transition-colors duration-700" />
             <span className="hidden font-display text-lg uppercase tracking-wide min-[380px]:inline">Jason Zhang</span>
           </a>
 
           <div className="pointer-events-auto flex items-center gap-3">
+            <a
+              href={siteConfig.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hud hidden min-h-10 items-center px-2 text-silver transition-colors duration-500 hover:text-ice md:flex"
+            >
+              Résumé ↗<span className="sr-only"> (opens in a new tab)</span>
+            </a>
             <span className="hud flex items-center gap-3 border border-[rgba(var(--gate-rgb),0.45)] bg-void/60 px-3 py-2 text-mute transition-colors duration-700">
               <span
                 key={level}
@@ -218,7 +227,7 @@ export default function Rail() {
                 ))}
               </ul>
               <p className="hud text-mute">
-                <span className="text-[var(--gate)]">LV {level}</span> · Software Engineer · Builder · Founder
+                <span className="text-[var(--gate)]">LV {level}</span> · Software Engineer · Founder
               </p>
             </div>
           </motion.div>

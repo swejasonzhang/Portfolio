@@ -1,17 +1,22 @@
 import type { Metadata, Viewport } from 'next';
-import { Barlow_Condensed } from 'next/font/google';
+import { Barlow, Barlow_Condensed } from 'next/font/google';
 import './globals.css';
 import MotionProvider from './components/MotionProvider';
-import Arise from './components/Arise';
 import Notifier from './components/Notifier';
-import ManaField from './components/ManaField';
 import Reticle from './components/Reticle';
+import ShadowScene from './components/ShadowScene';
 import Rail from './components/Rail';
 import { siteConfig } from './site';
 
 const display = Barlow_Condensed({
-	weight: ['400', '500', '600', '700', '800'],
+	weight: ['500', '600', '700', '800'],
 	variable: '--font-display',
+	subsets: ['latin'],
+});
+
+const body = Barlow({
+	weight: ['400', '500', '600'],
+	variable: '--font-body',
 	subsets: ['latin'],
 });
 
@@ -73,7 +78,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: '#06070b',
+	themeColor: '#05060a',
 	colorScheme: 'dark',
 	width: 'device-width',
 	initialScale: 1,
@@ -109,7 +114,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${display.variable} antialiased`}>
+			<body className={`${display.variable} ${body.variable} antialiased`}>
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -121,8 +126,7 @@ export default function RootLayout({
 					Skip to content
 				</a>
 				<MotionProvider>
-					<ManaField />
-					<Arise />
+					<ShadowScene />
 					<Rail />
 					<Notifier />
 					<Reticle />
