@@ -96,7 +96,7 @@ export default function Contact() {
         <span aria-hidden="true" className="rule-glow block w-full" />
         <div className="hud mt-6 flex flex-wrap justify-between gap-x-8 gap-y-3 text-mute">
           <span>© 2026 {siteConfig.name}</span>
-          <span>Scene: a hand-written WebGL shader · Barlow · Next.js</span>
+          <span>Scene: three.js, modelled in code · Barlow · Next.js</span>
           <span>Built with Claude Code, an AI coding agent.</span>
         </div>
       </footer>

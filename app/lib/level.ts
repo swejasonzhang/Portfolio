@@ -53,9 +53,8 @@ function measure() {
   const next = current + 1 < tops.length ? tops[current + 1] : start + window.innerHeight;
   const span = Math.max(1, next - start);
   const frac = Math.min(1, Math.max(0, (line - start) / span));
-  // The scene changes over the second half of each gate, eased at both ends.
-  const e = frac < 0.45 ? 0 : (frac - 0.45) / 0.55;
-  progress = current + e * e * e * (e * (e * 6 - 15) + 10);
+  // Continuous: the scene is always somewhere between two framings, so scrolling never stops moving it.
+  progress = current + frac;
   if (current === state.current) return;
   state = { current, depth: Math.max(state.depth, current) };
   listeners.forEach((fn) => fn());

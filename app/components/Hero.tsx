@@ -138,7 +138,7 @@ export default function Hero() {
           </a>
           <span className="hidden items-center gap-2 md:flex">
             <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-shadow" />
-            Press anywhere here to raise the shadows
+            Press anywhere here to wake the shadow
           </span>
         </motion.div>
       </div>

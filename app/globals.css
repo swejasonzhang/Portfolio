@@ -138,10 +138,8 @@ html.has-reticle * {
   }
   /* A soft dark field behind reading text, so the scene never fights the words */
   .scrim {
-    background: radial-gradient(closest-side, rgba(5, 6, 10, 0.78) 0%, rgba(5, 6, 10, 0.62) 55%, rgba(5, 6, 10, 0) 100%);
-    background-size: 118% 150%;
-    background-position: center;
-    background-repeat: no-repeat;
+    /* Reaches zero exactly at the element's edges, so no rectangle ever shows. */
+    background: radial-gradient(closest-side, rgba(5, 6, 10, 0.72) 0%, rgba(5, 6, 10, 0.55) 60%, rgba(5, 6, 10, 0) 100%);
   }
   /* Draws the outline across a chamfer's two cut corners, so outlined chips stay closed shapes */
   .cut-edge {
