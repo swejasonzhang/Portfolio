@@ -7,7 +7,7 @@ export default function CopyEmail({ email }: { email: string }) {
   return (
     <button
       type="button"
-      className="btn-secondary"
+      className="btn-ghost"
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(email);

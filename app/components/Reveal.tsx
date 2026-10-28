@@ -12,12 +12,13 @@ export default function Reveal({
   as: Tag = "div",
   className = "",
   delay = 0,
+  ...rest
 }: {
   children: ReactNode;
   as?: ElementType;
   className?: string;
   delay?: number;
-}) {
+} & Record<string, unknown>) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current;
@@ -34,7 +35,7 @@ export default function Reveal({
     return () => io.disconnect();
   }, []);
   return (
-    <Tag ref={ref} className={`reveal ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
+    <Tag ref={ref} {...rest} className={`reveal ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
       {children}
     </Tag>
   );

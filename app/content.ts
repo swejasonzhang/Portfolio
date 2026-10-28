@@ -172,50 +172,45 @@ export const projects: Project[] = [
   },
 ];
 
-export type Job = { org: string; title: string; type: string; dates: string; bullets: string[] };
+export type Job = { org: string; title: string; type: string; dates: string; summary: string; tags: string[]; href?: string };
 
 export const experience: Job[] = [
   {
     org: "Inkmity",
     title: "Founder & Software Developer",
     type: "New York, NY",
-    dates: "Aug 2025 – Present",
-    bullets: [
-      "Founded and launched a booking app for independent New York tattoo artists, live since July 2026.",
-      "Built the first version myself (530+ commits), including the Stripe deposit flow and its signature-verified webhook; since June 2026 I build it with Claude Code and test and approve every release.",
-      "Run it in production on Vercel and Render, and set the product direction and pricing after interviewing a studio and pitching 10+ shops.",
-    ],
+    dates: "Aug 2025 — Present",
+    href: "https://inkmity.com/",
+    summary:
+      "Founded and launched a booking app for independent New York tattoo artists, live since July 2026. Built the first version myself (530+ commits), including the Stripe deposit flow and its signature-verified webhook. Since June 2026 I build it with Claude Code, testing and approving every release, and run it in production on Vercel and Render.",
+    tags: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Stripe"],
   },
   {
     org: "Move Tact Management",
     title: "Software Engineer",
     type: "Contract · Remote",
-    dates: "Feb 2025 – Jul 2025",
-    bullets: [
-      "Automated reporting for a 10+ person marketing team: sole author of 19 Python scripts (108 commits) pulling TikTok, Instagram, YouTube and X metrics from the Ensemble Data and Chartmetric APIs into Google Sheets, with Slack alerts.",
-      "Wrote a Slack-to-Google Drive script that filed each campaign channel's videos by creator.",
-      "Built a MERN dashboard app (101 commits) and a creator-voting site with Stripe Checkout and an embedded Twitch stream.",
-    ],
+    dates: "Feb — Jul 2025",
+    summary:
+      "Automated reporting for a 10+ person marketing team: sole author of 19 Python scripts (108 commits) pulling TikTok, Instagram, YouTube and X metrics from the Ensemble Data and Chartmetric APIs into Google Sheets, with Slack alerts. Also wrote a Slack-to-Google Drive filing script and built a MERN dashboard and a creator-voting site with Stripe Checkout.",
+    tags: ["Python", "Google Sheets API", "Slack API", "Stripe", "MERN"],
   },
   {
     org: "Series",
     title: "Software Engineer Intern",
     type: "Remote",
-    dates: "Nov 2024 – Feb 2025",
-    bullets: [
-      "Opened 50+ pull requests on a three-person engineering team with the CTO, working through code review.",
-      "Built Node.js and Firebase backend endpoints and Twilio integrations for Vera, the company's communications bot.",
-    ],
+    dates: "Nov 2024 — Feb 2025",
+    summary:
+      "Opened 50+ pull requests on a three-person engineering team with the CTO, working through code review. Built Node.js and Firebase backend endpoints and Twilio integrations for Vera, the company's communications bot.",
+    tags: ["Node.js", "Firebase", "Twilio"],
   },
   {
     org: "Headstarter AI",
     title: "Software Engineering Fellow",
     type: "Remote",
-    dates: "Jul 2024 – Oct 2024",
-    bullets: [
-      "Built the professor search page and API route for ProfScore, a three-person Rate My Professor app.",
-      "Added Calmify's first Stripe Checkout route, Clerk setup and OpenAI flashcard prompt, then built its flashcard UI.",
-    ],
+    dates: "Jul — Oct 2024",
+    summary:
+      "Built the professor search page and API route for ProfScore, a three-person Rate My Professor app. Added Calmify's first Stripe Checkout route, Clerk setup and OpenAI flashcard prompt, then built its flashcard UI.",
+    tags: ["Next.js", "React", "Stripe", "Clerk"],
   },
 ];
 
@@ -233,3 +228,12 @@ export const skills: { group: string; items: string[] }[] = [
   { group: "Integrations", items: ["Stripe", "Clerk", "Cloudinary", "Twilio", "Google Places", "Google Sheets", "Slack"] },
   { group: "Tools", items: ["Git", "GitHub", "Vercel", "Render", "MongoDB Atlas", "Claude Code"] },
 ];
+
+export const about = [
+  "I'm a software engineer and computer science student in New York who likes making the thing and then taking it to the people it's for. I built the first version of Inkmity by hand, then pitched it to more than ten tattoo shops in person and sat down with a studio to hear how booking actually breaks for them.",
+  "Before that I interned at Series, opening 50+ pull requests on a small team with the CTO, and wrote data automation for a marketing team at Move Tact. I'm finishing a B.S. at Queens College (CUNY) with evening classes, so I can start an internship or co-op now.",
+  "Since June 2026 I build with Claude Code, and I'm open about which work I wrote by hand and which I directed.",
+];
+
+export const offClock =
+  "Off the clock: anime, games and tattoo art. I wear koi, a Hannya mask, foo dogs and a Solo Leveling piece; getting stronger one honest level at a time is how I think about engineering, too.";

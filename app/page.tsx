@@ -1,21 +1,16 @@
-import About from './components/About';
-import Contact from './components/Contact';
-import Experience from './components/Experience';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Projects from './components/Projects';
+import { About, Contact, Experience, Projects } from './components/Sections';
+import Sidebar from './components/Sidebar';
 
 export default function Page() {
 	return (
-		<>
-			<Header />
-			<main id="main">
-				<Hero />
+		<div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:flex lg:justify-between lg:gap-10 lg:px-24 lg:py-0">
+			<Sidebar />
+			<main id="main" className="space-y-24 pt-20 md:space-y-32 lg:w-[50%] lg:py-24 lg:pt-24">
+				<About />
 				<Projects />
 				<Experience />
-				<About />
 				<Contact />
 			</main>
-		</>
+		</div>
 	);
 }

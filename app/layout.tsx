@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Instrument_Serif, Inter } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from './site';
 
 const sans = Inter({
 	subsets: ['latin'],
 	variable: '--font-sans',
+	display: 'swap',
+});
+
+const serif = Instrument_Serif({
+	subsets: ['latin'],
+	weight: '400',
+	style: ['normal', 'italic'],
+	variable: '--font-serif',
 	display: 'swap',
 });
 
@@ -67,11 +75,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: [
-		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
-		{ media: '(prefers-color-scheme: dark)', color: '#0b0d12' },
-	],
-	colorScheme: 'light dark',
+	themeColor: '#09090c',
+	colorScheme: 'dark',
 	width: 'device-width',
 	initialScale: 1,
 	viewportFit: 'cover',
@@ -105,7 +110,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={sans.variable} suppressHydrationWarning>
+		<html lang="en" className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
 			<head>
 				{/* Marks that scripts run, so scroll reveals only hide content when they can show it again. */}
 				<script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
@@ -117,7 +122,7 @@ export default function RootLayout({
 				/>
 				<a
 					href="#main"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:text-accent-fg"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-bright focus:px-4 focus:py-2 focus:text-sm focus:text-bg"
 				>
 					Skip to content
 				</a>

@@ -1,0 +1,132 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { siteConfig } from "../site";
+import { Diamond, FileIcon, GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "./Icons";
+
+const NAV = [
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  { id: "experience", label: "Experience" },
+  { id: "contact", label: "Contact" },
+];
+
+const SOCIAL = [
+  { href: siteConfig.socials.github, label: "GitHub", Icon: GitHubIcon },
+  { href: siteConfig.socials.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
+  { href: siteConfig.socials.x, label: "X", Icon: XIcon },
+  { href: `mailto:${siteConfig.email}`, label: "Email", Icon: MailIcon },
+];
+
+/**
+ * The fixed left column on large screens (it scrolls normally on phones):
+ * who I am, what I'm looking for, where to go, and how to reach me. The
+ * section in view lights its diamond.
+ */
+export default function Sidebar() {
+  const [active, setActive] = useState("about");
+
+  useEffect(() => {
+    const sections = NAV.map((n) => document.getElementById(n.id)).filter((el): el is HTMLElement => !!el);
+    const pick = () => {
+      // The last section whose top has passed a line 35% down the screen.
+      const line = window.innerHeight * 0.35;
+      let current = NAV[0].id;
+      for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s.id;
+      // At the very bottom, the last section is the one being read.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = NAV[NAV.length - 1].id;
+      setActive(current);
+    };
+    pick();
+    window.addEventListener("scroll", pick, { passive: true });
+    window.addEventListener("resize", pick);
+    return () => {
+      window.removeEventListener("scroll", pick);
+      window.removeEventListener("resize", pick);
+    };
+  }, []);
+
+  return (
+    <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[46%] lg:flex-col lg:justify-between lg:py-24">
+      <div>
+        <p className="flex items-center gap-2 text-sm text-muted">
+          <span className="text-accent">
+            <Diamond className="h-3 w-3" filled={false} />
+          </span>
+          New York, NY
+        </p>
+        <h1 className="mt-5 font-serif text-[3.4rem] leading-[0.95] tracking-tight text-bright sm:text-7xl">
+          <a href="#about">
+            Jason <em className="text-accent/90">Zhang</em>
+          </a>
+        </h1>
+        <h2 className="mt-5 text-lg font-medium tracking-tight text-bright sm:text-xl">
+          Software Engineer · Founder of Inkmity
+        </h2>
+        <p className="mt-4 max-w-xs leading-relaxed text-muted">
+          I build full-stack products end to end, from the Stripe webhook to the last pixel.
+        </p>
+        <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1.5 text-sm text-fg">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:hidden" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+          </span>
+          Open to internships &amp; co-ops
+        </p>
+
+        <nav aria-label="Sections" className="mt-14 hidden lg:block">
+          <ul className="w-max space-y-1">
+            {NAV.map((n) => {
+              const on = active === n.id;
+              return (
+                <li key={n.id}>
+                  <a
+                    href={`#${n.id}`}
+                    aria-current={on ? "true" : undefined}
+                    className="group flex items-center gap-3 py-2"
+                  >
+                    <span className={`transition-colors duration-300 ${on ? "text-accent" : "text-subtle group-hover:text-accent"}`}>
+                      <Diamond className="h-2.5 w-2.5" filled={on} />
+                    </span>
+                    <span
+                      className={`text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 ${
+                        on ? "translate-x-1 text-bright" : "text-subtle group-hover:translate-x-1 group-hover:text-bright"
+                      }`}
+                    >
+                      {n.label}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+
+      <div className="mt-10 flex flex-wrap items-center gap-6 lg:mt-0">
+        <a href={siteConfig.resume} target="_blank" rel="noopener noreferrer" className="btn-ghost h-9 px-4">
+          <FileIcon />
+          Résumé<span className="sr-only"> (PDF, opens in a new tab)</span>
+        </a>
+        <ul className="flex items-center gap-5" aria-label="Elsewhere">
+          {SOCIAL.map(({ href, label, Icon }) => (
+            <li key={label}>
+              <a
+                href={href}
+                {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                className="block text-muted transition-colors hover:text-bright"
+                title={label}
+              >
+                <span className="sr-only">
+                  {label}
+                  {href.startsWith("mailto:") ? "" : " (opens in a new tab)"}
+                </span>
+                <Icon />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </header>
+  );
+}

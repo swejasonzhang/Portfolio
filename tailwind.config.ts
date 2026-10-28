@@ -1,10 +1,6 @@
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
-/**
- * Colors come from CSS variables (app/globals.css), so light and dark mode
- * follow the visitor's system setting with no extra classes.
- */
 const v = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
 
 export default {
@@ -13,19 +9,18 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-serif)", "Georgia", ...defaultTheme.fontFamily.serif],
       },
       colors: {
         bg: v("bg"),
         surface: v("surface"),
         fg: v("fg"),
+        bright: v("bright"),
         muted: v("muted"),
         subtle: v("subtle"),
         border: v("border"),
         accent: v("accent"),
-        "accent-fg": v("accent-fg"),
-      },
-      maxWidth: {
-        page: "68rem",
+        ice: v("ice"),
       },
     },
   },
