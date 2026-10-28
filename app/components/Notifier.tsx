@@ -105,11 +105,11 @@ export default function Notifier() {
             key={t.id}
             type="button"
             onClick={() => dismiss(t.id)}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24, filter: "blur(4px)" }}
-            animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], x: 0, filter: "blur(0px)" }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24 }}
+            animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], x: 0 }}
             exit={{ opacity: 0, transition: { duration: 0.6 } }}
             transition={{ duration: 0.9, ease: EASE_OUT }}
-            className="chamfer pointer-events-auto relative border bg-void/90 px-4 py-3 text-left backdrop-blur-sm"
+            className="chamfer pointer-events-auto relative border bg-void/95 px-4 py-3 text-left"
             style={{ borderColor: `${t.color}88`, boxShadow: `0 0 26px ${t.color}26` }}
           >
             <span className="hud flex items-center justify-between gap-3" style={{ color: t.color }}>

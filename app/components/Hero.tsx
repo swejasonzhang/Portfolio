@@ -105,12 +105,12 @@ export default function Hero() {
 
           {/* The System surfaces beside the figure */}
           <motion.div
-            initial={reduce ? false : { opacity: 0, y: 10, filter: "blur(6px)" }}
-            animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], y: 0, filter: "blur(0px)" }}
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={reduce ? { opacity: 1 } : { opacity: [0, 1, 0.5, 1], y: 0 }}
             transition={reduce ? { duration: 0 } : { delay: OPEN + 1.6, duration: 1.3, ease: EASE_OUT }}
             className="hidden self-end lg:col-span-4 lg:col-start-9 lg:mb-2 lg:block xl:col-span-3 xl:col-start-10"
           >
-            <div role="status" className="chamfer cut-edge relative border border-sys/40 [--cut:rgba(108,188,255,0.4)] bg-panel/80 px-5 py-4 shadow-glow backdrop-blur-[2px]">
+            <div role="status" className="chamfer cut-edge relative border border-sys/40 [--cut:rgba(108,188,255,0.4)] bg-void/85 px-5 py-4 shadow-glow">
               <p className="flex items-center gap-2 hud text-sys">
                 <span aria-hidden="true" className="relative flex h-4 w-4 items-center justify-center">
                   <span className="absolute inset-0 rotate-45 border border-sys" />

@@ -184,9 +184,9 @@ export default function Rail() {
             role="dialog"
             aria-modal="true"
             aria-label="Gates"
-            initial={{ clipPath: "inset(50% 0 50% 0)" }}
-            animate={{ clipPath: "inset(0% 0 0% 0)", transition: { duration: 0.75, ease: EASE_INOUT } }}
-            exit={{ clipPath: "inset(50% 0 50% 0)", transition: { duration: 0.55, ease: EASE_INOUT } }}
+            initial={{ opacity: 0, scaleY: 0.92 }}
+            animate={{ opacity: 1, scaleY: 1, transition: { duration: 0.6, ease: EASE_INOUT } }}
+            exit={{ opacity: 0, scaleY: 0.96, transition: { duration: 0.4, ease: EASE_INOUT } }}
             className="fixed inset-0 z-[60] bg-void text-ice"
           >
             <div aria-hidden="true" className="scanlines pointer-events-none absolute inset-0" />

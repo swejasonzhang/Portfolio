@@ -5,6 +5,7 @@ import MotionProvider from './components/MotionProvider';
 import Notifier from './components/Notifier';
 import Reticle from './components/Reticle';
 import ShadowScene from './components/ShadowScene';
+import SmoothScroll from './components/SmoothScroll';
 import Rail from './components/Rail';
 import { siteConfig } from './site';
 
@@ -126,6 +127,7 @@ export default function RootLayout({
 					Skip to content
 				</a>
 				<MotionProvider>
+					<SmoothScroll />
 					<ShadowScene />
 					<Rail />
 					<Notifier />

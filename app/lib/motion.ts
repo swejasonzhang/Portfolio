@@ -11,14 +11,14 @@ export const DUR = { fast: 0.5, base: 1.1, slow: 1.8 } as const;
  * bottom 12% of the viewport, so a block taller than the screen (a six-window
  * grid on a phone) still reveals; a 20% threshold could never be met there.
  */
-export const VIEWPORT = { once: true, amount: "some", margin: "0px 0px -12% 0px" } as const;
+export const VIEWPORT = { once: true, amount: "some", margin: "0px 0px -8% 0px" } as const;
 
 /** Seconds after mount at which the header and notifications arrive. No loading screen: the page is usable at once. */
 export const INTRO_DELAY = 0.6;
 
 /** Fade and rise. */
 export const reveal: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
@@ -26,32 +26,23 @@ export const reveal: Variants = {
   },
 };
 
-/** Rise out of shadow: uncovered from the bottom up. */
+/** Rise out of shadow: lifts and resolves. Transform and opacity only, so it never repaints. */
 export const rise: Variants = {
-  hidden: { clipPath: "inset(100% 0 0 0)", y: 24 },
+  hidden: { opacity: 0, y: "0.32em" },
   visible: {
-    clipPath: "inset(0% 0 0 0)",
+    opacity: 1,
     y: 0,
-    transition: { duration: 1.5, ease: EASE_OUT },
+    transition: { duration: 1.3, ease: EASE_OUT },
   },
 };
 
 /** System materialize: a fast flicker into place. */
 export const materialize: Variants = {
-  hidden: { opacity: 0, scale: 0.985 },
+  hidden: { opacity: 0, y: 8 },
   visible: {
-    opacity: [0, 1, 0.45, 1],
-    scale: 1,
-    transition: { duration: 0.95, ease: "linear", times: [0, 0.35, 0.55, 1] },
-  },
-};
-
-/** Masked wipe left to right. */
-export const wipe: Variants = {
-  hidden: { clipPath: "inset(0 100% 0 0)" },
-  visible: {
-    clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 1.5, ease: EASE_OUT },
+    opacity: [0, 1, 0.55, 1],
+    y: 0,
+    transition: { duration: 0.9, ease: "linear", times: [0, 0.35, 0.55, 1] },
   },
 };
 

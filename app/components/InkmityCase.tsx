@@ -95,7 +95,7 @@ function Capture() {
           {/* layered depth: an offset frame of the gate's light behind the capture */}
           <span aria-hidden="true" className="chamfer-lg absolute -bottom-3 -right-3 left-3 top-3 bg-[rgba(var(--gate-rgb),0.12)] ring-1 ring-inset ring-[rgba(var(--gate-rgb),0.35)]" />
           <div className="chamfer-lg relative aspect-[3414/1896] overflow-hidden bg-void-2 ring-1 ring-inset ring-line-strong">
-            <Image src="/assets/Inkmity.jpg" alt="Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver" fill sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover" />
+            <Image src="/assets/Inkmity.webp" alt="Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver" fill sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover" />
             <motion.span aria-hidden="true" style={{ left: glareX }} className="pointer-events-none absolute -top-1/2 h-[200%] w-1/3 -translate-x-1/2 rotate-12 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent" />
             {PINS.map((p) => (
               <button

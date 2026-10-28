@@ -75,7 +75,7 @@ export default function ArcCase() {
           <div className="relative">
             <span aria-hidden="true" className="chamfer-lg absolute -left-4 -top-4 bottom-8 right-10 bg-[rgba(var(--gate-rgb),0.08)] ring-1 ring-inset ring-[rgba(var(--gate-rgb),0.3)]" />
             <div className="chamfer-lg relative aspect-[16/10] overflow-hidden ring-1 ring-inset ring-line-strong">
-              <Image src="/assets/Arc.jpg" alt="Arc's landing page: a 3D body curling a dumbbell toward a 140° goal, the live angle reading 135°" fill sizes="(max-width: 1024px) 100vw, 58vw" className="object-cover object-top" />
+              <Image src="/assets/Arc.webp" alt="Arc's landing page: a 3D body curling a dumbbell toward a 140° goal, the live angle reading 135°" fill sizes="(max-width: 1024px) 100vw, 58vw" className="object-cover object-top" />
             </div>
           </div>
           <figcaption className="mt-4 hud text-mute">Capture · getarc.health</figcaption>

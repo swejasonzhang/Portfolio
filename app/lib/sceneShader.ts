@@ -1,5 +1,8 @@
 /**
- * The scene behind the whole page: a raymarched Shadow-Monarch-like figure
+ * Source of the scene stills in public/scene (rendered offline by
+ * scripts/render-scene.mjs, 2x supersampled). Not loaded by the page.
+ *
+ * The scene: a raymarched cloaked figure
  * before a vertical rift of light, a legion of kneeling shades in the fog.
  * Original procedural geometry (signed distance fields), no external assets.
  *
@@ -86,6 +89,7 @@ float monarch(vec3 p){
   coat += sin(a * 9. + p.y * .7 + sin(uTime * .4) * .6) * .045 * (1. - p.y / 3.);
   coat += (noise3(p * vec3(2.6, 1.4, 2.6) + vec3(0., -uTime * .45, 0.)) - .5) * .5 * hem;
   d = smin(d, coat, .25);
+  d *= mix(1., .55, hem);
   // arms; the right hand holds a long blade
   d = smin(d, sdCapsule(p, vec3(-.88, 3.4, 0.), vec3(-1.08, 2.42, -.08), .17), .14);
   d = smin(d, sdCapsule(p, vec3(-1.08, 2.42, -.08), vec3(-1.12, 1.62, -.2), .13), .08);
@@ -162,7 +166,7 @@ void keyframe(float i, out vec3 ro, out vec3 ta){
   else if (i < 1.5){ ro = vec3(-6., 5.6, -11.5); ta = vec3(.6, 2.2, 5.); }
   else if (i < 2.5){ ro = vec3(7., 2.2, -6.);  ta = vec3(-.2, 2.8, 4.); }
   else if (i < 3.5){ ro = vec3(.4, 12., -6.); ta = vec3(.4, 0., 8.); }
-  else             { ro = vec3(-4.2, 1.9, -10.6);  ta = vec3(-2.6, 3.9, 11.); }
+  else             { ro = mix(vec3(1.2, 1.9, -14.5), vec3(-4.2, 1.9, -10.6), uWide); ta = mix(vec3(2.2, 4.4, 11.), vec3(-2.6, 3.9, 11.), uWide); }
 }
 
 void main(){
@@ -187,7 +191,7 @@ void main(){
   // edge coverage: how close each ray came to a silhouette, for anti-aliasing
   float pixA = 1. / (uRes.y * 1.7);
   float cov = 0., tCov = 0., covId = 0.;
-  for (int i = 0; i < 120; i++){
+  for (int i = 0; i < 360; i++){
     if (float(i) > uSteps) break;
     spent += 1.;
     vec3 p = ro + rd * t;

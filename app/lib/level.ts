@@ -53,8 +53,9 @@ function measure() {
   const next = current + 1 < tops.length ? tops[current + 1] : start + window.innerHeight;
   const span = Math.max(1, next - start);
   const frac = Math.min(1, Math.max(0, (line - start) / span));
-  const ease = frac < 0.62 ? 0 : (frac - 0.62) / 0.38;
-  progress = current + 0.1 * frac + 0.9 * ease * ease * (3 - 2 * ease);
+  // The scene changes over the second half of each gate, eased at both ends.
+  const e = frac < 0.45 ? 0 : (frac - 0.45) / 0.55;
+  progress = current + e * e * e * (e * (e * 6 - 15) + 10);
   if (current === state.current) return;
   state = { current, depth: Math.max(state.depth, current) };
   listeners.forEach((fn) => fn());
