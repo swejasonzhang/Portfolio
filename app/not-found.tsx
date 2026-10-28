@@ -1,27 +1,19 @@
 import Link from 'next/link';
 
-export const metadata = { title: 'Not found' };
+export const metadata = { title: 'Page not found' };
 
 export default function NotFound() {
 	return (
-		<main
-			id="main"
-			className="relative flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center"
-		>
-			<p className="hud text-sys">Gate 404 · no such gate</p>
-			<h1 className="font-display text-display-name font-bold uppercase text-ice">
-				4<span className="hollow">0</span>4
-			</h1>
-			<span aria-hidden="true" className="rule-glow w-40" />
-			<p className="max-w-[40ch] text-pretty text-ice-2">
-				No gate opens here. The page does not exist, or it moved.
-			</p>
-			<div className="flex flex-wrap justify-center gap-4">
-				<Link href="/" className="btn-sys">
-					Back to the start
+		<main id="main" className="container-page flex min-h-screen flex-col items-start justify-center gap-6">
+			<p className="eyebrow">404</p>
+			<h1 className="text-4xl font-semibold tracking-tight">This page doesn&rsquo;t exist.</h1>
+			<p className="max-w-md text-lg text-muted">It may have moved. Everything is on the home page.</p>
+			<div className="flex flex-wrap gap-3">
+				<Link href="/" className="btn-primary">
+					Go home
 				</Link>
-				<Link href="/#projects" className="btn-ghost">
-					See the projects
+				<Link href="/#projects" className="btn-secondary">
+					See projects
 				</Link>
 			</div>
 		</main>

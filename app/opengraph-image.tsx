@@ -4,47 +4,15 @@ import { join } from 'node:path';
 import { siteConfig } from './site';
 
 export const dynamic = 'force-static';
-export const alt = 'Jason Zhang — Software Engineer, Builder, Founder';
+export const alt = 'Jason Zhang — Software Engineer';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const VOID = '#06070b';
-const ICE = '#e6ecff';
-const SYS = '#58a6ff';
-const SYS_BRIGHT = '#9cd0ff';
-const MUTE = '#7d86a3';
-
-const TICK = 14;
-const FRAME = 28;
-
-function Tick({ style }: { style: Record<string, string | number> }) {
-	return (
-		<div
-			style={{
-				position: 'absolute',
-				width: TICK,
-				height: TICK,
-				borderColor: SYS_BRIGHT,
-				borderStyle: 'solid',
-				...style,
-			}}
-		/>
-	);
-}
-
 export default async function OpengraphImage() {
-	const [display, mono] = await Promise.all([
-		readFile(join(process.cwd(), 'app/fonts/BarlowCondensed-Bold.ttf')),
-		readFile(join(process.cwd(), 'app/fonts/BarlowCondensed-SemiBold.ttf')),
+	const [regular, bold] = await Promise.all([
+		readFile(join(process.cwd(), 'app/fonts/Inter-400.ttf')),
+		readFile(join(process.cwd(), 'app/fonts/Inter-700.ttf')),
 	]);
-
-	const monoStyle = {
-		fontFamily: 'Barlow Condensed',
-		fontSize: 20,
-		letterSpacing: 5,
-	} as const;
-
-	const slash = { color: SYS, margin: '0 14px' } as const;
 
 	return new ImageResponse(
 		(
@@ -53,120 +21,35 @@ export default async function OpengraphImage() {
 					width: '100%',
 					height: '100%',
 					display: 'flex',
-					position: 'relative',
-					background: VOID,
-					color: ICE,
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+					padding: '72px 80px',
+					background: '#ffffff',
+					color: '#0f1219',
+					fontFamily: 'Inter',
 				}}
 			>
-				{/* System frame */}
-				<div
-					style={{
-						position: 'absolute',
-						top: FRAME,
-						left: FRAME,
-						right: FRAME,
-						bottom: FRAME,
-						border: '1px solid rgba(88,166,255,0.35)',
-					}}
-				/>
-				{/* Inner frame */}
-				<div
-					style={{
-						position: 'absolute',
-						top: 40,
-						left: 40,
-						right: 40,
-						bottom: 40,
-						border: '1px solid rgba(88,166,255,0.12)',
-					}}
-				/>
-
-				{/* Corner ticks */}
-				<Tick style={{ top: FRAME - 1, left: FRAME - 1, borderWidth: '2px 0 0 2px' }} />
-				<Tick style={{ top: FRAME - 1, right: FRAME - 1, borderWidth: '2px 2px 0 0' }} />
-				<Tick style={{ bottom: FRAME - 1, left: FRAME - 1, borderWidth: '0 0 2px 2px' }} />
-				<Tick style={{ bottom: FRAME - 1, right: FRAME - 1, borderWidth: '0 2px 2px 0' }} />
-
-				{/* Gate label */}
-				<div
-					style={{
-						position: 'absolute',
-						left: 96,
-						top: 84,
-						display: 'flex',
-						color: SYS,
-						...monoStyle,
-					}}
-				>
-					[GATE 00 · AWAKENING]
+				<div style={{ display: 'flex', alignItems: 'center', fontSize: 24, color: '#525968' }}>
+					<div style={{ width: 12, height: 12, borderRadius: 6, background: '#10b981', marginRight: 14 }} />
+					Available for software engineering internships and co-ops
 				</div>
-
-				{/* The name */}
-				<div
-					style={{
-						position: 'absolute',
-						left: 96,
-						top: 0,
-						height: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						fontFamily: 'Barlow Condensed',
-						fontWeight: 700,
-						fontSize: 220,
-						lineHeight: 0.85,
-						textTransform: 'uppercase',
-					}}
-				>
-					<div style={{ display: 'flex', color: ICE }}>JASON</div>
-					<div style={{ display: 'flex', color: SYS_BRIGHT }}>ZHANG</div>
-				</div>
-
-				{/* Identity line */}
-				<div
-					style={{
-						position: 'absolute',
-						left: 96,
-						bottom: 84,
-						display: 'flex',
-						flexDirection: 'row',
-						color: MUTE,
-						...monoStyle,
-					}}
-				>
-					<span>SOFTWARE ENGINEER</span>
-					<span style={slash}>/</span>
-					<span>BUILDER</span>
-					<span style={slash}>/</span>
-					<span>FOUNDER — NEW YORK</span>
-				</div>
-
-				{/* Register */}
-				<div
-					style={{
-						position: 'absolute',
-						right: 96,
-						top: 84,
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'flex-end',
-						fontFamily: 'Barlow Condensed',
-						fontSize: 18,
-						letterSpacing: 3,
-					}}
-				>
-					<div style={{ display: 'flex', color: MUTE }}>LV 1 · XP 0%</div>
-					<div style={{ display: 'flex', marginTop: 10, color: ICE }}>
-						{siteConfig.url.replace('https://', '')}
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -3 }}>Jason Zhang</div>
+					<div style={{ marginTop: 18, fontSize: 36, color: '#3b4252', lineHeight: 1.3 }}>
+						Software engineer · Founder of Inkmity · Computer Science at Queens College (CUNY)
 					</div>
+				</div>
+				<div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 24, color: '#525968' }}>
+					<span>{siteConfig.url.replace('https://', '')}</span>
+					<span style={{ color: '#2563eb' }}>New York, NY</span>
 				</div>
 			</div>
 		),
 		{
 			...size,
 			fonts: [
-				{ name: 'Barlow Condensed', data: display, weight: 700, style: 'normal' },
-				{ name: 'Barlow Condensed', data: mono, weight: 600, style: 'normal' },
+				{ name: 'Inter', data: regular, weight: 400, style: 'normal' },
+				{ name: 'Inter', data: bold, weight: 700, style: 'normal' },
 			],
 		}
 	);

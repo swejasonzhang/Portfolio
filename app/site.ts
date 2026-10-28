@@ -1,9 +1,7 @@
 export const siteConfig = {
   name: "Jason Zhang",
-  /** The three words of the identity line. */
-  identity: ["Software Engineer", "Builder", "Founder"] as const,
   role: "CS Student & Software Developer",
-  title: "Jason Zhang — Software Engineer, Builder, Founder",
+  title: "Jason Zhang — Software Engineer",
   description:
     "Computer Science undergraduate at Queens College (CUNY), expected June 2028, open to software engineering internships and co-ops. Founder of Inkmity, a live booking app for tattoo artists.",
   url: "https://swejasonzhang.netlify.app",

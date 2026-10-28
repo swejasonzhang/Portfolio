@@ -1,0 +1,235 @@
+/**
+ * Every word of career content on the site. Facts match the résumé
+ * (resume-src/content.js) and were checked against the repositories on
+ * 2026-10-12. Change them together.
+ */
+
+export type Link = { label: string; href: string };
+
+export const inkmity = {
+  name: "Inkmity",
+  tagline: "Booking for independent New York tattoo artists",
+  status: "Live since July 2026",
+  role: "Founder · Aug 2025 – present",
+  summary:
+    "One link in an artist's Instagram bio turns a DM conversation into a booking with a card deposit, a signed waiver and a calendar slot. Clients message the artist in real time; after the session the balance is charged, the payout is split and the client can tip and leave a verified review.",
+  image: { src: "/assets/Inkmity.webp", alt: "Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver", w: 1800, h: 1000 },
+  built: [
+    "Wrote the first version myself, Aug 2025 – Jan 2026 (530+ commits): Clerk sign-in, client and artist dashboards, real-time chat with Socket.IO, a booking calendar, Cloudinary uploads and a Stripe deposit.",
+    "Wrote the deposit flow: the booking page calls an Express route that creates a Stripe Checkout session, and a webhook verifies Stripe's signature and marks the deposit paid in MongoDB.",
+    "Since June 2026 I build it with Claude Code, an AI coding agent: I specify each feature and fix, test it by hand in the live app and approve every release.",
+    "Deploy and run it in production on Vercel and Render: environment variables, the live Stripe webhook, database scripts and server logs.",
+    "Refocused the product from a marketplace to a booking tool artists link from Instagram, interviewed a New York studio, pitched 10+ shops in person and set the pricing: a flat $10 booking fee, first booking free.",
+  ],
+  stack: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Stripe", "Socket.IO", "Clerk"],
+  links: [{ label: "Visit inkmity.com", href: "https://inkmity.com/" }] as Link[],
+  note: "Source is private.",
+  stats: [
+    { value: "530+", label: "commits in the hand-built first version" },
+    { value: "545", label: "test files" },
+    { value: "60", label: "integration suites" },
+  ],
+  moneyPath: [
+    { title: "Book", text: "From the artist's link, or a one-off client link with agreed terms." },
+    { title: "Waiver and intake", text: "Signed before a session, enforced on the client and the server." },
+    { title: "Deposit", text: "Collected at booking through Stripe Checkout." },
+    { title: "Capture", text: "The balance is charged when both sides confirm, or 6 hours after the session ends." },
+    { title: "Split payout", text: "To the artist, and the studio if there is one, through Stripe Connect." },
+    { title: "Clawback", text: "On a chargeback, the payout is reversed." },
+  ],
+  architecture: [
+    { tier: "Browser", host: "Vercel", text: "React 19, Vite, TypeScript, Tailwind" },
+    { tier: "API", host: "Render", text: "Node.js, Express 5 and Socket.IO in one long-running process" },
+    { tier: "Data", host: "MongoDB Atlas", text: "Mongoose, 38 models, same region as the API" },
+  ],
+  services: "Clerk for sign-in and roles · Stripe Checkout, Connect and webhooks · Cloudinary for images · Gemini for moderation and matching · Resend for email · Redis for caching and rate limits · Sentry for errors",
+  problems: [
+    {
+      problem: "Real-time chat and a raw-body Stripe webhook both break on serverless functions.",
+      approach: "Run Express and Socket.IO as one long-running process on Render, in the same region as the database.",
+    },
+    {
+      problem: "A replayed webhook could apply the same payment twice.",
+      approach: "Verify Stripe's signature on the raw body and record every event, so a replay is ignored.",
+    },
+    {
+      problem: "The balance must only be charged once the session really happened.",
+      approach: "Capture when client and artist both confirm, or 6 hours after the session; a chargeback claws the payout back.",
+    },
+    {
+      problem: "A failing backend job once reached production, because deploys started on push alongside CI.",
+      approach: "Deploy only after every CI job passes: lint, type checks, build, tests against a real database and a dependency audit.",
+    },
+  ],
+};
+
+export const arc = {
+  name: "Arc",
+  tagline: "A webcam range-of-motion coach, built in 48 hours",
+  status: "Hackknight 2026 · Oct 9–11 · team of three",
+  summary:
+    "Arc tracks your body in the browser, measures each joint's angle in degrees and counts only the reps done with good form, with a coach that talks you through each set.",
+  image: { src: "/assets/Arc.webp", alt: "Arc's landing page: a 3D body curling a dumbbell toward a 140° goal, the live angle reading 135°", w: 1600, h: 1000 },
+  built: [
+    "Owned the web app and API: in-browser pose tracking with MediaPipe, the rep and form engine for 15 movements, the 3D body, the data model, CI and deployment.",
+    "Specified each feature for Claude Code, tested it by hand and merged all 44 pull requests through CI, with 600 automated tests on the final code.",
+    "Made the day-two call to move pose tracking from a Python app into the browser, so there was nothing to install.",
+  ],
+  credit: "Kelvin built the Python camera app; Jerome built the Gemini and ElevenLabs voice coach.",
+  stack: ["React", "TypeScript", "MediaPipe", "Three.js", "Express", "MongoDB"],
+  links: [
+    { label: "getarc.health", href: "https://getarc.health/" },
+    { label: "Source", href: "https://github.com/swejasonzhang/Hackknight2026" },
+  ] as Link[],
+};
+
+export type Project = {
+  name: string;
+  kind: string;
+  year: string;
+  summary: string;
+  part: string;
+  stack: string[];
+  image: { src: string; alt: string };
+  links: Link[];
+};
+
+export const projects: Project[] = [
+  {
+    name: "Amazeon",
+    kind: "Solo capstone, App Academy",
+    year: "2023 – 24",
+    summary: "An online store with a product catalog, search, reviews, a cart and a checkout that reduces stock on purchase.",
+    part: "Built it alone across 167 commits. In July 2026 I rebuilt the front end in TypeScript with an AI coding agent.",
+    stack: ["Ruby on Rails", "PostgreSQL", "React", "Redux"],
+    image: { src: "/assets/Amazeon.webp", alt: "Amazeon's storefront" },
+    links: [{ label: "Source", href: "https://github.com/swejasonzhang/FullStack" }],
+  },
+  {
+    name: "Bonjour World",
+    kind: "Team of four, App Academy",
+    year: "2023",
+    summary: "A platform for hosting and finding language exchange events.",
+    part: "Across 15 merged pull requests: Google Places address autocomplete, profile image upload, search and the attendee list.",
+    stack: ["MongoDB", "Express", "React", "Node.js"],
+    image: { src: "/assets/BonjourWorld.webp", alt: "Bonjour World's event listing" },
+    links: [
+      { label: "Live", href: "https://bonjourworld.onrender.com/" },
+      { label: "Source", href: "https://github.com/yuris1234/Bonjour-World" },
+    ],
+  },
+  {
+    name: "Second Brain",
+    kind: "Notes app",
+    year: "2026",
+    summary: "Semantic search and chat over your own notes.",
+    part: "Built in one evening with an AI coding agent, as an exercise in directing the agent.",
+    stack: ["Next.js", "TypeScript", "PostgreSQL", "pgvector"],
+    image: { src: "/assets/SecondBrain.webp", alt: "Second Brain's notes view" },
+    links: [
+      { label: "Live", href: "https://second-brain-ai-knowledge-base.vercel.app" },
+      { label: "Source", href: "https://github.com/swejasonzhang/SecondBrain" },
+    ],
+  },
+  {
+    name: "Calmify",
+    kind: "Team project, Headstarter",
+    year: "2024",
+    summary: "Emotional support through AI-generated flashcards.",
+    part: "Added the first Stripe Checkout route, Clerk setup and OpenAI flashcard prompt, then built the landing page and the flashcard flip and swipe UI.",
+    stack: ["Next.js", "Stripe", "Clerk", "OpenAI"],
+    image: { src: "/assets/Calmify.webp", alt: "Calmify's landing page" },
+    links: [
+      { label: "Live", href: "https://calmify-ten.vercel.app/" },
+      { label: "Source", href: "https://github.com/pc9350/Calmify" },
+    ],
+  },
+  {
+    name: "ProfScore",
+    kind: "Team of three, Headstarter",
+    year: "2024",
+    summary: "A Rate My Professor app with AI recommendations.",
+    part: "Built the professor search page and its API route, which de-duplicates results and sorts them by rating.",
+    stack: ["Next.js", "React"],
+    image: { src: "/assets/ProfScore.webp", alt: "ProfScore's professor search" },
+    links: [
+      { label: "Live", href: "https://profscore-beta.vercel.app/" },
+      { label: "Source", href: "https://github.com/pc9350/Rate-my-professor" },
+    ],
+  },
+  {
+    name: "Battlefield: Tanks",
+    kind: "Canvas game",
+    year: "2023 · 2026",
+    summary: "A turn-based tank artillery game in vanilla JavaScript on the Canvas API.",
+    part: "First version alone in October 2023; rebuilt in July 2026 with an AI coding agent.",
+    stack: ["JavaScript", "HTML5 Canvas"],
+    image: { src: "/assets/BattlefieldTanks.webp", alt: "Battlefield: Tanks mid-game" },
+    links: [
+      { label: "Play", href: "https://swejasonzhang.github.io/Battlefield-Tanks/" },
+      { label: "Source", href: "https://github.com/swejasonzhang/Battlefield-Tanks" },
+    ],
+  },
+];
+
+export type Job = { org: string; title: string; type: string; dates: string; bullets: string[] };
+
+export const experience: Job[] = [
+  {
+    org: "Inkmity",
+    title: "Founder & Software Developer",
+    type: "New York, NY",
+    dates: "Aug 2025 – Present",
+    bullets: [
+      "Founded and launched a booking app for independent New York tattoo artists, live since July 2026.",
+      "Built the first version myself (530+ commits), including the Stripe deposit flow and its signature-verified webhook; since June 2026 I build it with Claude Code and test and approve every release.",
+      "Run it in production on Vercel and Render, and set the product direction and pricing after interviewing a studio and pitching 10+ shops.",
+    ],
+  },
+  {
+    org: "Move Tact Management",
+    title: "Software Engineer",
+    type: "Contract · Remote",
+    dates: "Feb 2025 – Jul 2025",
+    bullets: [
+      "Automated reporting for a 10+ person marketing team: sole author of 19 Python scripts (108 commits) pulling TikTok, Instagram, YouTube and X metrics from the Ensemble Data and Chartmetric APIs into Google Sheets, with Slack alerts.",
+      "Wrote a Slack-to-Google Drive script that filed each campaign channel's videos by creator.",
+      "Built a MERN dashboard app (101 commits) and a creator-voting site with Stripe Checkout and an embedded Twitch stream.",
+    ],
+  },
+  {
+    org: "Series",
+    title: "Software Engineer Intern",
+    type: "Remote",
+    dates: "Nov 2024 – Feb 2025",
+    bullets: [
+      "Opened 50+ pull requests on a three-person engineering team with the CTO, working through code review.",
+      "Built Node.js and Firebase backend endpoints and Twilio integrations for Vera, the company's communications bot.",
+    ],
+  },
+  {
+    org: "Headstarter AI",
+    title: "Software Engineering Fellow",
+    type: "Remote",
+    dates: "Jul 2024 – Oct 2024",
+    bullets: [
+      "Built the professor search page and API route for ProfScore, a three-person Rate My Professor app.",
+      "Added Calmify's first Stripe Checkout route, Clerk setup and OpenAI flashcard prompt, then built its flashcard UI.",
+    ],
+  },
+];
+
+export const education = [
+  { school: "Queens College (CUNY)", detail: "B.S. in Computer Science", dates: "Expected June 2028" },
+  { school: "App Academy", detail: "Full-Stack Software Engineering Certificate", dates: "Dec 2023" },
+  { school: "College of Staten Island (CUNY)", detail: "Computer Science coursework, transferred", dates: "2020 – 2022" },
+];
+
+export const skills: { group: string; items: string[] }[] = [
+  { group: "Languages", items: ["JavaScript", "TypeScript", "Python", "HTML", "CSS", "Ruby", "C++"] },
+  { group: "Frontend", items: ["React", "Redux", "Next.js", "Tailwind CSS"] },
+  { group: "Backend", items: ["Node.js", "Express", "REST APIs", "Socket.IO", "Ruby on Rails", "Firebase"] },
+  { group: "Databases", items: ["MongoDB", "PostgreSQL"] },
+  { group: "Integrations", items: ["Stripe", "Clerk", "Cloudinary", "Twilio", "Google Places", "Google Sheets", "Slack"] },
+  { group: "Tools", items: ["Git", "GitHub", "Vercel", "Render", "MongoDB Atlas", "Claude Code"] },
+];

@@ -2,215 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light by default; dark follows the system. Values are RGB channels for Tailwind's alpha syntax. */
 :root {
-  --bg: #05060a;
-  --fg: #eef3ff;
-  --sys: #6cbcff;
-  --shadow: #8b6cff;
-  --gate: #6cbcff;
-  --gate-rgb: 108, 188, 255;
+  --bg: 255 255 255;
+  --surface: 248 249 251;
+  --fg: 15 18 25;
+  --muted: 82 89 104;
+  --subtle: 128 135 150;
+  --border: 228 231 236;
+  --accent: 37 99 235;
+  --accent-fg: 255 255 255;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: 11 13 18;
+    --surface: 19 22 29;
+    --fg: 236 239 244;
+    --muted: 163 170 184;
+    --subtle: 116 124 140;
+    --border: 38 43 54;
+    --accent: 96 165 250;
+    --accent-fg: 11 13 18;
+    color-scheme: dark;
+  }
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
   }
-
   body {
-    /* The scene paints the page; this gradient is what shows if WebGL is unavailable. */
-    background: radial-gradient(120% 80% at 75% 20%, #0b1328 0%, #05060a 60%) fixed, #05060a;
-    color: var(--fg);
-    overflow-x: hidden;
-    font-family: theme(fontFamily.sans);
+    @apply bg-bg font-sans text-fg antialiased;
     text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
   }
-
-  /* Rank colors. A section sets one; small accents inside read --gate / --gate-rgb. */
-  .gate-blue   { --gate: #6cbcff; --gate-rgb: 108, 188, 255; }
-  .gate-red    { --gate: #ff4d64; --gate-rgb: 255, 77, 100; }
-  .gate-violet { --gate: #a184ff; --gate-rgb: 161, 132, 255; }
-  .gate-silver { --gate: #c9d3e6; --gate-rgb: 201, 211, 230; }
-  .gate-cyan   { --gate: #4fd8f2; --gate-rgb: 79, 216, 242; }
-
   ::selection {
-    background: var(--sys);
-    color: #05060a;
+    @apply bg-accent/20;
   }
-
   :focus-visible {
-    outline: 2px solid var(--sys);
-    outline-offset: 3px;
-  }
-  :focus:not(:focus-visible) {
-    outline: none;
+    @apply rounded-sm outline outline-2 outline-offset-2 outline-accent;
   }
 }
 
-/* The System cursor replaces the native pointer on fine-pointer devices. */
-html.has-reticle,
-html.has-reticle * {
-  cursor: none !important;
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8;
+  }
+  .btn {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-sm font-medium transition-colors duration-200;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-accent-fg hover:bg-accent/90;
+  }
+  .btn-secondary {
+    @apply btn border border-border bg-bg text-fg hover:bg-surface;
+  }
+  .link {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+  .eyebrow {
+    @apply text-sm font-medium text-accent;
+  }
+  .tag {
+    @apply inline-flex items-center rounded-md border border-border bg-surface px-2 py-0.5 text-xs font-medium text-muted;
+  }
 }
 
-::-webkit-scrollbar {
-  width: 10px;
+/* Gentle reveal on scroll; see components/Reveal.tsx. Content is visible without JavaScript. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-::-webkit-scrollbar-track {
-  background: #05060a;
-}
-::-webkit-scrollbar-thumb {
-  background: #1a2132;
-  border: 2px solid #05060a;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #2b6cc4;
-}
-
-@layer utilities {
-  /* --- Layout --- */
-  .frame {
-    @apply mx-auto w-full max-w-[92rem] px-5 sm:px-8 md:px-12 lg:px-24 xl:px-28;
-  }
-  .bleed {
-    @apply relative left-1/2 w-screen -translate-x-1/2;
-  }
-  .vertical {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-  }
-
-  /* --- Type --- */
-  .display {
-    @apply font-display font-bold uppercase;
-  }
-  /* HUD label: the System's small voice */
-  .hud {
-    @apply font-mono text-2xs font-medium uppercase tracking-label;
-  }
-  .prose-sys {
-    @apply text-pretty text-[1.0625rem] leading-[1.7] text-ice-2;
-  }
-  .prose-sys strong {
-    @apply font-semibold text-ice;
-  }
-  .glow-text {
-    text-shadow: 0 0 22px rgba(108, 188, 255, 0.45), 0 0 2px rgba(194, 228, 255, 0.55);
-  }
-  .glow-gate {
-    text-shadow: 0 0 18px rgba(var(--gate-rgb), 0.5), 0 0 2px rgba(var(--gate-rgb), 0.55);
-  }
-  .text-gate {
-    color: var(--gate);
-  }
-  /* Outlined display letters */
-  .hollow {
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201, 211, 230, 0.55);
-  }
-  @media (min-width: 768px) {
-    .hollow {
-      -webkit-text-stroke-width: 1.5px;
-    }
-  }
-  @supports not (-webkit-text-stroke: 1px #fff) {
-    .hollow {
-      color: #8e9ab3;
-    }
-  }
-  /* Silver-to-ice metallic fill for the biggest words */
-  .metal {
-    background: linear-gradient(180deg, #ffffff 0%, #dfe7f7 38%, #9aa8c4 62%, #e9f0ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* --- Surfaces --- */
-  .scanlines {
-    background-image: repeating-linear-gradient(to bottom, rgba(238, 243, 255, 0.03) 0, rgba(238, 243, 255, 0.03) 1px, transparent 1px, transparent 3px);
-  }
-  .grain {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.8 0 0 0 0 0.85 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='160' height='160' filter='url(%23g)'/></svg>");
-    background-size: 160px 160px;
-  }
-  /* A soft dark field behind reading text, so the scene never fights the words */
-  .scrim {
-    /* Reaches zero exactly at the element's edges, so no rectangle ever shows. */
-    background: radial-gradient(closest-side, rgba(5, 6, 10, 0.72) 0%, rgba(5, 6, 10, 0.55) 60%, rgba(5, 6, 10, 0) 100%);
-  }
-  /* Draws the outline across a chamfer's two cut corners, so outlined chips stay closed shapes */
-  .cut-edge {
-    position: relative;
-  }
-  .cut-edge::before,
-  .cut-edge::after {
-    content: "";
-    position: absolute;
-    width: 15px;
-    height: 2px;
-    background: var(--cut, rgba(160, 184, 224, 0.42));
-    pointer-events: none;
-  }
-  .cut-edge::before {
-    left: -2px;
-    top: 4px;
-    transform: rotate(-45deg);
-  }
-  .cut-edge::after {
-    right: -2px;
-    bottom: 4px;
-    transform: rotate(-45deg);
-  }
-  /* Chamfered corners: the System's frame shape */
-  .chamfer {
-    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-  }
-  .chamfer-lg {
-    clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
-  }
-
-  /* --- Links and controls --- */
-  .link-sys {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 100% 1px;
-    padding-bottom: 2px;
-    transition: background-size 0.4s ease, color 0.3s ease, text-shadow 0.4s ease;
-  }
-  .link-sys:hover {
-    background-size: 100% 2px;
-    text-shadow: 0 0 14px rgba(108, 188, 255, 0.55);
-  }
-  .btn-sys {
-    @apply chamfer relative inline-flex min-h-12 items-center justify-center gap-3 bg-sys px-6 font-mono text-xs font-semibold uppercase tracking-label text-void transition-[background-color,box-shadow] duration-500 hover:bg-sys-bright hover:shadow-glow-strong;
-  }
-  .btn-ghost {
-    @apply chamfer cut-edge relative inline-flex min-h-12 items-center justify-center gap-3 bg-[rgba(201,211,230,0.06)] px-6 font-mono text-xs font-semibold uppercase tracking-label text-silver ring-1 ring-inset ring-line-strong transition-[background-color,color] duration-500 hover:bg-[rgba(201,211,230,0.14)] hover:text-ice;
-  }
-
-  .rule {
-    height: 1px;
-    background: rgba(160, 184, 224, 0.18);
-  }
-  .rule-glow {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(108, 188, 255, 0.85), transparent);
-  }
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

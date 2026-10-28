@@ -1,24 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Barlow, Barlow_Condensed } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
-import MotionProvider from './components/MotionProvider';
-import Notifier from './components/Notifier';
-import Reticle from './components/Reticle';
-import ShadowScene from './components/ShadowScene';
-import SmoothScroll from './components/SmoothScroll';
-import Rail from './components/Rail';
 import { siteConfig } from './site';
 
-const display = Barlow_Condensed({
-	weight: ['500', '600', '700', '800'],
-	variable: '--font-display',
+const sans = Inter({
 	subsets: ['latin'],
-});
-
-const body = Barlow({
-	weight: ['400', '500', '600'],
-	variable: '--font-body',
-	subsets: ['latin'],
+	variable: '--font-sans',
+	display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -79,8 +67,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: '#05060a',
-	colorScheme: 'dark',
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
+		{ media: '(prefers-color-scheme: dark)', color: '#0b0d12' },
+	],
+	colorScheme: 'light dark',
 	width: 'device-width',
 	initialScale: 1,
 	viewportFit: 'cover',
@@ -114,26 +105,23 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={`${display.variable} ${body.variable} antialiased`}>
+		<html lang="en" className={sans.variable} suppressHydrationWarning>
+			<head>
+				{/* Marks that scripts run, so scroll reveals only hide content when they can show it again. */}
+				<script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+			</head>
+			<body>
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
 				/>
 				<a
 					href="#main"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-sys focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-label focus:text-void"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:text-accent-fg"
 				>
 					Skip to content
 				</a>
-				<MotionProvider>
-					<SmoothScroll />
-					<ShadowScene />
-					<Rail />
-					<Notifier />
-					<Reticle />
-					{children}
-				</MotionProvider>
+				{children}
 			</body>
 		</html>
 	);
