@@ -112,8 +112,17 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
 			<head>
-				{/* Marks that scripts run, so scroll reveals only hide content when they can show it again. */}
-				<script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+				{/* Marks that scripts run, so scroll reveals only hide content when they can show it again.
+				    Also removes stray comment and blank text nodes from <head>: Netlify injects a comment
+				    there (with line breaks around it), and React's hydration stops on them (React error
+				    #418). Next.js renders <head> as elements only, so nothing of ours is removed. */}
+				<script
+					dangerouslySetInnerHTML={{
+						__html:
+							"document.documentElement.classList.add('js');" +
+							"Array.prototype.slice.call(document.head.childNodes).forEach(function(n){if(n.nodeType===8||(n.nodeType===3&&!n.nodeValue.trim()))n.parentNode.removeChild(n)});",
+					}}
+				/>
 			</head>
 			<body>
 				<script
