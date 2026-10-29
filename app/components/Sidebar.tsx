@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { siteConfig } from "../site";
 import { Diamond, FileIcon, GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "./Icons";
-import Logo from "./Logo";
 
 const NAV = [
   { id: "about", label: "About" },
@@ -21,7 +20,7 @@ const SOCIAL = [
 
 /**
  * The fixed left column on large screens (it scrolls normally on phones):
- * the logo and name, where to go, and how to reach me. The section in view
+ * my name, where to go, and how to reach me. The section in view
  * lights its diamond.
  */
 export default function Sidebar() {
@@ -51,11 +50,8 @@ export default function Sidebar() {
     <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[46%] lg:flex-col lg:justify-between lg:py-24">
       <div>
         <h1 className="font-serif text-[3.4rem] leading-[0.95] tracking-tight text-bright sm:text-7xl">
-          <a href="#about" className="inline-flex items-center gap-4">
-            <Logo className="h-9 w-9 shrink-0 text-bright sm:h-11 sm:w-11" />
-            <span>
-              Jason <em className="text-accent">Zhang</em>
-            </span>
+          <a href="#about">
+            Jason <em className="text-accent">Zhang</em>
           </a>
         </h1>
 

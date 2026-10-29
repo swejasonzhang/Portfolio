@@ -2,16 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Black and white, with amethyst as the one accent. Values are RGB channels for Tailwind's alpha syntax. */
+/* Ink black and white, with amethyst as the accent. Values are RGB channels for Tailwind's alpha syntax. */
 :root {
-  --bg: 0 0 0;
-  --surface: 18 18 18;
+  --bg: 9 9 12;
+  --surface: 24 24 30;
   --fg: 214 214 214;
   --bright: 255 255 255;
   --muted: 163 163 163;
   --subtle: 120 120 120;
-  --border: 38 38 38;
+  --border: 40 40 48;
   --accent: 153 102 204; /* amethyst, #9966CC */
+  --accent-light: 196 167 236; /* pale amethyst, for the far glow */
   color-scheme: dark;
 }
 
@@ -24,14 +25,16 @@
     @apply bg-bg font-sans text-fg antialiased;
     text-rendering: optimizeLegibility;
   }
-  /* A faint amethyst glow, fixed behind everything; static, so it costs nothing to scroll. */
+  /* Two faint amethyst glows in opposite corners, fixed behind everything; static, so they cost nothing to scroll. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -2;
     pointer-events: none;
-    background: radial-gradient(60rem 40rem at 0% 0%, rgb(var(--accent) / 0.1), transparent 60%);
+    background:
+      radial-gradient(60rem 40rem at 0% 0%, rgb(var(--accent) / 0.1), transparent 60%),
+      radial-gradient(50rem 36rem at 100% 100%, rgb(var(--accent-light) / 0.05), transparent 60%);
   }
   /* Film grain, like ink on paper; it reads as black and white. */
   body::after {
@@ -57,7 +60,7 @@
     @apply flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-bright;
   }
   .tag {
-    @apply inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-xs font-medium leading-5 text-accent;
+    @apply inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium leading-5 text-accent transition-colors duration-300;
   }
   .link-underline {
     @apply underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-accent;
@@ -71,6 +74,64 @@
   .btn-ghost {
     @apply btn border border-border text-bright hover:border-accent/60 hover:text-accent;
   }
+}
+
+/* --- Minor effects on the lesser text --- */
+
+/* Secondary text brightens a step when its card, row or timeline stop is hovered. */
+.lesser {
+  color: rgb(var(--muted));
+  transition: color 0.4s ease;
+}
+.group:hover .lesser,
+.lesser:hover {
+  color: rgb(var(--fg));
+}
+
+/* Dates and meta lines: a soft amethyst glint sweeps across once, as they come into view. */
+.glint {
+  color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    rgb(var(--subtle)) 0%,
+    rgb(var(--subtle)) 42%,
+    rgb(var(--accent-light)) 50%,
+    rgb(var(--subtle)) 58%,
+    rgb(var(--subtle)) 100%
+  );
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.is-in .glint {
+  animation: glint 1.8s ease 0.3s 1 both;
+}
+@keyframes glint {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}
+
+/* Links draw their underline from the left on hover. */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.35s ease, color 0.2s ease;
+}
+.link-draw:hover {
+  background-size: 100% 1px;
+}
+
+/* Tags warm up a little when their card is hovered. */
+.group:hover .tag {
+  background-color: rgb(var(--accent) / 0.16);
+  color: rgb(var(--accent-light));
 }
 
 /* Gentle reveal on scroll; see components/Reveal.tsx. Content is visible without JavaScript. */
@@ -87,6 +148,9 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .is-in .glint {
+    animation: none;
   }
   .js .reveal {
     opacity: 1;

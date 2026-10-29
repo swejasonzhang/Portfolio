@@ -1,8 +1,9 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { about, arc, education, experience, inkmity, offClock, projects, skills, type Link } from "../content";
+import { about, arc, education, experience, inkmity, offClock, projects, skills, type Link, type Project } from "../content";
 import { siteConfig } from "../site";
 import CopyEmail from "./CopyEmail";
+import Expandable from "./Expandable";
 import { ArrowUpRight, Diamond } from "./Icons";
 import Reveal from "./Reveal";
 
@@ -25,9 +26,9 @@ function Section({ id, label, children }: { id: string; label: string; children:
   );
 }
 
-function Tags({ items }: { items: string[] }) {
+function Tags({ items, className = "mt-3" }: { items: string[]; className?: string }) {
   return (
-    <ul className="mt-4 flex flex-wrap gap-2" aria-label="Technologies">
+    <ul className={`flex flex-wrap gap-1.5 ${className}`} aria-label="Technologies">
       {items.map((t) => (
         <li key={t} className="tag">
           {t}
@@ -37,16 +38,75 @@ function Tags({ items }: { items: string[] }) {
   );
 }
 
-/** A card that lifts onto a soft surface on hover (desktop), the way a page turns toward you. */
+function ExtLinks({ links, note }: { links: Link[]; note?: string }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+      {links.map((l) => (
+        <a
+          key={l.href}
+          href={l.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-draw group/l inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
+        >
+          {l.label}
+          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
+          {NEW_TAB}
+        </a>
+      ))}
+      {note && <span className="text-xs text-subtle">{note}</span>}
+    </div>
+  );
+}
+
+/** Detail block inside an expanded project. */
+function More({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div>
+      <h4 className="text-xs font-semibold uppercase tracking-[0.16em] text-bright">{title}</h4>
+      <div className="mt-2 text-sm leading-relaxed">{children}</div>
+    </div>
+  );
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-2">
+      {items.map((b) => (
+        <li key={b} className="flex gap-3">
+          <span className="mt-[7px] text-accent">
+            <Diamond className="h-1.5 w-1.5" />
+          </span>
+          <span className="lesser">{b}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Problems({ items }: { items: { problem: string; approach: string }[] }) {
+  return (
+    <dl className="space-y-3">
+      {items.map((p) => (
+        <div key={p.problem}>
+          <dt className="text-fg">{p.problem}</dt>
+          <dd className="lesser mt-0.5">{p.approach}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** A card that lifts onto a soft surface on hover (desktop). */
 const CARD =
   "group relative rounded-2xl transition-colors duration-300 lg:-mx-5 lg:p-5 lg:hover:bg-surface/70 lg:hover:shadow-[inset_0_1px_0_0_rgb(255_255_255/0.04),0_20px_50px_-30px_rgb(var(--accent)/0.35)]";
 
 export function About() {
   return (
     <Section id="about" label="About">
-      <Reveal className="space-y-4 leading-relaxed text-muted">
+      <Reveal className="space-y-4 leading-relaxed">
         {about.map((p, i) => (
-          <p key={i}>
+          <p key={i} className="lesser">
             {i === 0 ? (
               <>
                 {p.split("Inkmity")[0]}
@@ -66,6 +126,10 @@ export function About() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Projects                                                           */
+/* ------------------------------------------------------------------ */
+
 type Row = {
   key: string;
   name: string;
@@ -75,29 +139,94 @@ type Row = {
   part: string;
   tags: string[];
   links: Link[];
-  image: { src: string; alt: string };
   note?: string;
+  image: { src: string; alt: string };
+  more: ReactNode;
 };
 
+const fromProject = (p: Project): Row => ({
+  key: p.name,
+  name: p.name,
+  meta: `${p.kind} · ${p.year}`,
+  line: p.summary,
+  part: p.part,
+  tags: p.stack,
+  links: p.links,
+  image: p.image,
+  more: (
+    <More title="The hard part">
+      <p className="lesser">{p.challenge}</p>
+    </More>
+  ),
+});
+
 const ROWS: Row[] = [
-  { key: "inkmity", ...inkmity },
-  { key: "arc", ...arc },
-  ...projects.slice(0, 2).map((p) => ({
-    key: p.name,
-    name: p.name,
-    meta: `${p.kind} · ${p.year}`,
-    line: p.summary,
-    part: p.part,
-    tags: p.stack,
-    links: p.links,
-    image: p.image,
-  })),
+  {
+    key: "inkmity",
+    ...inkmity,
+    more: (
+      <>
+        <More title="What I built">
+          <Bullets items={inkmity.built} />
+        </More>
+        <More title="The payment flow">
+          <p className="lesser">
+            Inkmity is the merchant of record. Clients pay a flat $10 per booking, the first one free; artists pay nothing
+            and tips go 100% to the artist.
+          </p>
+          <ol className="mt-2 space-y-1.5">
+            {inkmity.moneyPath.map((m, i) => (
+              <li key={m.title} className="flex gap-3">
+                <span className="w-4 shrink-0 font-serif text-base leading-5 text-accent">{i + 1}</span>
+                <span className="lesser">
+                  <span className="text-fg">{m.title}.</span> {m.text}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </More>
+        <More title="Architecture">
+          <ul className="space-y-1.5">
+            {inkmity.architecture.map((a) => (
+              <li key={a.tier} className="lesser">
+                <span className="text-fg">{a.tier}</span> <span className="text-subtle">({a.host})</span>: {a.text}
+              </li>
+            ))}
+          </ul>
+          <p className="lesser mt-2">{inkmity.services}</p>
+        </More>
+        <More title="Problems and how I solved them">
+          <Problems items={inkmity.problems} />
+        </More>
+      </>
+    ),
+  },
+  {
+    key: "arc",
+    ...arc,
+    more: (
+      <>
+        <More title="What I built">
+          <Bullets items={arc.built} />
+          <p className="mt-2 text-subtle">{arc.credit}</p>
+        </More>
+        <More title="Problems and how I solved them">
+          <Problems items={arc.problems} />
+        </More>
+      </>
+    ),
+  },
+  ...projects.slice(0, 2).map(fromProject),
 ];
 
 function ProjectRow({ r }: { r: Row }) {
   return (
     <Reveal as="li" className={`${CARD} grid items-start gap-4 sm:grid-cols-[9rem_1fr] sm:gap-6`}>
-      <div className={`order-2 self-start overflow-hidden rounded-lg border border-border sm:order-1 sm:mt-1 ${r.key === "inkmity" ? "" : "hidden sm:block"}`}>
+      <div
+        className={`order-2 self-start overflow-hidden rounded-lg border border-border sm:order-1 sm:mt-1 ${
+          r.key === "inkmity" ? "" : "hidden sm:block"
+        }`}
+      >
         <Image
           src={r.image.src}
           alt={r.image.alt}
@@ -108,7 +237,7 @@ function ProjectRow({ r }: { r: Row }) {
           className="aspect-[16/10] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
         />
       </div>
-      <div className="order-1 sm:order-2">
+      <div className="order-1 min-w-0 sm:order-2">
         <h3 className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
           <span className="font-serif text-2xl leading-none text-bright">{r.name}</span>
           {r.badge && (
@@ -117,35 +246,17 @@ function ProjectRow({ r }: { r: Row }) {
               {r.badge}
             </span>
           )}
-          <span className="text-xs text-subtle">{r.meta}</span>
+          <span className="glint text-xs">{r.meta}</span>
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-fg">{r.line}</p>
-        <p className="mt-1.5 text-sm leading-relaxed text-muted">{r.part}</p>
+        <p className="lesser mt-1.5 text-sm leading-relaxed">{r.part}</p>
         <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
-          <ul className="flex flex-wrap gap-1.5" aria-label="Technologies">
-            {r.tags.slice(0, 5).map((t) => (
-              <li key={t} className="tag py-0.5">
-                {t}
-              </li>
-            ))}
-          </ul>
-          <div className="flex items-center gap-4">
-            {r.links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/l inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
-              >
-                {l.label}
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
-                {NEW_TAB}
-              </a>
-            ))}
-            {r.note && <span className="text-xs text-subtle">{r.note}</span>}
-          </div>
+          <Tags items={r.tags.slice(0, 5)} className="" />
+          <ExtLinks links={r.links} note={r.note} />
         </div>
+        <Expandable label={`More about ${r.name}`}>
+          <div className="mt-4 space-y-5 border-l border-accent/30 pl-4">{r.more}</div>
+        </Expandable>
       </div>
     </Reveal>
   );
@@ -160,88 +271,32 @@ export function Projects() {
         ))}
       </ul>
 
-      {/* Inkmity's engineering detail, one click away for anyone who wants it */}
-      <Reveal>
-        <details className="group/d mt-8 rounded-xl border border-border">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-medium text-bright [&::-webkit-details-marker]:hidden">
-            Inkmity in depth: payments, architecture and problems solved
-            <span aria-hidden="true" className="text-lg leading-none text-accent transition-transform duration-300 group-open/d:rotate-45">
-              +
-            </span>
-          </summary>
-          <div className="space-y-7 border-t border-border px-4 py-5 text-sm">
-            <div>
-              <h4 className="font-medium text-bright">The payment flow</h4>
-              <p className="mt-1 text-muted">
-                Inkmity is the merchant of record. Clients pay a flat $10 per booking, the first one free; artists pay
-                nothing and tips go 100% to the artist.
-              </p>
-              <ol className="mt-3 space-y-2">
-                {inkmity.moneyPath.map((m, i) => (
-                  <li key={m.title} className="flex gap-3">
-                    <span className="w-5 shrink-0 font-serif text-base text-accent">{i + 1}</span>
-                    <span className="text-muted">
-                      <span className="text-fg">{m.title}.</span> {m.text}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div>
-              <h4 className="font-medium text-bright">Architecture</h4>
-              <ul className="mt-3 space-y-2">
-                {inkmity.architecture.map((a) => (
-                  <li key={a.tier} className="text-muted">
-                    <span className="text-fg">{a.tier}</span> <span className="text-subtle">({a.host})</span>: {a.text}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-3 text-muted">{inkmity.services}</p>
-            </div>
-            <div>
-              <h4 className="font-medium text-bright">Problems and how I solved them</h4>
-              <dl className="mt-3 space-y-4">
-                {inkmity.problems.map((pr) => (
-                  <div key={pr.problem}>
-                    <dt className="text-fg">{pr.problem}</dt>
-                    <dd className="mt-1 text-muted">{pr.approach}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </div>
-        </details>
-      </Reveal>
-
-      {/* Smaller builds: one line each */}
+      {/* Smaller builds: one line each, expandable like the rest */}
       <Reveal className="mt-12">
         <h3 className="label text-subtle">Also built</h3>
         <ul className="mt-4 divide-y divide-border border-y border-border">
           {projects.slice(2).map((p) => (
-            <li key={p.name} className="grid grid-cols-[1fr_auto] items-baseline gap-x-6 py-3">
-              <p className="min-w-0 text-sm">
-                <span className="font-medium text-bright">{p.name}</span>
-                <span className="text-subtle"> · {p.year}</span>
-                <span className="block text-muted sm:inline">
-                  <span className="hidden sm:inline"> · </span>
-                  {p.summary}
-                </span>
-              </p>
-              <span className="flex shrink-0 gap-3">
-                {p.links.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
-                  >
-                    {l.label}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                    {NEW_TAB}
-                  </a>
-                ))}
-              </span>
+            <li key={p.name} className="group py-3">
+              <div className="grid grid-cols-[1fr_auto] items-baseline gap-x-6">
+                <p className="min-w-0 text-sm">
+                  <span className="font-medium text-bright transition-colors group-hover:text-accent">{p.name}</span>
+                  <span className="glint"> · {p.year}</span>
+                  <span className="lesser block sm:inline">
+                    <span className="hidden sm:inline"> · </span>
+                    {p.summary}
+                  </span>
+                </p>
+                <ExtLinks links={p.links} />
+              </div>
+              <Expandable label="More">
+                <div className="mt-3 space-y-3 border-l border-accent/30 pl-4 text-sm">
+                  <p className="lesser">{p.part}</p>
+                  <p className="lesser">
+                    <span className="text-fg">The hard part:</span> {p.challenge}
+                  </p>
+                  <Tags items={p.stack} className="" />
+                </div>
+              </Expandable>
             </li>
           ))}
         </ul>
@@ -250,73 +305,116 @@ export function Projects() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Timelines                                                          */
+/* ------------------------------------------------------------------ */
+
+type Stop = {
+  key: string;
+  dates: string;
+  title: ReactNode;
+  sub: string;
+  body: string;
+  tags?: string[];
+  current?: boolean;
+};
+
+/** A vertical timeline: a line that fades downward, a diamond at each stop, the present one lit. */
+function Timeline({ stops }: { stops: Stop[] }) {
+  return (
+    <ol className="relative">
+      <span
+        aria-hidden="true"
+        className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-accent/80 via-border to-transparent"
+      />
+      {stops.map((s) => (
+        <Reveal as="li" key={s.key} className="group relative pb-10 pl-9 last:pb-0">
+          <span aria-hidden="true" className="absolute left-0 top-1 flex h-[15px] w-[15px] items-center justify-center">
+            {s.current && <span className="absolute h-2.5 w-2.5 rotate-45 bg-accent/60 motion-safe:animate-ping" />}
+            <span
+              className={`relative h-2.5 w-2.5 rotate-45 border border-accent transition-colors duration-300 ${
+                s.current ? "bg-accent" : "bg-bg group-hover:bg-accent/50"
+              }`}
+            />
+          </span>
+          <p className="glint text-xs font-semibold uppercase tracking-[0.12em]">{s.dates}</p>
+          <h3 className="mt-1.5 font-medium leading-snug text-bright">{s.title}</h3>
+          <p className="text-xs text-subtle">{s.sub}</p>
+          <p className="lesser mt-2 text-sm leading-relaxed">{s.body}</p>
+          {s.tags && <Tags items={s.tags} />}
+        </Reveal>
+      ))}
+    </ol>
+  );
+}
+
 export function Experience() {
+  const jobs: Stop[] = experience.map((j) => ({
+    key: j.org,
+    dates: j.dates,
+    current: j.current,
+    sub: j.type,
+    body: j.summary,
+    tags: j.tags,
+    title: j.href ? (
+      <a
+        href={j.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="transition-colors group-hover:text-accent"
+      >
+        {j.title} · {j.org}
+        <ArrowUpRight className="ml-1 inline h-3.5 w-3.5 -translate-y-px" />
+        {NEW_TAB}
+      </a>
+    ) : (
+      <span className="transition-colors group-hover:text-accent">
+        {j.title} · {j.org}
+      </span>
+    ),
+  }));
+  const schools: Stop[] = education.map((e) => ({
+    key: e.school,
+    dates: e.dates,
+    current: e.current,
+    sub: e.degree,
+    body: e.summary,
+    title: <span className="transition-colors group-hover:text-accent">{e.school}</span>,
+  }));
+
   return (
     <Section id="experience" label="Experience">
-      <ol className="space-y-10">
-        {experience.map((j) => (
-          <Reveal as="li" key={j.org} className={`${CARD} grid gap-2 sm:grid-cols-[10rem_1fr] sm:gap-6`}>
-            <p className="pt-1 text-xs font-semibold uppercase tracking-[0.12em] text-subtle">{j.dates}</p>
-            <div>
-              <h3 className="font-medium leading-snug text-bright">
-                {j.href ? (
-                  <a href={j.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-baseline gap-1 group-hover:text-accent">
-                    {j.title} · {j.org}
-                    <ArrowUpRight className="h-3.5 w-3.5 translate-y-0.5" />
-                    {NEW_TAB}
-                  </a>
-                ) : (
-                  <span className="group-hover:text-accent">
-                    {j.title} · {j.org}
-                  </span>
-                )}
-              </h3>
-              <p className="text-xs text-subtle">{j.type}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{j.summary}</p>
-              <Tags items={j.tags} />
-            </div>
-          </Reveal>
-        ))}
-      </ol>
+      <Timeline stops={jobs} />
 
       <a
         href={siteConfig.resume}
         target="_blank"
         rel="noopener noreferrer"
-        className="group/r mt-12 inline-flex items-center gap-1.5 font-medium text-bright hover:text-accent"
+        className="link-draw group/r mt-12 inline-flex items-center gap-1.5 font-medium text-bright hover:text-accent"
       >
         View full résumé
         <ArrowUpRight className="h-4 w-4 transition-transform group-hover/r:-translate-y-0.5 group-hover/r:translate-x-0.5" />
         <span className="sr-only"> (PDF, opens in a new tab)</span>
       </a>
 
-      <div className="mt-16 grid gap-12">
-        <Reveal>
-          <h3 className="label text-subtle">Education</h3>
-          <ul className="mt-5 space-y-4">
-            {education.map((e) => (
-              <li key={e.school} className="grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-6">
-                <p className="pt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-subtle">{e.dates}</p>
-                <p>
-                  <span className="font-medium text-bright">{e.school}</span>
-                  <span className="block text-sm text-muted">{e.detail}</span>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-        <Reveal>
-          <h3 className="label text-subtle">Toolbox</h3>
-          <dl className="mt-5 space-y-3">
-            {skills.map((s) => (
-              <div key={s.group} className="grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-6">
-                <dt className="pt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-subtle">{s.group}</dt>
-                <dd className="text-sm leading-relaxed text-fg">{s.items.join(" · ")}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
+      <div className="mt-16">
+        <h3 className="label mb-6 text-subtle">Education</h3>
+        <Timeline stops={schools} />
       </div>
+
+      <Reveal className="mt-16">
+        <h3 className="label text-subtle">Toolbox</h3>
+        <dl className="mt-5 space-y-3">
+          {skills.map((s) => (
+            <div key={s.group} className="group grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-6">
+              <dt className="pt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-subtle transition-colors group-hover:text-accent">
+                {s.group}
+              </dt>
+              <dd className="lesser text-sm leading-relaxed">{s.items.join(" · ")}</dd>
+            </div>
+          ))}
+        </dl>
+      </Reveal>
     </Section>
   );
 }
@@ -327,9 +425,9 @@ export function Contact() {
     <Section id="contact" label="Contact">
       <Reveal>
         <p className="font-serif text-4xl leading-tight text-bright sm:text-5xl">
-          Let&rsquo;s build <em className="text-accent/90">something</em>.
+          Let&rsquo;s build <em className="text-accent">something</em>.
         </p>
-        <p className="mt-4 max-w-md leading-relaxed text-muted">
+        <p className="lesser mt-4 max-w-md leading-relaxed">
           Hiring a software engineering intern or co-op? I can start right away, and I&rsquo;m applying for Summer 2027
           too. Email is the fastest way to reach me.
         </p>

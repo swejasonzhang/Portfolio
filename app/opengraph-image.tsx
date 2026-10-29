@@ -11,12 +11,10 @@ export const contentType = 'image/png';
 const AMETHYST = '#9966CC';
 
 export default async function OpengraphImage() {
-	const [regular, serif, icon] = await Promise.all([
+	const [regular, serif] = await Promise.all([
 		readFile(join(process.cwd(), 'app/fonts/Inter-400.ttf')),
 		readFile(join(process.cwd(), 'app/fonts/InstrumentSerif-400.ttf')),
-		readFile(join(process.cwd(), 'app/icon.svg'), 'utf8'),
 	]);
-	const logo = `data:image/svg+xml;base64,${Buffer.from(icon).toString('base64')}`;
 
 	return new ImageResponse(
 		(
@@ -28,13 +26,16 @@ export default async function OpengraphImage() {
 					flexDirection: 'column',
 					justifyContent: 'space-between',
 					padding: '64px 80px',
-					backgroundColor: '#000000',
-					backgroundImage: 'radial-gradient(circle at 0% 0%, rgba(153,102,204,0.22), rgba(0,0,0,0) 55%)',
+					backgroundColor: '#09090c',
+					backgroundImage: 'radial-gradient(circle at 0% 0%, rgba(153,102,204,0.22), rgba(9,9,12,0) 55%)',
 					color: '#d6d6d6',
 					fontFamily: 'Inter',
 				}}
 			>
-				<img src={logo} width={88} height={88} alt="" />
+				<div style={{ display: 'flex', alignItems: 'center', fontSize: 24, color: '#ffffff' }}>
+					<span style={{ width: 12, height: 12, borderRadius: 6, background: AMETHYST, marginRight: 14 }} />
+					Open to software engineering internships and co-ops
+				</div>
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					<div style={{ display: 'flex', fontFamily: 'Instrument Serif', fontSize: 132, color: '#ffffff', letterSpacing: -2, lineHeight: 1 }}>
 						Jason&nbsp;<span style={{ color: AMETHYST, fontStyle: 'italic' }}>Zhang</span>
@@ -45,10 +46,7 @@ export default async function OpengraphImage() {
 				</div>
 				<div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 24, color: '#8a8a8a' }}>
 					<span>{siteConfig.url.replace('https://', '')}</span>
-					<span style={{ display: 'flex', alignItems: 'center', color: '#ffffff' }}>
-						<span style={{ width: 12, height: 12, borderRadius: 6, background: AMETHYST, marginRight: 12 }} />
-						Open to internships and co-ops
-					</span>
+					<span style={{ color: '#c4a7ec' }}>New York, NY</span>
 				</div>
 			</div>
 		),

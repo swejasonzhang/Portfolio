@@ -16,6 +16,13 @@ export const inkmity = {
   image: { src: "/assets/Inkmity.webp", alt: "Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver" },
   links: [{ label: "inkmity.com", href: "https://inkmity.com/" }] as Link[],
   note: "Source private",
+  built: [
+    "Wrote the first version myself, Aug 2025 – Jan 2026 (530+ commits): Clerk sign-in, client and artist dashboards, real-time chat with Socket.IO, a booking calendar, Cloudinary uploads and a Stripe deposit.",
+    "Wrote the deposit flow: the booking page calls an Express route that creates a Stripe Checkout session, and a webhook verifies Stripe's signature and marks the deposit paid in MongoDB.",
+    "Since June 2026 I build it with Claude Code, an AI coding agent: I specify each feature and fix, test it by hand in the live app and approve every release.",
+    "Deploy and run it in production on Vercel and Render: environment variables, the live Stripe webhook, database scripts and server logs.",
+    "Refocused the product from a marketplace to a booking tool artists link from Instagram, interviewed a New York studio, pitched 10+ shops in person and set the pricing: a flat $10 booking fee, first booking free.",
+  ],
   moneyPath: [
     { title: "Book", text: "From the artist's link, or a one-off client link with agreed terms." },
     { title: "Waiver and intake", text: "Signed before a session, enforced on the client and the server." },
@@ -61,6 +68,30 @@ export const arc = {
     { label: "getarc.health", href: "https://getarc.health/" },
     { label: "Source", href: "https://github.com/swejasonzhang/Hackknight2026" },
   ] as Link[],
+  built: [
+    "Owned the web app and API: in-browser pose tracking with MediaPipe, the rep and form engine for 15 movements, the 3D body, the data model, CI and deployment.",
+    "Specified each feature for Claude Code, tested it by hand and merged all 44 pull requests through CI, with 600 automated tests on the final code.",
+    "Made the day-two call to move pose tracking from a Python app into the browser, so there was nothing to install.",
+  ],
+  credit: "Kelvin built the Python camera app; Jerome built the Gemini and ElevenLabs voice coach.",
+  problems: [
+    {
+      problem: "Webcam landmarks shake, so joint angles jumped from frame to frame.",
+      approach: "Smooth every landmark with its own One Euro filter, bridge frames the model is unsure of, and read angles in 3D from MediaPipe's world landmarks.",
+    },
+    {
+      problem: "The demo depended on a Python camera app and one laptop's setup.",
+      approach: "On day two, move pose tracking into the browser too. Nothing to install, and the video never leaves the device.",
+    },
+    {
+      problem: "The API went down overnight when a temporary database IP rule expired.",
+      approach: "Let the API start without its database, report the connection on its health check, and reconnect by itself.",
+    },
+    {
+      problem: "The 3D body froze for 117 to 250 ms whenever the exercise changed.",
+      approach: "Profile on the real GPU: it was being rebuilt each time. Mounting it once with shared materials removed the freezes.",
+    },
+  ],
 };
 
 export type Project = {
@@ -69,6 +100,7 @@ export type Project = {
   year: string;
   summary: string;
   part: string;
+  challenge: string;
   stack: string[];
   image: { src: string; alt: string };
   links: Link[];
@@ -81,6 +113,7 @@ export const projects: Project[] = [
     year: "2023 – 24",
     summary: "An online store with a product catalog, search, reviews, a cart and a checkout that reduces stock on purchase.",
     part: "Built it alone across 167 commits. In July 2026 I rebuilt the front end in TypeScript with an AI coding agent.",
+    challenge: "Keeping stock honest: the checkout reduces each product's stock as part of the purchase.",
     stack: ["Ruby on Rails", "PostgreSQL", "React", "Redux"],
     image: { src: "/assets/Amazeon.webp", alt: "Amazeon's storefront" },
     links: [{ label: "Source", href: "https://github.com/swejasonzhang/FullStack" }],
@@ -91,6 +124,7 @@ export const projects: Project[] = [
     year: "2023",
     summary: "A platform for hosting and finding language exchange events.",
     part: "Across 15 merged pull requests: Google Places address autocomplete, profile image upload, search and the attendee list.",
+    challenge: "Turning free-typed addresses into real places with the Google Places API, inside a shared four-person codebase. Teammates wrote the translation and sign-in code.",
     stack: ["MongoDB", "Express", "React", "Node.js"],
     image: { src: "/assets/BonjourWorld.webp", alt: "Bonjour World's event listing" },
     links: [
@@ -104,6 +138,7 @@ export const projects: Project[] = [
     year: "2026",
     summary: "Semantic search and chat over your own notes.",
     part: "Built in one evening with an AI coding agent, as an exercise in directing the agent.",
+    challenge: "Searching by meaning rather than keywords, with embeddings stored in Postgres through pgvector.",
     stack: ["Next.js", "TypeScript", "PostgreSQL", "pgvector"],
     image: { src: "/assets/SecondBrain.webp", alt: "Second Brain's notes view" },
     links: [
@@ -117,6 +152,7 @@ export const projects: Project[] = [
     year: "2024",
     summary: "Emotional support through AI-generated flashcards.",
     part: "Added the first Stripe Checkout route, Clerk setup and OpenAI flashcard prompt, then built the landing page and the flashcard flip and swipe UI.",
+    challenge: "Wiring payments, sign-in and an AI prompt into a brand-new app on its first day. A teammate created the app and finished sign-in and payments.",
     stack: ["Next.js", "Stripe", "Clerk", "OpenAI"],
     image: { src: "/assets/Calmify.webp", alt: "Calmify's landing page" },
     links: [
@@ -130,6 +166,7 @@ export const projects: Project[] = [
     year: "2024",
     summary: "A Rate My Professor app with AI recommendations.",
     part: "Built the professor search page and its API route, which de-duplicates results and sorts them by rating.",
+    challenge: "Search results came back duplicated and unordered; the route de-duplicates them and sorts by rating. A teammate built the AI recommendation pipeline behind it.",
     stack: ["Next.js", "React"],
     image: { src: "/assets/ProfScore.webp", alt: "ProfScore's professor search" },
     links: [
@@ -143,6 +180,7 @@ export const projects: Project[] = [
     year: "2023 · 2026",
     summary: "A turn-based tank artillery game in vanilla JavaScript on the Canvas API.",
     part: "First version alone in October 2023; rebuilt in July 2026 with an AI coding agent.",
+    challenge: "A whole game loop on the raw Canvas API, with no engine.",
     stack: ["JavaScript", "HTML5 Canvas"],
     image: { src: "/assets/BattlefieldTanks.webp", alt: "Battlefield: Tanks mid-game" },
     links: [
@@ -152,7 +190,7 @@ export const projects: Project[] = [
   },
 ];
 
-export type Job = { org: string; title: string; type: string; dates: string; summary: string; tags: string[]; href?: string };
+export type Job = { org: string; title: string; type: string; dates: string; summary: string; tags: string[]; href?: string; current?: boolean };
 
 export const experience: Job[] = [
   {
@@ -160,6 +198,7 @@ export const experience: Job[] = [
     title: "Founder & Software Developer",
     type: "New York, NY",
     dates: "Aug 2025 — Present",
+    current: true,
     href: "https://inkmity.com/",
     summary:
       "Founded and launched a booking app for independent New York tattoo artists, live since July 2026. Built the first version myself (530+ commits), including the Stripe deposit flow and its signature-verified webhook. Since June 2026 I build it with Claude Code, testing and approving every release, and run it in production on Vercel and Render.",
@@ -194,10 +233,28 @@ export const experience: Job[] = [
   },
 ];
 
-export const education = [
-  { school: "Queens College (CUNY)", detail: "B.S. in Computer Science", dates: "Expected June 2028" },
-  { school: "App Academy", detail: "Full-Stack Software Engineering Certificate", dates: "Dec 2023" },
-  { school: "College of Staten Island (CUNY)", detail: "Computer Science coursework, transferred", dates: "2020 – 2022" },
+export type School = { school: string; degree: string; dates: string; summary: string; current?: boolean };
+
+export const education: School[] = [
+  {
+    school: "Queens College (CUNY)",
+    degree: "B.S. in Computer Science",
+    dates: "Fall 2026 — June 2028 (expected)",
+    summary: "Evening classes, with C++ this term, so I can work an internship or co-op during the day.",
+    current: true,
+  },
+  {
+    school: "App Academy",
+    degree: "Full-Stack Software Engineering Certificate",
+    dates: "Aug — Dec 2023",
+    summary: "JavaScript, React, Redux, Ruby on Rails, PostgreSQL, MongoDB, Express and Node.js. Built Amazeon alone and Bonjour World with a team of four.",
+  },
+  {
+    school: "College of Staten Island (CUNY)",
+    degree: "Computer Science coursework",
+    dates: "2020 — 2022",
+    summary: "Where I started computer science, before transferring to Queens College.",
+  },
 ];
 
 export const skills: { group: string; items: string[] }[] = [

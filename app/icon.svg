@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <rect width="48" height="48" rx="11" fill="#000"/>
-  <g fill="none" stroke-width="4.6">
-    <path d="M8.5 13H25" stroke="#fff" stroke-linecap="square"/>
-    <path d="M19 13v16a6.5 6.5 0 0 1-6.5 6.5H9.5" stroke="#fff"/>
-    <path d="M25 13h14.5L25 35.5h14.5" stroke="#9966CC" stroke-linecap="square" stroke-linejoin="miter"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><polygon points="6.14,30.99 3.52,21.86 5.47,15.58 9.60,30.00" fill="#b088e0"/><polygon points="9.60,30.00 5.47,15.58 10.44,19.88 13.06,29.01" fill="#6a3aa3"/><polygon points="6.14,30.99 3.52,21.86 5.47,15.58 10.44,19.88 13.06,29.01" fill="none" stroke="#2b1048" stroke-width=".7" stroke-linejoin="round"/><polygon points="18.92,29.07 21.12,20.86 25.89,16.96 22.40,30.00" fill="#b088e0"/><polygon points="22.40,30.00 25.89,16.96 28.08,22.72 25.88,30.93" fill="#6a3aa3"/><polygon points="18.92,29.07 21.12,20.86 25.89,16.96 28.08,22.72 25.88,30.93" fill="none" stroke="#2b1048" stroke-width=".7" stroke-linejoin="round"/><polygon points="11.40,30.50 11.40,14.00 16.00,6.50 16.00,30.50" fill="#d2b6f4"/><polygon points="16.00,30.50 16.00,6.50 20.60,14.00 20.60,30.50" fill="#8a52c8"/><polygon points="11.40,30.50 11.40,14.00 16.00,6.50 20.60,14.00 20.60,30.50" fill="none" stroke="#2b1048" stroke-width=".7" stroke-linejoin="round"/><path d="M12.9 15.2 15 11.3" stroke="#fff" stroke-opacity=".9" stroke-width="1.1" stroke-linecap="round"/></svg>
