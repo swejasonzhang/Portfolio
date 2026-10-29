@@ -161,6 +161,12 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
+				<div className="aurora" aria-hidden="true">
+					<span />
+					<span />
+					<span />
+					<span />
+				</div>
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

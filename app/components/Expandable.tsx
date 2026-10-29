@@ -17,7 +17,7 @@ export default function Expandable({ label, children }: { label: string; childre
         aria-expanded={open}
         aria-controls={id}
         onClick={() => setOpen((o) => !o)}
-        className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-subtle transition-colors duration-300 hover:text-accent aria-expanded:text-accent"
+        className="hit mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-subtle transition-colors duration-300 hover:text-accent-light aria-expanded:text-accent-light"
       >
         <span aria-hidden="true" className="relative h-2.5 w-2.5">
           <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />

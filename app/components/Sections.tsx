@@ -6,6 +6,7 @@ import CopyEmail from "./CopyEmail";
 import Expandable from "./Expandable";
 import { ArrowUpRight, Diamond } from "./Icons";
 import Reveal from "./Reveal";
+import StickyLabel from "./StickyLabel";
 
 const NEW_TAB = <span className="sr-only"> (opens in a new tab)</span>;
 
@@ -13,14 +14,14 @@ const NEW_TAB = <span className="sr-only"> (opens in a new tab)</span>;
 function Section({ id, label, children }: { id: string; label: string; children: ReactNode }) {
   return (
     <section id={id} aria-label={label} className="scroll-mt-16 lg:scroll-mt-24">
-      <div className="sticky top-0 z-20 -mx-6 mb-6 bg-bg/80 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:static lg:mx-0 lg:mb-8 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+      <StickyLabel>
         <h2 className="label">
           <span className="text-accent">
             <Diamond className="h-2 w-2" />
           </span>
           {label}
         </h2>
-      </div>
+      </StickyLabel>
       {children}
     </section>
   );
@@ -47,7 +48,7 @@ function ExtLinks({ links, note }: { links: Link[]; note?: string }) {
           href={l.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="link-draw group/l inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
+          className="hit link-draw group/l inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent-light"
         >
           {l.label}
           <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
@@ -177,7 +178,7 @@ const ROWS: Row[] = [
           <ol className="mt-2 space-y-1.5">
             {inkmity.moneyPath.map((m, i) => (
               <li key={m.title} className="flex gap-3">
-                <span className="w-4 shrink-0 font-serif text-base leading-5 text-accent">{i + 1}</span>
+                <span className="w-4 shrink-0 font-serif text-base leading-5 text-accent-light">{i + 1}</span>
                 <span className="lesser">
                   <span className="text-fg">{m.title}.</span> {m.text}
                 </span>
@@ -241,7 +242,7 @@ function ProjectRow({ r }: { r: Row }) {
         <h3 className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
           <span className="font-serif text-2xl leading-none text-bright">{r.name}</span>
           {r.badge && (
-            <span className="inline-flex items-center gap-1.5 self-center rounded-full border border-accent/40 px-2 py-px text-[11px] font-medium uppercase tracking-wider text-accent">
+            <span className="inline-flex items-center gap-1.5 self-center rounded-full border border-accent/40 px-2 py-px text-[11px] font-medium uppercase tracking-wider text-accent-light">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
               {r.badge}
             </span>
@@ -279,7 +280,7 @@ export function Projects() {
             <li key={p.name} className="group py-3">
               <div className="grid grid-cols-[1fr_auto] items-baseline gap-x-6">
                 <p className="min-w-0 text-sm">
-                  <span className="font-medium text-bright transition-colors group-hover:text-accent">{p.name}</span>
+                  <span className="font-medium text-bright transition-colors group-hover:text-accent-light">{p.name}</span>
                   <span className="glint"> · {p.year}</span>
                   <span className="lesser block sm:inline">
                     <span className="hidden sm:inline"> · </span>
@@ -361,14 +362,14 @@ export function Experience() {
         href={j.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="transition-colors group-hover:text-accent"
+        className="hit transition-colors group-hover:text-accent-light"
       >
         {j.title} · {j.org}
         <ArrowUpRight className="ml-1 inline h-3.5 w-3.5 -translate-y-px" />
         {NEW_TAB}
       </a>
     ) : (
-      <span className="transition-colors group-hover:text-accent">
+      <span className="transition-colors group-hover:text-accent-light">
         {j.title} · {j.org}
       </span>
     ),
@@ -379,7 +380,7 @@ export function Experience() {
     current: e.current,
     sub: e.degree,
     body: e.summary,
-    title: <span className="transition-colors group-hover:text-accent">{e.school}</span>,
+    title: <span className="transition-colors group-hover:text-accent-light">{e.school}</span>,
   }));
 
   return (
@@ -390,7 +391,7 @@ export function Experience() {
         href={siteConfig.resume}
         target="_blank"
         rel="noopener noreferrer"
-        className="link-draw group/r mt-12 inline-flex items-center gap-1.5 font-medium text-bright hover:text-accent"
+        className="hit link-draw group/r mt-12 inline-flex items-center gap-1.5 font-medium text-bright hover:text-accent-light"
       >
         View full résumé
         <ArrowUpRight className="h-4 w-4 transition-transform group-hover/r:-translate-y-0.5 group-hover/r:translate-x-0.5" />
@@ -407,7 +408,7 @@ export function Experience() {
         <dl className="mt-5 space-y-3">
           {skills.map((s) => (
             <div key={s.group} className="group grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-6">
-              <dt className="pt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-subtle transition-colors group-hover:text-accent">
+              <dt className="pt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-subtle transition-colors group-hover:text-accent-light">
                 {s.group}
               </dt>
               <dd className="lesser text-sm leading-relaxed">{s.items.join(" · ")}</dd>

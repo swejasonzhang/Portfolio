@@ -9,10 +9,14 @@
   --fg: 214 214 214;
   --bright: 255 255 255;
   --muted: 163 163 163;
-  --subtle: 120 120 120;
+  --subtle: 152 152 158;
   --border: 40 40 48;
   --accent: 153 102 204; /* amethyst, #9966CC */
-  --accent-light: 196 167 236; /* pale amethyst, for the far glow */
+  --accent-light: 196 167 236; /* pale amethyst */
+  --violet: 124 58 237; /* the background lights: violet, purple, orchid, iris */
+  --purple: 147 51 234;
+  --orchid: 190 75 219;
+  --iris: 139 92 246;
   color-scheme: dark;
 }
 
@@ -24,17 +28,6 @@
   body {
     @apply bg-bg font-sans text-fg antialiased;
     text-rendering: optimizeLegibility;
-  }
-  /* Two faint amethyst glows in opposite corners, fixed behind everything; static, so they cost nothing to scroll. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    pointer-events: none;
-    background:
-      radial-gradient(60rem 40rem at 0% 0%, rgb(var(--accent) / 0.1), transparent 60%),
-      radial-gradient(50rem 36rem at 100% 100%, rgb(var(--accent-light) / 0.05), transparent 60%);
   }
   /* Film grain, like ink on paper; it reads as black and white. */
   body::after {
@@ -60,7 +53,7 @@
     @apply flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-bright;
   }
   .tag {
-    @apply inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium leading-5 text-accent transition-colors duration-300;
+    @apply inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium leading-5 text-accent-light transition-colors duration-300;
   }
   .link-underline {
     @apply underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-accent;
@@ -72,7 +65,119 @@
     @apply btn bg-bright text-bg hover:bg-accent;
   }
   .btn-ghost {
-    @apply btn border border-border text-bright hover:border-accent/60 hover:text-accent;
+    @apply btn border border-border text-bright hover:border-accent/60 hover:text-accent-light;
+  }
+}
+
+/* --- Background: amethyst lights drifting behind everything (markup in layout.tsx) --- */
+
+/* Sized to the largest viewport, so it doesn't jump when a phone's address bar slides away. */
+.aurora {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+  pointer-events: none;
+  /* Brightness of the lights. Text runs the full width on phones, so they glow less there. */
+  --k: 0.6;
+  background: radial-gradient(120% 80% at 50% 0%, rgb(var(--violet) / 0.12), transparent 70%);
+}
+/* Each light is its own layer, moved only by transform, so the page never repaints for it.
+   The falloff is eased over several stops, so no edge or ring shows. */
+.aurora span {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--c) / calc(var(--a) * var(--k))) 0%,
+    rgb(var(--c) / calc(var(--a) * var(--k) * 0.72)) 28%,
+    rgb(var(--c) / calc(var(--a) * var(--k) * 0.38)) 55%,
+    rgb(var(--c) / calc(var(--a) * var(--k) * 0.12)) 80%,
+    rgb(var(--c) / 0) 100%
+  );
+  animation: var(--drift) var(--t) ease-in-out var(--d) infinite alternate;
+}
+/* Deep violet behind the name */
+.aurora span:nth-child(1) {
+  --c: var(--violet);
+  --a: 0.42;
+  --t: 38s;
+  --d: -12s;
+  --drift: drift-1;
+  left: -22vmax;
+  top: -26vmax;
+  width: 72vmax;
+  height: 72vmax;
+}
+/* Purple, right of center */
+.aurora span:nth-child(2) {
+  --c: var(--purple);
+  --a: 0.32;
+  --t: 47s;
+  --d: -20s;
+  --drift: drift-2;
+  right: -24vmax;
+  top: 18%;
+  width: 62vmax;
+  height: 62vmax;
+}
+/* Orchid, low on the left */
+.aurora span:nth-child(3) {
+  --c: var(--orchid);
+  --a: 0.22;
+  --t: 53s;
+  --d: -31s;
+  --drift: drift-3;
+  left: -10vmax;
+  bottom: -30vmax;
+  width: 60vmax;
+  height: 60vmax;
+}
+/* A smaller iris light, top right */
+.aurora span:nth-child(4) {
+  --c: var(--iris);
+  --a: 0.2;
+  --t: 61s;
+  --d: -7s;
+  --drift: drift-4;
+  right: 4%;
+  top: -12vmax;
+  width: 34vmax;
+  height: 34vmax;
+}
+/* On wide screens the lower half of the sidebar is empty, so the orchid light rises into it and glows brighter. */
+@media (min-width: 1024px) {
+  .aurora {
+    --k: 1;
+  }
+  .aurora span:nth-child(3) {
+    --a: 0.3;
+    bottom: -20vmax;
+  }
+}
+@keyframes drift-1 {
+  to {
+    transform: translate3d(14vw, 12vh, 0) scale(1.14);
+  }
+}
+@keyframes drift-2 {
+  to {
+    transform: translate3d(-16vw, 10vh, 0) scale(0.88);
+  }
+}
+@keyframes drift-3 {
+  to {
+    transform: translate3d(18vw, -14vh, 0) scale(1.18);
+  }
+}
+@keyframes drift-4 {
+  to {
+    transform: translate3d(-12vw, 16vh, 0) scale(1.12);
   }
 }
 
@@ -116,6 +221,16 @@
   }
 }
 
+/* A larger, invisible touch area around small links and buttons; what you see doesn't change. */
+.hit {
+  position: relative;
+}
+.hit::after {
+  content: "";
+  position: absolute;
+  inset: -6px -8px;
+}
+
 /* Links draw their underline from the left on hover. */
 .link-draw {
   background-image: linear-gradient(currentColor, currentColor);
@@ -128,10 +243,10 @@
   background-size: 100% 1px;
 }
 
-/* Tags warm up a little when their card is hovered. */
+/* Tags light up a little when their card is hovered. */
 .group:hover .tag {
-  background-color: rgb(var(--accent) / 0.16);
-  color: rgb(var(--accent-light));
+  background-color: rgb(var(--accent) / 0.2);
+  color: rgb(var(--bright));
 }
 
 /* Gentle reveal on scroll; see components/Reveal.tsx. Content is visible without JavaScript. */
@@ -149,7 +264,8 @@
   html {
     scroll-behavior: auto;
   }
-  .is-in .glint {
+  .is-in .glint,
+  .aurora span {
     animation: none;
   }
   .js .reveal {

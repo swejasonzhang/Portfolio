@@ -71,7 +71,7 @@ export default function Sidebar() {
                     </span>
                     <span
                       className={`text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 ${
-                        on ? "translate-x-1 text-bright" : "text-subtle group-hover:translate-x-1 group-hover:text-bright"
+                        on ? "translate-x-1 text-bright" : "text-muted group-hover:translate-x-1 group-hover:text-bright"
                       }`}
                     >
                       {n.label}
@@ -95,7 +95,7 @@ export default function Sidebar() {
               <a
                 href={href}
                 {...(href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                className="block text-muted transition-colors hover:text-bright"
+                className="hit block text-muted transition-colors hover:text-bright"
                 title={label}
               >
                 <span className="sr-only">
