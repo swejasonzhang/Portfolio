@@ -13,10 +13,6 @@
   --border: 40 40 48;
   --accent: 153 102 204; /* amethyst, #9966CC */
   --accent-light: 196 167 236; /* pale amethyst */
-  --violet: 124 58 237; /* the background lights: violet, purple, orchid, iris */
-  --purple: 147 51 234;
-  --orchid: 190 75 219;
-  --iris: 139 92 246;
   color-scheme: dark;
 }
 
@@ -69,7 +65,7 @@
   }
 }
 
-/* --- Background: amethyst lights drifting behind everything (markup in layout.tsx) --- */
+/* --- Background: amethyst and white lights drifting over black (markup in layout.tsx) --- */
 
 /* Sized to the largest viewport, so it doesn't jump when a phone's address bar slides away. */
 .aurora {
@@ -83,8 +79,8 @@
   overflow: hidden;
   pointer-events: none;
   /* Brightness of the lights. Text runs the full width on phones, so they glow less there. */
-  --k: 0.6;
-  background: radial-gradient(120% 80% at 50% 0%, rgb(var(--violet) / 0.12), transparent 70%);
+  --k: 0.5;
+  background: radial-gradient(120% 80% at 50% 0%, rgb(var(--accent) / 0.08), transparent 70%);
 }
 /* Each light is its own layer, moved only by transform, so the page never repaints for it.
    The falloff is eased over several stops, so no edge or ring shows. */
@@ -102,10 +98,10 @@
   );
   animation: var(--drift) var(--t) ease-in-out var(--d) infinite alternate;
 }
-/* Deep violet behind the name */
+/* Amethyst behind the name */
 .aurora span:nth-child(1) {
-  --c: var(--violet);
-  --a: 0.42;
+  --c: var(--accent);
+  --a: 0.3;
   --t: 38s;
   --d: -12s;
   --drift: drift-1;
@@ -114,10 +110,10 @@
   width: 72vmax;
   height: 72vmax;
 }
-/* Purple, right of center */
+/* Pale amethyst, right of center */
 .aurora span:nth-child(2) {
-  --c: var(--purple);
-  --a: 0.32;
+  --c: var(--accent-light);
+  --a: 0.16;
   --t: 47s;
   --d: -20s;
   --drift: drift-2;
@@ -126,9 +122,9 @@
   width: 62vmax;
   height: 62vmax;
 }
-/* Orchid, low on the left */
+/* Amethyst, low on the left */
 .aurora span:nth-child(3) {
-  --c: var(--orchid);
+  --c: var(--accent);
   --a: 0.22;
   --t: 53s;
   --d: -31s;
@@ -138,10 +134,10 @@
   width: 60vmax;
   height: 60vmax;
 }
-/* A smaller iris light, top right */
+/* A small white light, top right */
 .aurora span:nth-child(4) {
-  --c: var(--iris);
-  --a: 0.2;
+  --c: var(--bright);
+  --a: 0.07;
   --t: 61s;
   --d: -7s;
   --drift: drift-4;
@@ -150,13 +146,13 @@
   width: 34vmax;
   height: 34vmax;
 }
-/* On wide screens the lower half of the sidebar is empty, so the orchid light rises into it and glows brighter. */
+/* On wide screens the lower half of the sidebar is empty, so the low amethyst light rises into it and glows brighter. */
 @media (min-width: 1024px) {
   .aurora {
     --k: 1;
   }
   .aurora span:nth-child(3) {
-    --a: 0.3;
+    --a: 0.4;
     bottom: -20vmax;
   }
 }
