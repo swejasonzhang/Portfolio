@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { siteConfig } from "../site";
 import { Diamond, FileIcon, GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "./Icons";
+import Logo from "./Logo";
 
 const NAV = [
   { id: "about", label: "About" },
@@ -20,8 +21,8 @@ const SOCIAL = [
 
 /**
  * The fixed left column on large screens (it scrolls normally on phones):
- * who I am, what I'm looking for, where to go, and how to reach me. The
- * section in view lights its diamond.
+ * the logo and name, where to go, and how to reach me. The section in view
+ * lights its diamond.
  */
 export default function Sidebar() {
   const [active, setActive] = useState("about");
@@ -49,32 +50,16 @@ export default function Sidebar() {
   return (
     <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[46%] lg:flex-col lg:justify-between lg:py-24">
       <div>
-        <p className="flex items-center gap-2 text-sm text-muted">
-          <span className="text-accent">
-            <Diamond className="h-3 w-3" filled={false} />
-          </span>
-          New York, NY
-        </p>
-        <h1 className="mt-5 font-serif text-[3.4rem] leading-[0.95] tracking-tight text-bright sm:text-7xl">
-          <a href="#about">
-            Jason <em className="text-accent/90">Zhang</em>
+        <h1 className="font-serif text-[3.4rem] leading-[0.95] tracking-tight text-bright sm:text-7xl">
+          <a href="#about" className="inline-flex items-center gap-4">
+            <Logo className="h-9 w-9 shrink-0 text-bright sm:h-11 sm:w-11" />
+            <span>
+              Jason <em className="text-accent">Zhang</em>
+            </span>
           </a>
         </h1>
-        <h2 className="mt-5 text-lg font-medium tracking-tight text-bright sm:text-xl">
-          Software Engineer · Founder of Inkmity
-        </h2>
-        <p className="mt-4 max-w-xs leading-relaxed text-muted">
-          I build full-stack products end to end, from the Stripe webhook to the last pixel.
-        </p>
-        <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1.5 text-sm text-fg">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:hidden" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          </span>
-          Open to internships &amp; co-ops
-        </p>
 
-        <nav aria-label="Sections" className="mt-14 hidden lg:block">
+        <nav aria-label="Sections" className="mt-16 hidden lg:block">
           <ul className="w-max space-y-1">
             {NAV.map((n) => {
               const on = active === n.id;

@@ -37,26 +37,6 @@ function Tags({ items }: { items: string[] }) {
   );
 }
 
-function ExtLinks({ links }: { links: Link[] }) {
-  return (
-    <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
-      {links.map((l) => (
-        <a
-          key={l.href}
-          href={l.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group/l inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
-        >
-          {l.label}
-          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
-          {NEW_TAB}
-        </a>
-      ))}
-    </div>
-  );
-}
-
 /** A card that lifts onto a soft surface on hover (desktop), the way a page turns toward you. */
 const CARD =
   "group relative rounded-2xl transition-colors duration-300 lg:-mx-5 lg:p-5 lg:hover:bg-surface/70 lg:hover:shadow-[inset_0_1px_0_0_rgb(255_255_255/0.04),0_20px_50px_-30px_rgb(var(--accent)/0.35)]";
@@ -86,191 +66,186 @@ export function About() {
   );
 }
 
+type Row = {
+  key: string;
+  name: string;
+  meta: string;
+  badge?: string;
+  line: string;
+  part: string;
+  tags: string[];
+  links: Link[];
+  image: { src: string; alt: string };
+  note?: string;
+};
+
+const ROWS: Row[] = [
+  { key: "inkmity", ...inkmity },
+  { key: "arc", ...arc },
+  ...projects.slice(0, 2).map((p) => ({
+    key: p.name,
+    name: p.name,
+    meta: `${p.kind} · ${p.year}`,
+    line: p.summary,
+    part: p.part,
+    tags: p.stack,
+    links: p.links,
+    image: p.image,
+  })),
+];
+
+function ProjectRow({ r }: { r: Row }) {
+  return (
+    <Reveal as="li" className={`${CARD} grid items-start gap-4 sm:grid-cols-[9rem_1fr] sm:gap-6`}>
+      <div className={`order-2 self-start overflow-hidden rounded-lg border border-border sm:order-1 sm:mt-1 ${r.key === "inkmity" ? "" : "hidden sm:block"}`}>
+        <Image
+          src={r.image.src}
+          alt={r.image.alt}
+          width={480}
+          height={300}
+          sizes="(max-width: 640px) 100vw, 144px"
+          priority={r.key === "inkmity"}
+          className="aspect-[16/10] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+      </div>
+      <div className="order-1 sm:order-2">
+        <h3 className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+          <span className="font-serif text-2xl leading-none text-bright">{r.name}</span>
+          {r.badge && (
+            <span className="inline-flex items-center gap-1.5 self-center rounded-full border border-accent/40 px-2 py-px text-[11px] font-medium uppercase tracking-wider text-accent">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+              {r.badge}
+            </span>
+          )}
+          <span className="text-xs text-subtle">{r.meta}</span>
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-fg">{r.line}</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-muted">{r.part}</p>
+        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <ul className="flex flex-wrap gap-1.5" aria-label="Technologies">
+            {r.tags.slice(0, 5).map((t) => (
+              <li key={t} className="tag py-0.5">
+                {t}
+              </li>
+            ))}
+          </ul>
+          <div className="flex items-center gap-4">
+            {r.links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/l inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
+              >
+                {l.label}
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
+                {NEW_TAB}
+              </a>
+            ))}
+            {r.note && <span className="text-xs text-subtle">{r.note}</span>}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 export function Projects() {
   return (
     <Section id="projects" label="Projects">
-      <div className="space-y-14">
-        {/* Inkmity, the flagship */}
-        <Reveal as="article" className={CARD} aria-labelledby="p-inkmity">
-          <div className="overflow-hidden rounded-xl border border-border">
-            <Image
-              src={inkmity.image.src}
-              alt={inkmity.image.alt}
-              width={inkmity.image.w}
-              height={inkmity.image.h}
-              priority
-              sizes="(max-width: 1024px) 100vw, 560px"
-              className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.015]"
-            />
-          </div>
-          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <h3 id="p-inkmity" className="font-serif text-3xl text-bright">
-              {inkmity.name}
-            </h3>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2.5 py-0.5 text-xs font-medium text-emerald-300">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              {inkmity.status}
+      <ul className="space-y-10 lg:space-y-1">
+        {ROWS.map((r) => (
+          <ProjectRow key={r.key} r={r} />
+        ))}
+      </ul>
+
+      {/* Inkmity's engineering detail, one click away for anyone who wants it */}
+      <Reveal>
+        <details className="group/d mt-8 rounded-xl border border-border">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-medium text-bright [&::-webkit-details-marker]:hidden">
+            Inkmity in depth: payments, architecture and problems solved
+            <span aria-hidden="true" className="text-lg leading-none text-accent transition-transform duration-300 group-open/d:rotate-45">
+              +
             </span>
-          </div>
-          <p className="mt-1 text-sm text-subtle">
-            {inkmity.tagline} · {inkmity.role}
-          </p>
-          <p className="mt-4 leading-relaxed text-fg">{inkmity.summary}</p>
-          <dl className="mt-6 grid grid-cols-3 gap-4 border-y border-border py-4">
-            {inkmity.stats.map((s) => (
-              <div key={s.label}>
-                <dt className="sr-only">{s.label}</dt>
-                <dd>
-                  <span className="block font-serif text-3xl text-bright">{s.value}</span>
-                  <span className="mt-0.5 block text-xs leading-snug text-subtle">{s.label}</span>
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <ul className="mt-6 space-y-2.5">
-            {inkmity.built.map((b) => (
-              <li key={b} className="flex gap-3 text-sm leading-relaxed text-muted">
-                <span className="mt-1.5 text-accent">
-                  <Diamond className="h-1.5 w-1.5" />
-                </span>
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-          <Tags items={inkmity.stack} />
-          <ExtLinks links={inkmity.links} />
-          <p className="mt-2 text-xs text-subtle">{inkmity.note}</p>
-
-          <details className="group/d mt-6 rounded-xl border border-border bg-bg/40">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-medium text-bright [&::-webkit-details-marker]:hidden">
-              How it works: payments, architecture, problems solved
-              <span aria-hidden="true" className="text-accent transition-transform duration-300 group-open/d:rotate-45">
-                +
-              </span>
-            </summary>
-            <div className="space-y-7 border-t border-border px-4 py-5 text-sm">
-              <div>
-                <h4 className="font-medium text-bright">The payment flow</h4>
-                <p className="mt-1 text-muted">
-                  Inkmity is the merchant of record. Clients pay a flat $10 per booking, the first one free; artists pay
-                  nothing and tips go 100% to the artist.
-                </p>
-                <ol className="mt-3 space-y-2">
-                  {inkmity.moneyPath.map((m, i) => (
-                    <li key={m.title} className="flex gap-3">
-                      <span className="w-5 shrink-0 font-serif text-base text-accent">{i + 1}</span>
-                      <span className="text-muted">
-                        <span className="text-fg">{m.title}.</span> {m.text}
-                      </span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-              <div>
-                <h4 className="font-medium text-bright">Architecture</h4>
-                <ul className="mt-3 space-y-2">
-                  {inkmity.architecture.map((a) => (
-                    <li key={a.tier} className="text-muted">
-                      <span className="text-fg">{a.tier}</span> <span className="text-subtle">({a.host})</span>: {a.text}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-muted">{inkmity.services}</p>
-              </div>
-              <div>
-                <h4 className="font-medium text-bright">Problems and how I solved them</h4>
-                <dl className="mt-3 space-y-4">
-                  {inkmity.problems.map((p) => (
-                    <div key={p.problem}>
-                      <dt className="text-fg">{p.problem}</dt>
-                      <dd className="mt-1 text-muted">{p.approach}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+          </summary>
+          <div className="space-y-7 border-t border-border px-4 py-5 text-sm">
+            <div>
+              <h4 className="font-medium text-bright">The payment flow</h4>
+              <p className="mt-1 text-muted">
+                Inkmity is the merchant of record. Clients pay a flat $10 per booking, the first one free; artists pay
+                nothing and tips go 100% to the artist.
+              </p>
+              <ol className="mt-3 space-y-2">
+                {inkmity.moneyPath.map((m, i) => (
+                  <li key={m.title} className="flex gap-3">
+                    <span className="w-5 shrink-0 font-serif text-base text-accent">{i + 1}</span>
+                    <span className="text-muted">
+                      <span className="text-fg">{m.title}.</span> {m.text}
+                    </span>
+                  </li>
+                ))}
+              </ol>
             </div>
-          </details>
-        </Reveal>
-
-        {/* Arc */}
-        <Reveal as="article" className={CARD} aria-labelledby="p-arc">
-          <div className="overflow-hidden rounded-xl border border-border">
-            <Image
-              src={arc.image.src}
-              alt={arc.image.alt}
-              width={arc.image.w}
-              height={arc.image.h}
-              sizes="(max-width: 1024px) 100vw, 560px"
-              className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.015]"
-            />
-          </div>
-          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-subtle">{arc.status}</p>
-          <h3 id="p-arc" className="mt-2 font-serif text-3xl text-bright">
-            {arc.name}
-          </h3>
-          <p className="mt-1 text-sm text-subtle">{arc.tagline}</p>
-          <p className="mt-4 leading-relaxed text-fg">{arc.summary}</p>
-          <ul className="mt-4 space-y-2.5">
-            {arc.built.map((b) => (
-              <li key={b} className="flex gap-3 text-sm leading-relaxed text-muted">
-                <span className="mt-1.5 text-accent">
-                  <Diamond className="h-1.5 w-1.5" />
-                </span>
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-sm text-subtle">{arc.credit}</p>
-          <Tags items={arc.stack} />
-          <ExtLinks links={arc.links} />
-        </Reveal>
-
-        {/* The rest, as compact rows */}
-        <div>
-          <h3 className="label text-subtle">More projects</h3>
-          <ul className="mt-6 space-y-6">
-            {projects.map((p) => (
-              <Reveal as="li" key={p.name} className={`${CARD} grid gap-4 sm:grid-cols-[9rem_1fr] sm:gap-6`}>
-                <div className="order-2 overflow-hidden rounded-lg border border-border sm:order-1">
-                  <Image
-                    src={p.image.src}
-                    alt={p.image.alt}
-                    width={480}
-                    height={300}
-                    sizes="(max-width: 640px) 100vw, 144px"
-                    className="aspect-[16/10] h-auto w-full object-cover object-top"
-                  />
-                </div>
-                <div className="order-1 sm:order-2">
-                  <h4 className="flex items-baseline justify-between gap-3 font-medium text-bright">
-                    {p.name}
-                    <span className="shrink-0 text-xs font-normal text-subtle">{p.year}</span>
-                  </h4>
-                  <p className="text-xs text-subtle">{p.kind}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    {p.summary} {p.part}
-                  </p>
-                  <div className="-mt-1 flex flex-wrap items-center gap-x-5">
-                    {p.links.map((l) => (
-                      <a
-                        key={l.href}
-                        href={l.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
-                      >
-                        {l.label}
-                        <ArrowUpRight className="h-3.5 w-3.5" />
-                        {NEW_TAB}
-                      </a>
-                    ))}
+            <div>
+              <h4 className="font-medium text-bright">Architecture</h4>
+              <ul className="mt-3 space-y-2">
+                {inkmity.architecture.map((a) => (
+                  <li key={a.tier} className="text-muted">
+                    <span className="text-fg">{a.tier}</span> <span className="text-subtle">({a.host})</span>: {a.text}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-muted">{inkmity.services}</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-bright">Problems and how I solved them</h4>
+              <dl className="mt-3 space-y-4">
+                {inkmity.problems.map((pr) => (
+                  <div key={pr.problem}>
+                    <dt className="text-fg">{pr.problem}</dt>
+                    <dd className="mt-1 text-muted">{pr.approach}</dd>
                   </div>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </details>
+      </Reveal>
+
+      {/* Smaller builds: one line each */}
+      <Reveal className="mt-12">
+        <h3 className="label text-subtle">Also built</h3>
+        <ul className="mt-4 divide-y divide-border border-y border-border">
+          {projects.slice(2).map((p) => (
+            <li key={p.name} className="grid grid-cols-[1fr_auto] items-baseline gap-x-6 py-3">
+              <p className="min-w-0 text-sm">
+                <span className="font-medium text-bright">{p.name}</span>
+                <span className="text-subtle"> · {p.year}</span>
+                <span className="block text-muted sm:inline">
+                  <span className="hidden sm:inline"> · </span>
+                  {p.summary}
+                </span>
+              </p>
+              <span className="flex shrink-0 gap-3">
+                {p.links.map((l) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-bright hover:text-accent"
+                  >
+                    {l.label}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    {NEW_TAB}
+                  </a>
+                ))}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
     </Section>
   );
 }

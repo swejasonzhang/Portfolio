@@ -20,7 +20,6 @@ export default {
         subtle: v("subtle"),
         border: v("border"),
         accent: v("accent"),
-        ice: v("ice"),
       },
     },
   },

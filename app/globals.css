@@ -2,17 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* One dark, ink-black theme. Values are RGB channels for Tailwind's alpha syntax. */
+/* Black and white, with amethyst as the one accent. Values are RGB channels for Tailwind's alpha syntax. */
 :root {
-  --bg: 9 9 12;
-  --surface: 24 24 30;
-  --fg: 200 202 212;
-  --bright: 244 244 247;
-  --muted: 150 153 166;
-  --subtle: 105 108 122;
-  --border: 40 40 48;
-  --accent: 167 139 250; /* violet: the shadow, used sparingly */
-  --ice: 125 211 252; /* ice blue: the System's light */
+  --bg: 0 0 0;
+  --surface: 18 18 18;
+  --fg: 214 214 214;
+  --bright: 255 255 255;
+  --muted: 163 163 163;
+  --subtle: 120 120 120;
+  --border: 38 38 38;
+  --accent: 153 102 204; /* amethyst, #9966CC */
   color-scheme: dark;
 }
 
@@ -25,18 +24,16 @@
     @apply bg-bg font-sans text-fg antialiased;
     text-rendering: optimizeLegibility;
   }
-  /* A faint violet and blue glow, fixed behind everything; static, so it costs nothing to scroll. */
+  /* A faint amethyst glow, fixed behind everything; static, so it costs nothing to scroll. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -2;
     pointer-events: none;
-    background:
-      radial-gradient(60rem 40rem at 0% 0%, rgb(var(--accent) / 0.09), transparent 60%),
-      radial-gradient(50rem 36rem at 100% 100%, rgb(var(--ice) / 0.05), transparent 60%);
+    background: radial-gradient(60rem 40rem at 0% 0%, rgb(var(--accent) / 0.1), transparent 60%);
   }
-  /* Film grain, like ink on paper. */
+  /* Film grain, like ink on paper; it reads as black and white. */
   body::after {
     content: "";
     position: fixed;

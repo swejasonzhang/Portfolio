@@ -21,43 +21,50 @@ export const metadata: Metadata = {
 	metadataBase: new URL(siteConfig.url),
 	title: {
 		default: siteConfig.title,
-		template: `%s — ${siteConfig.name}`,
+		template: `%s | ${siteConfig.name}`,
 	},
 	description: siteConfig.description,
 	applicationName: siteConfig.name,
 	keywords: [
 		'Jason Zhang',
+		'Jason Zhang software engineer',
 		'swejasonzhang',
-		'Software Engineer',
-		'Founder',
+		'software engineer New York',
+		'software engineering intern',
+		'software engineering co-op',
+		'full-stack developer',
 		'Inkmity',
+		'Queens College',
+		'CUNY',
 		'React',
-		'Next.js',
-		'Node.js',
 		'TypeScript',
-		'New York',
+		'Node.js',
+		'Express',
+		'MongoDB',
+		'Stripe',
+		'Next.js',
 	],
 	authors: [{ name: siteConfig.name, url: siteConfig.url }],
 	creator: siteConfig.name,
 	publisher: siteConfig.name,
-	alternates: { canonical: siteConfig.url },
-	icons: {
-		icon: '/icon.svg',
-		shortcut: '/icon.svg',
-		apple: '/icon.svg',
-	},
+	alternates: { canonical: '/' },
+	formatDetection: { email: false, address: false, telephone: false },
 	openGraph: {
+		type: 'profile',
+		firstName: siteConfig.givenName,
+		lastName: siteConfig.familyName,
+		username: 'swejasonzhang',
 		title: siteConfig.title,
 		description: siteConfig.description,
-		url: siteConfig.url,
+		url: '/',
 		siteName: siteConfig.name,
 		locale: 'en_US',
-		type: 'website',
 	},
 	twitter: {
 		card: 'summary_large_image',
 		title: siteConfig.title,
 		description: siteConfig.description,
+		site: siteConfig.twitterHandle,
 		creator: siteConfig.twitterHandle,
 	},
 	robots: {
@@ -75,33 +82,62 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: '#09090c',
+	themeColor: '#000000',
 	colorScheme: 'dark',
 	width: 'device-width',
 	initialScale: 1,
 	viewportFit: 'cover',
 };
 
-const personJsonLd = {
+/** Structured data for search engines: the site, this profile page, and the person it is about. */
+const personId = `${siteConfig.url}/#person`;
+const structuredData = {
 	'@context': 'https://schema.org',
-	'@type': 'Person',
-	name: siteConfig.name,
-	url: siteConfig.url,
-	email: `mailto:${siteConfig.email}`,
-	jobTitle: 'Software Engineer and Founder',
-	address: {
-		'@type': 'PostalAddress',
-		addressLocality: siteConfig.locationLocality,
-		addressRegion: siteConfig.locationRegion,
-		addressCountry: siteConfig.locationCountry,
-	},
-	alumniOf: [
-		{ '@type': 'CollegeOrUniversity', name: 'Queens College (CUNY)' },
-		{ '@type': 'CollegeOrUniversity', name: 'College of Staten Island (CUNY)' },
-		{ '@type': 'EducationalOrganization', name: 'App Academy' },
+	'@graph': [
+		{
+			'@type': 'WebSite',
+			'@id': `${siteConfig.url}/#website`,
+			url: siteConfig.url,
+			name: siteConfig.name,
+			description: siteConfig.description,
+			inLanguage: 'en-US',
+			publisher: { '@id': personId },
+		},
+		{
+			'@type': 'ProfilePage',
+			'@id': `${siteConfig.url}/#profile`,
+			url: siteConfig.url,
+			name: siteConfig.title,
+			isPartOf: { '@id': `${siteConfig.url}/#website` },
+			mainEntity: { '@id': personId },
+		},
+		{
+			'@type': 'Person',
+			'@id': personId,
+			name: siteConfig.name,
+			givenName: siteConfig.givenName,
+			familyName: siteConfig.familyName,
+			url: siteConfig.url,
+			image: `${siteConfig.url}/opengraph-image`,
+			email: `mailto:${siteConfig.email}`,
+			jobTitle: siteConfig.jobTitle,
+			description: siteConfig.description,
+			worksFor: { '@type': 'Organization', name: 'Inkmity', url: siteConfig.inkmity },
+			affiliation: { '@type': 'CollegeOrUniversity', name: 'Queens College, City University of New York' },
+			alumniOf: [
+				{ '@type': 'CollegeOrUniversity', name: 'College of Staten Island, City University of New York' },
+				{ '@type': 'EducationalOrganization', name: 'App Academy' },
+			],
+			address: {
+				'@type': 'PostalAddress',
+				addressLocality: siteConfig.locationLocality,
+				addressRegion: siteConfig.locationRegion,
+				addressCountry: siteConfig.locationCountry,
+			},
+			knowsAbout: ['Software engineering', 'Full-stack web development', 'React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Stripe payments', 'Python'],
+			sameAs: [siteConfig.socials.github, siteConfig.socials.linkedin, siteConfig.socials.x, siteConfig.inkmity],
+		},
 	],
-	knowsAbout: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Stripe'],
-	sameAs: [siteConfig.socials.github, siteConfig.socials.linkedin, siteConfig.socials.x, siteConfig.inkmity],
 };
 
 export default function RootLayout({
@@ -127,7 +163,7 @@ export default function RootLayout({
 			<body>
 				<script
 					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 				/>
 				<a
 					href="#main"

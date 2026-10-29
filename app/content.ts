@@ -8,27 +8,14 @@ export type Link = { label: string; href: string };
 
 export const inkmity = {
   name: "Inkmity",
-  tagline: "Booking for independent New York tattoo artists",
-  status: "Live since July 2026",
-  role: "Founder · Aug 2025 – present",
-  summary:
-    "One link in an artist's Instagram bio turns a DM conversation into a booking with a card deposit, a signed waiver and a calendar slot. Clients message the artist in real time; after the session the balance is charged, the payout is split and the client can tip and leave a verified review.",
-  image: { src: "/assets/Inkmity.webp", alt: "Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver", w: 1800, h: 1000 },
-  built: [
-    "Wrote the first version myself, Aug 2025 – Jan 2026 (530+ commits): Clerk sign-in, client and artist dashboards, real-time chat with Socket.IO, a booking calendar, Cloudinary uploads and a Stripe deposit.",
-    "Wrote the deposit flow: the booking page calls an Express route that creates a Stripe Checkout session, and a webhook verifies Stripe's signature and marks the deposit paid in MongoDB.",
-    "Since June 2026 I build it with Claude Code, an AI coding agent: I specify each feature and fix, test it by hand in the live app and approve every release.",
-    "Deploy and run it in production on Vercel and Render: environment variables, the live Stripe webhook, database scripts and server logs.",
-    "Refocused the product from a marketplace to a booking tool artists link from Instagram, interviewed a New York studio, pitched 10+ shops in person and set the pricing: a flat $10 booking fee, first booking free.",
-  ],
-  stack: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Stripe", "Socket.IO", "Clerk"],
-  links: [{ label: "Visit inkmity.com", href: "https://inkmity.com/" }] as Link[],
-  note: "Source is private.",
-  stats: [
-    { value: "530+", label: "commits in the hand-built first version" },
-    { value: "545", label: "test files" },
-    { value: "60", label: "integration suites" },
-  ],
+  meta: "Founder · 2025 – now",
+  badge: "Live",
+  line: "A booking app for independent New York tattoo artists: one link in an Instagram bio takes the booking, signed waiver and card deposit.",
+  part: "Built the first version myself (530+ commits), including the Stripe deposit flow; since June 2026 I build it with Claude Code. 545 test files.",
+  tags: ["React", "TypeScript", "Node.js", "MongoDB", "Stripe"],
+  image: { src: "/assets/Inkmity.webp", alt: "Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver" },
+  links: [{ label: "inkmity.com", href: "https://inkmity.com/" }] as Link[],
+  note: "Source private",
   moneyPath: [
     { title: "Book", text: "From the artist's link, or a one-off client link with agreed terms." },
     { title: "Waiver and intake", text: "Signed before a session, enforced on the client and the server." },
@@ -65,18 +52,11 @@ export const inkmity = {
 
 export const arc = {
   name: "Arc",
-  tagline: "A webcam range-of-motion coach, built in 48 hours",
-  status: "Hackknight 2026 · Oct 9–11 · team of three",
-  summary:
-    "Arc tracks your body in the browser, measures each joint's angle in degrees and counts only the reps done with good form, with a coach that talks you through each set.",
-  image: { src: "/assets/Arc.webp", alt: "Arc's landing page: a 3D body curling a dumbbell toward a 140° goal, the live angle reading 135°", w: 1600, h: 1000 },
-  built: [
-    "Owned the web app and API: in-browser pose tracking with MediaPipe, the rep and form engine for 15 movements, the 3D body, the data model, CI and deployment.",
-    "Specified each feature for Claude Code, tested it by hand and merged all 44 pull requests through CI, with 600 automated tests on the final code.",
-    "Made the day-two call to move pose tracking from a Python app into the browser, so there was nothing to install.",
-  ],
-  credit: "Kelvin built the Python camera app; Jerome built the Gemini and ElevenLabs voice coach.",
-  stack: ["React", "TypeScript", "MediaPipe", "Three.js", "Express", "MongoDB"],
+  meta: "Hackknight 2026 · 48 hours",
+  line: "A webcam range-of-motion coach: tracks your body in the browser and counts only the reps done with good form.",
+  part: "Built the web app and API with Claude Code on a team of three; merged all 44 pull requests through CI, with 600 tests.",
+  tags: ["React", "TypeScript", "MediaPipe", "Express", "MongoDB"],
+  image: { src: "/assets/Arc.webp", alt: "Arc's landing page: a 3D body curling a dumbbell toward a 140° goal, the live angle reading 135°" },
   links: [
     { label: "getarc.health", href: "https://getarc.health/" },
     { label: "Source", href: "https://github.com/swejasonzhang/Hackknight2026" },

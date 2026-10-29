@@ -1,21 +1,22 @@
 export const siteConfig = {
   name: "Jason Zhang",
-  role: "CS Student & Software Developer",
-  title: "Jason Zhang — Software Engineer",
+  givenName: "Jason",
+  familyName: "Zhang",
+  jobTitle: "Software Engineer",
+  title: "Jason Zhang | Software Engineer & Founder of Inkmity",
   description:
-    "Computer Science undergraduate at Queens College (CUNY), expected June 2028, open to software engineering internships and co-ops. Founder of Inkmity, a live booking app for tattoo artists.",
+    "Jason Zhang is a software engineer in New York and founder of Inkmity, a live booking app. CS student at Queens College (CUNY), open to internships and co-ops.",
   url: "https://swejasonzhang.netlify.app",
   email: "swejasonzhang@gmail.com",
   resume: "/assets/swejasonzhang.pdf",
   inkmity: "https://inkmity.com/",
-  location: "New York, NY",
-  locationLocality: "New York City",
+  locationLocality: "New York",
   locationRegion: "NY",
   locationCountry: "US",
   twitterHandle: "@swejasonzhang",
   socials: {
     github: "https://github.com/swejasonzhang",
-    linkedin: "https://linkedin.com/in/swejasonzhang",
+    linkedin: "https://www.linkedin.com/in/swejasonzhang",
     x: "https://x.com/swejasonzhang",
   },
 };

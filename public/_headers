@@ -1,0 +1,10 @@
+# Netlify response headers. These image routes have no file extension, so
+# Netlify would otherwise serve them as text/plain and link previews fail.
+/opengraph-image
+  Content-Type: image/png
+/twitter-image
+  Content-Type: image/png
+/apple-icon
+  Content-Type: image/png
+/manifest.webmanifest
+  Content-Type: application/manifest+json
