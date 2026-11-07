@@ -1,7 +1,8 @@
 /**
  * Every word of career content on the site. Facts match the résumé
  * (resume-src/content.js) and were checked against the repositories on
- * 2026-10-12. Change them together.
+ * 2026-10-12. Metrics rewritten 2026-11-06: results, not commit, pull
+ * request or test counts. Change them together.
  */
 
 export type Link = { label: string; href: string };
@@ -11,17 +12,18 @@ export const inkmity = {
   meta: "Founder · 2025 – now",
   badge: "Live",
   line: "A booking app for independent New York tattoo artists: one link in an Instagram bio takes the booking, signed waiver and card deposit.",
-  part: "Built the first version myself (530+ commits), including the Stripe deposit flow; since June 2026 I build it with Claude Code. 545 test files.",
+  part: "Built the first version myself, including a Stripe deposit that counts as paid only when Stripe's signed webhook confirms it; since June 2026 I direct Claude Code and hand-test every release.",
   tags: ["React", "TypeScript", "Node.js", "MongoDB", "Stripe"],
   image: { src: "/assets/Inkmity.webp", alt: "Inkmity's live landing page: the headline, a new booking request, a held deposit and a signed waiver" },
   links: [{ label: "inkmity.com", href: "https://inkmity.com/" }] as Link[],
   note: "Source private",
   built: [
-    "Wrote the first version myself, Aug 2025 – Jan 2026 (530+ commits): Clerk sign-in, client and artist dashboards, real-time chat with Socket.IO, a booking calendar, Cloudinary uploads and a Stripe deposit.",
-    "Wrote the deposit flow: the booking page calls an Express route that creates a Stripe Checkout session, and a webhook verifies Stripe's signature and marks the deposit paid in MongoDB.",
-    "Since June 2026 I build it with Claude Code, an AI coding agent: I specify each feature and fix, test it by hand in the live app and approve every release.",
-    "Deploy and run it in production on Vercel and Render: environment variables, the live Stripe webhook, database scripts and server logs.",
-    "Refocused the product from a marketplace to a booking tool artists link from Instagram, interviewed a New York studio, pitched 10+ shops in person and set the pricing: a flat $10 booking fee, first booking free.",
+    "Built the first version myself (Aug 2025 – Jan 2026) so clients could find an artist, chat and book: Clerk sign-in, client and artist dashboards, real-time Socket.IO chat, a booking calendar, per-artist deposit policies and Cloudinary uploads.",
+    "Made a deposit count as paid only when Stripe confirms it, not when the browser says so: wrote an Express route that creates a Stripe Checkout session and a webhook that verifies Stripe's signature before updating MongoDB.",
+    "Since June 2026, direct Claude Code, an AI coding agent, on each feature and fix; caught sign-in routing, onboarding and translation bugs by hand-testing every change in the live app before approving the release.",
+    "Run it in production on Vercel and Render: environment variables, the Stripe webhook, database scripts and server logs.",
+    "Refocused the product from a marketplace to a booking tool artists link from Instagram; interviewed a New York tattoo studio and pitched 10+ shops in person.",
+    "Set the pricing: artists pay nothing, clients pay a flat $10 per booking with the first one free, and tips go 100% to the artist.",
   ],
   moneyPath: [
     { title: "Book", text: "From the artist's link, or a one-off client link with agreed terms." },
@@ -50,10 +52,6 @@ export const inkmity = {
       problem: "The balance must only be charged once the session really happened.",
       approach: "Capture when client and artist both confirm, or 6 hours after the session; a chargeback claws the payout back.",
     },
-    {
-      problem: "A failing backend job once reached production, because deploys started on push alongside CI.",
-      approach: "Deploy only after every CI job passes: lint, type checks, build, tests against a real database and a dependency audit.",
-    },
   ],
 };
 
@@ -61,7 +59,7 @@ export const arc = {
   name: "Arc",
   meta: "Hackknight 2026 · 48 hours",
   line: "A webcam range-of-motion coach: tracks your body in the browser and counts only the reps done with good form.",
-  part: "Built the web app and API with Claude Code on a team of three; merged all 44 pull requests through CI, with 600 tests.",
+  part: "Owned the web app and API on a team of three, built with Claude Code; removed the install step by moving pose tracking into the browser on day two.",
   tags: ["React", "TypeScript", "MediaPipe", "Express", "MongoDB"],
   image: { src: "/assets/Arc.webp", alt: "Arc's landing page: a 3D body curling a dumbbell toward a 140° goal, the live angle reading 135°" },
   links: [
@@ -70,8 +68,8 @@ export const arc = {
   ] as Link[],
   built: [
     "Owned the web app and API: in-browser pose tracking with MediaPipe, the rep and form engine for 15 movements, the 3D body, the data model, CI and deployment.",
-    "Specified each feature for Claude Code, tested it by hand and merged all 44 pull requests through CI, with 600 automated tests on the final code.",
-    "Made the day-two call to move pose tracking from a Python app into the browser, so there was nothing to install.",
+    "Specified each feature for Claude Code, tested it by hand and merged every pull request on green CI.",
+    "Removed the install step for users by deciding on day two to move pose tracking from a Python app into the browser.",
   ],
   credit: "Kelvin built the Python camera app; Jerome built the Gemini and ElevenLabs voice coach.",
   problems: [
@@ -112,7 +110,7 @@ export const projects: Project[] = [
     kind: "Solo capstone, App Academy",
     year: "2023 – 24",
     summary: "An online store with a product catalog, search, reviews, a cart and a checkout that reduces stock on purchase.",
-    part: "Built it alone across 167 commits. In July 2026 I rebuilt the front end in TypeScript with an AI coding agent.",
+    part: "Built it alone. In July 2026 I rebuilt the front end in TypeScript with an AI coding agent.",
     challenge: "Keeping stock honest: the checkout reduces each product's stock as part of the purchase.",
     stack: ["Ruby on Rails", "PostgreSQL", "React", "Redux"],
     image: { src: "/assets/Amazeon.webp", alt: "Amazeon's storefront" },
@@ -123,7 +121,7 @@ export const projects: Project[] = [
     kind: "Team of four, App Academy",
     year: "2023",
     summary: "A platform for hosting and finding language exchange events.",
-    part: "Across 15 merged pull requests: Google Places address autocomplete, profile image upload, search and the attendee list.",
+    part: "My part: Google Places address autocomplete, event search, profile image upload and the attendee list.",
     challenge: "Turning free-typed addresses into real places with the Google Places API, inside a shared four-person codebase. Teammates wrote the translation and sign-in code.",
     stack: ["MongoDB", "Express", "React", "Node.js"],
     image: { src: "/assets/BonjourWorld.webp", alt: "Bonjour World's event listing" },
@@ -201,7 +199,7 @@ export const experience: Job[] = [
     current: true,
     href: "https://inkmity.com/",
     summary:
-      "Founded and launched a booking app for independent New York tattoo artists, live since July 2026. Built the first version myself (530+ commits), including the Stripe deposit flow and its signature-verified webhook. Since June 2026 I build it with Claude Code, testing and approving every release, and run it in production on Vercel and Render.",
+      "Launched a booking app, live since July 2026, that lets independent New York tattoo artists take a booking, waiver and card deposit from one link in their Instagram bio. Built the first version myself, including a deposit that counts as paid only when Stripe's signed webhook confirms it. Since June 2026 I direct Claude Code and hand-test every release, which caught sign-in, onboarding and translation bugs; I run it in production on Vercel and Render.",
     tags: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Stripe"],
   },
   {
@@ -210,7 +208,7 @@ export const experience: Job[] = [
     type: "Contract · Remote",
     dates: "Feb — Jul 2025",
     summary:
-      "Automated reporting for a 10+ person marketing team: sole author of 19 Python scripts (108 commits) pulling TikTok, Instagram, YouTube and X metrics from the Ensemble Data and Chartmetric APIs into Google Sheets, with Slack alerts. Also wrote a Slack-to-Google Drive filing script and built a MERN dashboard and a creator-voting site with Stripe Checkout.",
+      "Cut a 10+ person marketing team's daily update of 100+ artists' data from several hours by hand to minutes: sole author of 19 Python scripts, run daily, pulling TikTok, Instagram, YouTube and X metrics from the Ensemble Data and Chartmetric APIs into Google Sheets, with Slack alerts. Also wrote a Slack-to-Google Drive filing script and built a MERN dashboard and a creator-voting site with Stripe Checkout.",
     tags: ["Python", "Google Sheets API", "Slack API", "Stripe", "MERN"],
   },
   {
@@ -219,7 +217,7 @@ export const experience: Job[] = [
     type: "Remote",
     dates: "Nov 2024 — Feb 2025",
     summary:
-      "Opened 50+ pull requests on a three-person engineering team with the CTO, working through code review. Built Node.js and Firebase backend endpoints and Twilio integrations for Vera, the company's communications bot.",
+      "Built Node.js and Firebase endpoints and Twilio SMS integrations so Vera, the company's bot, could hold a personal text conversation with each user and connect them to people with shared interests. Worked through code review with the CTO on a three-person engineering team.",
     tags: ["Node.js", "Firebase", "Twilio"],
   },
   {
@@ -240,7 +238,7 @@ export const education: School[] = [
     school: "Queens College (CUNY)",
     degree: "B.S. in Computer Science",
     dates: "Fall 2026 — June 2028 (expected)",
-    summary: "Evening classes, with C++ this term, so I can work an internship or co-op during the day.",
+    summary: "Evening classes, with C++ this term, so I can start an internship or co-op now.",
     current: true,
   },
   {
@@ -253,7 +251,7 @@ export const education: School[] = [
     school: "College of Staten Island (CUNY)",
     degree: "Computer Science coursework",
     dates: "2020 — 2022",
-    summary: "Where I started computer science, before transferring to Queens College.",
+    summary: "Where I started computer science, including data structures and algorithms, before transferring to Queens College.",
   },
 ];
 
@@ -267,8 +265,8 @@ export const skills: { group: string; items: string[] }[] = [
 ];
 
 export const about = [
-  "I'm a software engineer and computer science student in New York who likes making the thing and then taking it to the people it's for. I built the first version of Inkmity by hand, then pitched it to more than ten tattoo shops in person and sat down with a studio to hear how booking actually breaks for them.",
-  "Before that I interned at Series, opening 50+ pull requests on a small team with the CTO, and wrote data automation for a marketing team at Move Tact. I'm finishing a B.S. at Queens College (CUNY) with evening classes, so I can start an internship or co-op now.",
+  "I'm a software engineer and computer science student in New York who likes making the thing and then taking it to the people it's for. I built the first version of Inkmity myself, then pitched it to more than ten tattoo shops in person and sat down with a studio to hear how booking actually breaks for them.",
+  "Before that I interned at Series, building the endpoints and Twilio SMS integration behind Vera, the company's texting bot, and at Move Tact I cut a marketing team's daily data update from several hours to minutes with Python. I'm finishing a B.S. at Queens College (CUNY) with evening classes, so I can start an internship or co-op now.",
   "Since June 2026 I build with Claude Code, and I'm open about which work I wrote by hand and which I directed.",
 ];
 
