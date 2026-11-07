@@ -29,16 +29,13 @@ export const inkmity = {
     { title: "Book", text: "From the artist's link, or a one-off client link with agreed terms." },
     { title: "Waiver and intake", text: "Signed before a session, enforced on the client and the server." },
     { title: "Deposit", text: "Collected at booking through Stripe Checkout." },
-    { title: "Capture", text: "The balance is charged when both sides confirm, or 6 hours after the session ends." },
-    { title: "Split payout", text: "To the artist, and the studio if there is one, through Stripe Connect." },
-    { title: "Clawback", text: "On a chargeback, the payout is reversed." },
   ],
   architecture: [
     { tier: "Browser", host: "Vercel", text: "React 19, Vite, TypeScript, Tailwind" },
     { tier: "API", host: "Render", text: "Node.js, Express 5 and Socket.IO in one long-running process" },
     { tier: "Data", host: "MongoDB Atlas", text: "Mongoose, 38 models, same region as the API" },
   ],
-  services: "Clerk for sign-in and roles · Stripe Checkout, Connect and webhooks · Cloudinary for images · Gemini for moderation and matching · Resend for email · Redis for caching and rate limits · Sentry for errors",
+  services: "Clerk for sign-in and roles · Stripe Checkout and webhooks · Cloudinary for images · Gemini for moderation and matching · Resend for email · Sentry for errors",
   problems: [
     {
       problem: "Real-time chat and a raw-body Stripe webhook both break on serverless functions.",
@@ -47,10 +44,6 @@ export const inkmity = {
     {
       problem: "A replayed webhook could apply the same payment twice.",
       approach: "Verify Stripe's signature on the raw body and record every event, so a replay is ignored.",
-    },
-    {
-      problem: "The balance must only be charged once the session really happened.",
-      approach: "Capture when client and artist both confirm, or 6 hours after the session; a chargeback claws the payout back.",
     },
   ],
 };
@@ -73,10 +66,6 @@ export const arc = {
   ],
   credit: "Kelvin built the Python camera app; Jerome built the Gemini and ElevenLabs voice coach.",
   problems: [
-    {
-      problem: "Webcam landmarks shake, so joint angles jumped from frame to frame.",
-      approach: "Smooth every landmark with its own One Euro filter, bridge frames the model is unsure of, and read angles in 3D from MediaPipe's world landmarks.",
-    },
     {
       problem: "The demo depended on a Python camera app and one laptop's setup.",
       approach: "On day two, move pose tracking into the browser too. Nothing to install, and the video never leaves the device.",

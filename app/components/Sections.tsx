@@ -172,7 +172,7 @@ const ROWS: Row[] = [
         </More>
         <More title="The payment flow">
           <p className="lesser">
-            Inkmity is the merchant of record. Clients pay a flat $10 per booking, the first one free; artists pay nothing
+            Clients pay a flat $10 per booking, the first one free; artists pay nothing
             and tips go 100% to the artist.
           </p>
           <ol className="mt-2 space-y-1.5">
